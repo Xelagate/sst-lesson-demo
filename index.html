@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Idea Generation — конспект</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #001020;
+    --surface: #061b30;
+    --blue: #0367c8;
+    --light-blue: #8cc6ff;
+    --yellow: #ffea00;
+    --text: #d2dfec;
+    --muted: #a6bbcf;
+    --line: #274057;
+    font-family: "Manrope", sans-serif;
+    background: var(--page);
+    color: var(--text);
+    font-synthesis: none;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    width: min(1240px, calc(100% - 64px));
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+  }
+  ::selection { color: var(--page); background: var(--light-blue); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 5px; }
+  a { color: var(--light-blue); text-underline-offset: .22em; }
+  a:hover { color: #fff; }
+  h1, h2 { font-family: "Unbounded", sans-serif; color: #f6f9ff; font-weight: 600; }
+  p { margin: 0 0 1.25em; }
+  strong { color: #f3f7fc; font-weight: 800; }
+
+  .concept-note {
+    position: relative;
+    padding: 22px 0 22px 22px;
+    color: #b9cadb;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .concept-note::before {
+    content: "";
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+
+  /* A perforated lesson ticket, with no invented ticket data. */
+  .lesson-hero {
+    --inset: clamp(24px, 4.2vw, 56px);
+    padding: var(--inset);
+    border: 1px solid #294967;
+    border-radius: 36px;
+    background: #00203f;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--light-blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .035em;
+  }
+  .eyebrow::before {
+    content: "";
+    flex: 0 0 24px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--yellow);
+  }
+  .lesson-hero h1 {
+    max-width: 1080px;
+    margin: 0 0 24px;
+    font-size: clamp(28px, 4.1vw, 54px);
+    line-height: 1.22;
+    letter-spacing: -.04em;
+    text-wrap: balance;
+  }
+  .lead { max-width: 80ch; margin: 0; color: #bdcfe1; font-size: 16px; line-height: 1.75; }
+  .lesson-meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 32px calc(-1 * var(--inset)) calc(-1 * var(--inset));
+    padding: 22px var(--inset) 26px;
+    border-top: 1px dashed #53718c;
+    list-style: none;
+  }
+  .lesson-meta::before, .lesson-meta::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #294967;
+    border-radius: 50%;
+    background: var(--page);
+  }
+  .lesson-meta::before { left: -11px; border-left-color: transparent; }
+  .lesson-meta::after { right: -11px; border-right-color: transparent; }
+  .lesson-meta li {
+    padding: 6px 14px;
+    border: 1px solid #36536d;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .lesson-meta li:first-child { background: #0b3155; color: #fff; }
+  .lesson-meta li:last-child { color: var(--yellow); }
+
+  .lesson-media { display: grid; gap: 24px; margin-top: 24px; }
+  .player {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    align-self: start;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #000c18;
+    scroll-margin-top: 24px;
+  }
+  .player > div, .player iframe {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .chapters {
+    min-width: 0;
+    padding: 24px 12px 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+  .chapters h2 { margin: 0 12px 17px 0; font-size: 15px; line-height: 1.5; }
+  .chapters ol {
+    max-height: 360px;
+    margin: 0;
+    padding: 0 10px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-gutter: stable;
+  }
+  .chapters li {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 10px 2px;
+    border-top: 1px solid #1e354b;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .chapters li:first-child { border-top: 0; padding-top: 4px; }
+  .chapters li span { padding-top: 5px; }
+  .chapters li:focus-within span, .chapters li:hover span { color: #fff; }
+  .chapters .tc { width: 70px; justify-content: center; min-height: 30px; font-size: 11px; }
+  .chapters ol, .table-scroll { scrollbar-width: thin; scrollbar-color: #587b9b #061b30; }
+
+  .tc {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 9px;
+    border: 1px solid #34546f;
+    border-radius: 100px;
+    background: #092741;
+    color: var(--light-blue);
+    font-family: "Manrope", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+    letter-spacing: .015em;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background-color .16s, color .16s, border-color .16s, box-shadow .16s;
+  }
+  .tc:hover, .tc:focus-visible {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    color: var(--page);
+    box-shadow: 0 4px 18px rgb(255 234 0 / 16%);
+  }
+
+  .summary { width: 70ch; max-width: 100%; margin: 72px auto 0; }
+  .summary > section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .summary h2 {
+    margin: 0 0 25px;
+    font-size: clamp(21px, 2.25vw, 27px);
+    line-height: 1.45;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+  .summary h2 .tc { margin: 0 0 3px 4px; }
+  .summary ul, .summary ol { margin: 20px 0 26px; padding-left: 26px; }
+  .summary li { padding-left: 6px; margin: 12px 0; }
+  .summary li::marker { color: var(--light-blue); font-weight: 700; }
+  .summary section > :last-child { margin-bottom: 0; }
+
+  .quote {
+    margin: 32px 0;
+    padding: 7px 0 7px 25px;
+    border-left: 3px solid var(--yellow);
+    color: #f1f6fc;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.65;
+  }
+  .quote p { margin: 0; }
+  .callout {
+    --callout-accent: var(--light-blue);
+    margin: 28px 0;
+    padding: 22px 24px;
+    border: 1px solid #2f506f;
+    border-left: 3px solid var(--callout-accent);
+    border-radius: 0 18px 18px 0;
+    background: #09243e;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .callout p { margin: 0; }
+  .callout--tip { --callout-accent: #b9d4e9; border-color: #344b5d; border-left-color: var(--callout-accent); background: #112536; }
+  .callout--warning { --callout-accent: var(--yellow); border-color: #514d2c; border-left-color: var(--callout-accent); background: #242719; color: #e5e3cb; }
+  .summary > .callout--info {
+    margin-top: 0;
+    padding: 28px 30px;
+    border-left-width: 1px;
+    border-top: 3px solid var(--blue);
+    border-radius: 20px;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    margin: 28px 0;
+    overflow-x: auto;
+    border: 1px solid #34506b;
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th, td { padding: 17px 18px; text-align: left; vertical-align: top; }
+  th { border-bottom: 1px solid #3b5a77; background: #103351; color: #eef6ff; font-weight: 800; }
+  td { border-bottom: 1px solid #294158; }
+  th + th, td + td { border-left: 1px solid #294158; }
+  tbody tr:nth-child(even) { background: #0a2136; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { color: #eef5ff; font-weight: 600; }
+  td .tc { margin-top: 4px; }
+  #pain-sources td:nth-child(2), #pain-criteria td:nth-child(2) { min-width: 145px; }
+  #radar td:first-child, #scoring td:first-child { min-width: 145px; }
+
+  .summary > .homework {
+    margin-top: 64px;
+    padding: 32px;
+    border: 1px solid #365b7d;
+    border-top: 3px solid var(--light-blue);
+    border-radius: 24px;
+    background: #00203f;
+  }
+  .homework ol { margin: 0; padding-left: 24px; }
+  .homework li { margin: 0; padding: 18px 0 18px 8px; border-bottom: 1px dashed #3a5470; font-size: 16px; }
+  .homework li:first-child { padding-top: 0; }
+  .homework li:last-child { border: 0; padding-bottom: 0; }
+  .homework li::marker { color: var(--yellow); }
+  .summary > .checklist { margin-top: 40px; padding-top: 36px; border-top-style: dashed; }
+  .checklist ol { list-style: none; padding: 0; margin-bottom: 0; }
+  .checklist li { position: relative; margin: 0; padding: 15px 0 15px 32px; border-bottom: 1px solid #1e354b; font-size: 16px; }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 4px;
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid var(--light-blue);
+    border-bottom: 2px solid var(--light-blue);
+    transform: rotate(-45deg);
+  }
+  .page-footer {
+    width: 70ch;
+    max-width: 100%;
+    margin: 64px auto 0;
+    padding: 32px 0 40px;
+    border-top: 1px dashed #3a5470;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .page-footer p { margin: 0 0 14px; font-size: 12px; line-height: 1.8; }
+  .page-footer p:last-child { margin-top: 28px; margin-bottom: 0; color: #cedcea; }
+
+  @media (min-width: 1050px) {
+    .lesson-media { grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr); align-items: stretch; }
+    .chapters { position: relative; min-height: 0; }
+    .chapters ol { position: absolute; inset: 65px 12px 14px 24px; max-height: none; }
+  }
+  @media (min-width: 700px) and (max-width: 1049px) {
+    .chapters ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  }
+  @media (max-width: 599px) {
+    body { width: calc(100% - 32px); font-size: 16px; }
+    .concept-note { padding-top: 17px; padding-bottom: 17px; font-size: 11px; }
+    .concept-note::before { top: 23px; }
+    .lesson-hero { --inset: 22px; border-radius: 24px; }
+    .eyebrow { gap: 9px; font-size: 11px; letter-spacing: 0; margin-bottom: 20px; }
+    .eyebrow::before { flex-basis: 16px; }
+    .lesson-hero h1 { font-size: clamp(25px, 6.9vw, 39px); line-height: 1.3; letter-spacing: -.035em; }
+    .lead { font-size: 14px; }
+    .lesson-meta { gap: 8px; margin-top: 24px; padding-top: 18px; padding-bottom: 20px; }
+    .lesson-meta li { padding: 5px 10px; font-size: 11px; }
+    .lesson-media { gap: 16px; margin-top: 16px; }
+    .player { border-radius: 16px; scroll-margin-top: 16px; }
+    .chapters { padding-left: 18px; border-radius: 20px; }
+    .chapters ol { max-height: 340px; }
+    .summary { margin-top: 44px; }
+    .summary > section { margin-top: 40px; padding-top: 26px; }
+    .summary h2 { font-size: 20px; line-height: 1.5; }
+    .summary > .callout--info, .callout { padding: 19px 20px; font-size: 14px; }
+    .quote { margin: 26px 0; padding-left: 19px; font-size: 19px; }
+    .summary > .homework { padding: 24px 20px; border-radius: 20px; }
+    .homework li, .checklist li { font-size: 15px; }
+    .page-footer { margin-top: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('player');
+    let player;
+    let ready = false;
+
+    // Native links remain usable while the API loads, or if embedding fails.
+    document.querySelectorAll('a.tc').forEach(link => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+    document.querySelectorAll('.table-scroll').forEach(wrapper => {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', wrapper.closest('section').querySelector('h2').textContent.trim());
+    });
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a.tc');
+      if (!link || !ready || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const seconds = Number(link.dataset.t);
+      if (!Number.isFinite(seconds)) return;
+      try {
+        player.seekTo(seconds, true);
+        player.playVideo();
+      } catch {
+        ready = false;
+        return;
+      }
+      event.preventDefault();
+      container.scrollIntoView({
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+
+    window.onYouTubeIframeAPIReady = () => {
+      // Keep #player intact: YouTube replaces only this inner mount.
+      const mount = document.createElement('div');
+      container.append(mount);
+      player = new YT.Player(mount, {
+        videoId: container.dataset.videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: { playsinline: 1, rel: 0 },
+        events: {
+          onReady: event => {
+            ready = true;
+            event.target.getIframe().title = document.querySelector('h1').textContent;
+          },
+          onError: () => { ready = false; }
+        }
+      });
+    };
+    const api = document.createElement('script');
+    api.src = 'https://www.youtube.com/iframe_api';
+    api.async = true;
+    api.onerror = () => { ready = false; };
+    document.head.append(api);
+  });
+</script>
+</head>
+<body>
+
+<aside class="concept-note">Неофіційний концепт: так могла б виглядати сторінка уроку Startup Terminal. Це не сторінка Superteam Ukraine — її зробив Alex, учасник програми.</aside>
+
+<header class="lesson-hero">
+  <p class="eyebrow">Solana Startup Terminal 2.0 · Business Track</p>
+  <h1>Idea Generation: від болю до оціненої ідеї</h1>
+  <p class="lead">Лекція про те, як прийти до ідеї продукту від реального болю, а не навпаки. Чотири фреймворки — Problem First, Jobs To Be Done, Радар і скоринг — утворюють п'ять етапів домашнього завдання. Корисно і тим, хто ще шукає ідею, і тим, у кого вона вже є.</p>
+  <ul class="lesson-meta">
+    <li>Лектор: Дмитро Дименко</li>
+    <li>27.08.2026</li>
+    <li>93 хв</li>
+  </ul>
+</header>
+
+<div class="lesson-media"><div class="player" id="player" data-video-id="v_a99qWt9pc"></div>
+
+<nav class="chapters" aria-label="Розділи відео">
+  <h2>Розділи відео</h2>
+  <ol>
+    <li><a class="tc" data-t="78" href="https://youtu.be/v_a99qWt9pc?t=78s">1:18</a> <span>Про що лекція і для кого</span></li>
+    <li><a class="tc" data-t="181" href="https://youtu.be/v_a99qWt9pc?t=181s">3:01</a> <span>П'ять етапів: від болю до скорингу</span></li>
+    <li><a class="tc" data-t="261" href="https://youtu.be/v_a99qWt9pc?t=261s">4:21</a> <span>Антипатерн Technology First</span></li>
+    <li><a class="tc" data-t="347" href="https://youtu.be/v_a99qWt9pc?t=347s">5:47</a> <span>Solution First, open beta і пет-проєкти</span></li>
+    <li><a class="tc" data-t="478" href="https://youtu.be/v_a99qWt9pc?t=478s">7:58</a> <span>Problem First: спершу біль, потім ідея</span></li>
+    <li><a class="tc" data-t="671" href="https://youtu.be/v_a99qWt9pc?t=671s">11:11</a> <span>Чотири кошики, де шукати біль</span></li>
+    <li><a class="tc" data-t="1064" href="https://youtu.be/v_a99qWt9pc?t=1064s">17:44</a> <span>Формула болю і приклад фрілансера</span></li>
+    <li><a class="tc" data-t="1246" href="https://youtu.be/v_a99qWt9pc?t=1246s">20:46</a> <span>П'ять критеріїв справжнього болю</span></li>
+    <li><a class="tc" data-t="1471" href="https://youtu.be/v_a99qWt9pc?t=1471s">24:31</a> <span>Питання: чому ідея нічого не варта</span></li>
+    <li><a class="tc" data-t="1645" href="https://youtu.be/v_a99qWt9pc?t=1645s">27:25</a> <span>Питання: орієнтуватися на клієнтів чи на бізнеси</span></li>
+    <li><a class="tc" data-t="1803" href="https://youtu.be/v_a99qWt9pc?t=1803s">30:03</a> <span>Питання: CustDev, кількість інтерв'ю, соціальний проєкт</span></li>
+    <li><a class="tc" data-t="2158" href="https://youtu.be/v_a99qWt9pc?t=2158s">35:58</a> <span>Як народилися Google і Stripe</span></li>
+    <li><a class="tc" data-t="2276" href="https://youtu.be/v_a99qWt9pc?t=2276s">37:56</a> <span>Jobs To Be Done: продукт «наймають» на роботу</span></li>
+    <li><a class="tc" data-t="2430" href="https://youtu.be/v_a99qWt9pc?t=2430s">40:30</a> <span>Формула JTBD і товари-замінники</span></li>
+    <li><a class="tc" data-t="2748" href="https://youtu.be/v_a99qWt9pc?t=2748s">45:48</a> <span>Конкурент — звичка: кейс McDonald's</span></li>
+    <li><a class="tc" data-t="2999" href="https://youtu.be/v_a99qWt9pc?t=2999s">49:59</a> <span>Стартап масок і навіщо знати замінників</span></li>
+    <li><a class="tc" data-t="3219" href="https://youtu.be/v_a99qWt9pc?t=3219s">53:39</a> <span>Радар: нічого нового не існує</span></li>
+    <li><a class="tc" data-t="3391" href="https://youtu.be/v_a99qWt9pc?t=3391s">56:31</a> <span>Прямі конкуренти: Phantom і MetaMask</span></li>
+    <li><a class="tc" data-t="3510" href="https://youtu.be/v_a99qWt9pc?t=3510s">58:30</a> <span>Аналогічний досвід і суміжні ринки: Monobank</span></li>
+    <li><a class="tc" data-t="3680" href="https://youtu.be/v_a99qWt9pc?t=3680s">1:01:20</a> <span>Як пройти радар удома</span></li>
+    <li><a class="tc" data-t="3827" href="https://youtu.be/v_a99qWt9pc?t=3827s">1:03:47</a> <span>Радар для частини продукту: інсайт про баланс</span></li>
+    <li><a class="tc" data-t="4007" href="https://youtu.be/v_a99qWt9pc?t=4007s">1:06:47</a> <span>Скоринг: три осі від 1 до 5</span></li>
+    <li><a class="tc" data-t="4169" href="https://youtu.be/v_a99qWt9pc?t=4169s">1:09:29</a> <span>Дешевизна повторення і соціальні проєкти</span></li>
+    <li><a class="tc" data-t="4279" href="https://youtu.be/v_a99qWt9pc?t=4279s">1:11:19</a> <span>Пороги балів і реалістичні очікування</span></li>
+    <li><a class="tc" data-t="4467" href="https://youtu.be/v_a99qWt9pc?t=4467s">1:14:27</a> <span>Не ускладнюйте: прості рішення теж працюють</span></li>
+    <li><a class="tc" data-t="4749" href="https://youtu.be/v_a99qWt9pc?t=4749s">1:19:09</a> <span>PRISM для стартапу, RICE для фіч</span></li>
+    <li><a class="tc" data-t="4900" href="https://youtu.be/v_a99qWt9pc?t=4900s">1:21:40</a> <span>Три червоні прапорці</span></li>
+    <li><a class="tc" data-t="5035" href="https://youtu.be/v_a99qWt9pc?t=5035s">1:23:55</a> <span>Увесь процес в одній таблиці</span></li>
+    <li><a class="tc" data-t="5174" href="https://youtu.be/v_a99qWt9pc?t=5174s">1:26:14</a> <span>Домашка: 10 ідей, посилання, дедлайн</span></li>
+    <li><a class="tc" data-t="5380" href="https://youtu.be/v_a99qWt9pc?t=5380s">1:29:40</a> <span>Питання про рекламу і що далі в програмі</span></li>
+  </ol>
+</nav></div>
+
+<main class="summary">
+
+  <aside class="callout callout--info"><p><strong>Що в цьому уроці:</strong> чому ідея сама по собі нічого не варта; два антипатерни — Technology First і Solution First; п'ять етапів, з яких складається домашнє завдання; Problem First і чотири «кошики», де шукати біль; формула болю та п'ять критеріїв справжнього болю; Jobs To Be Done і товари-замінники; Радар із чотирма секторами; скоринг за трьома осями, PRISM і три червоні прапорці; що здати й до коли.</p></aside>
+
+  <section id="idea-without-pain">
+    <h2>Ідея без болю — це ідея у вакуумі <a class="tc" data-t="104" href="https://youtu.be/v_a99qWt9pc?t=104s">1:44</a></h2>
+    <p>Кожному колись спадала «геніальна» ідея, яку точно хтось купуватиме. На пітч-днях, в інкубаторах і акселераторах часто презентують саме такі ідеї — відірвані від землі, які існують лише в уяві фаундера чи команди. З ними йдуть до фонду чи ангела й просять гроші. Лектор називає це сумною правдою <a class="tc" data-t="151" href="https://youtu.be/v_a99qWt9pc?t=151s">2:31</a>:</p>
+    <blockquote class="quote"><p>Ідеї не коштують грошей в принципі. … Люди платять за реалізацію, за те, що працює, навіть якщо воно працює погано.</p></blockquote>
+    <p>Головне — щоб продукт розв'язував певну проблему або біль <a class="tc" data-t="181" href="https://youtu.be/v_a99qWt9pc?t=181s">3:01</a>. Решта лекції — про те, як перетворювати ідеї на продукти.</p>
+  </section>
+
+  <section id="flow">
+    <h2>П'ять етапів: від болю до скорингу <a class="tc" data-t="181" href="https://youtu.be/v_a99qWt9pc?t=181s">3:01</a></h2>
+    <p>Увесь процес — і водночас домашнє завдання — складається з п'яти етапів <a class="tc" data-t="204" href="https://youtu.be/v_a99qWt9pc?t=204s">3:24</a>:</p>
+    <ol>
+      <li>Дослідження болю.</li>
+      <li>Конвертація болю в «роботу» (Jobs To Be Done).</li>
+      <li>Пошук патернів, які підтверджують два попередні кроки (Радар).</li>
+      <li>Синтез самої ідеї з того, що ви знайшли.</li>
+      <li>Скоринг ідеї.</li>
+    </ol>
+    <p>На виході очікується близько десяти ідей <a class="tc" data-t="234" href="https://youtu.be/v_a99qWt9pc?t=234s">3:54</a>. Мета — не десять бізнесів, а десять провалідованих ідей: уже на етапі синтезу чи пошуку патернів стане видно, що вдалих дві-три або одна, і саме їх ви оцінюватимете. Якщо з трьох вдалих після скорингу залишиться одна — це теж нормально.</p>
+    <aside class="callout callout--tip"><p>Головний результат — навичка: знаходити ідею, якісно її аналізувати й розуміти, чи варто вкладати в неї час далі.</p></aside>
+  </section>
+
+  <section id="anti-patterns">
+    <h2>Два антипатерни: Technology First і Solution First <a class="tc" data-t="261" href="https://youtu.be/v_a99qWt9pc?t=261s">4:21</a></h2>
+    <p><strong>Technology First</strong> — це коли весь продукт тримається на API чи технології, яка вам не належить. Лектор згадує хвилю продуктів, які просто загортали API ChatGPT у свій продукт. Розробити власну технологію в межах Startup Terminal навряд чи вийде, тому не будуйте стартап на одній чужій технології <a class="tc" data-t="310" href="https://youtu.be/v_a99qWt9pc?t=310s">5:10</a>.</p>
+    <aside class="callout callout--warning"><p>На етапі скорингу це червоний прапорець. Виняток лектор називає сам: «Якщо таких технологій декілька, це може бути продуктом, якщо у вас є унікальний спосіб їх синтезу, їх комбінації».</p></aside>
+    <p><strong>Solution First</strong> — «у мене є ідея» <a class="tc" data-t="347" href="https://youtu.be/v_a99qWt9pc?t=347s">5:47</a>. Якщо прийти на хакатон лише із сайтом і пітчдеком, шанси доволі малі. Уже близько двох років фандинг отримують продукти формату open beta: хтось вигадав і одразу зробив — працює погано, але працює, з'являються користувачі й трекшн. У 2021 році в криптофонди приходили з самою презентацією, а сьогодні інструменти дають змогу валідувати ідею за лічені тижні <a class="tc" data-t="384" href="https://youtu.be/v_a99qWt9pc?t=384s">6:24</a>.</p>
+    <p>Третє застереження — про користувачів, якщо ви продовжите займатися продуктом після програми <a class="tc" data-t="425" href="https://youtu.be/v_a99qWt9pc?t=425s">7:05</a>. П'ять-вісім людей, немає органічного зростання, не працює реклама — можливо, продукт нішевий і не масштабується. Інструмент для гри, яким користуються лише ваші тімейти в Discord, — це пет-проєкт. А продукт, за визначенням лектора, виконує певну роботу, закриває біль, і за нього люди готові платити <a class="tc" data-t="457" href="https://youtu.be/v_a99qWt9pc?t=457s">7:37</a>.</p>
+  </section>
+
+  <section id="problem-first">
+    <h2>Фреймворк 1. Problem First <a class="tc" data-t="478" href="https://youtu.be/v_a99qWt9pc?t=478s">7:58</a></h2>
+    <p>Сам фреймворк лекції складається з чотирьох фреймворків. Кожен працює й окремо, але в зв'язці вони дають потужний інструмент генерації ідей і попередньої валідації продуктів.</p>
+    <p>Problem First — доволі старий підхід. Він захищає від сценарію, коли ви шукаєте під готову ідею проблему й користувачів, отримуєте фандинг, а потім з'ясовується, що немає ні продажів, ні трекшну <a class="tc" data-t="510" href="https://youtu.be/v_a99qWt9pc?t=510s">8:30</a>. Люди якийсь час користуються застосунком, розуміють, що проблема надумана, і забувають про вас. За словами лектора, приблизно половина стартапів закривається саме так, на старті.</p>
+    <p>Ключова теза <a class="tc" data-t="565" href="https://youtu.be/v_a99qWt9pc?t=565s">9:25</a>: ідея вторинна, бо ідея — лише спосіб покращити людині життя, а платять люди насамперед за розв'язання своїх проблем. У маркетингових і продуктових методологіях це називають pains — болі. На окремій лекції про value proposition буде та сама пара: біль і знеболювальне. Продукт народжується на їхньому стику: ви своїм «знеболювальним» гасите біль, і вам за це платять <a class="tc" data-t="607" href="https://youtu.be/v_a99qWt9pc?t=607s">10:07</a>.</p>
+    <blockquote class="quote"><p>Якщо ти шукаєш біль, вигадуєш її, то це не працює. Якщо біль вже існує і ти про неї знаєш, став її на перше місце.</p></blockquote>
+    <p>На уточнювальне запитання, чому ідея нічого не варта, лектор відповів <a class="tc" data-t="1471" href="https://youtu.be/v_a99qWt9pc?t=1471s">24:31</a>: ідея нічого не варта, поки її не втілено в продукт, а продукт працює лише тоді, коли ідея — реальне рішення болю. Приклад із власного досвіду <a class="tc" data-t="1498" href="https://youtu.be/v_a99qWt9pc?t=1498s">24:58</a>: ідея рекурентних платежів у крипті. Місяць лектор думав, яку проблему вона розв'язує, і не знайшов жодної: для людей крипта — радше гемблінг або заначка, а підписки спокійно оплачують карткою чи через PayPal.</p>
+    <p>Приклади того самого підходу — історії великих продуктів <a class="tc" data-t="2158" href="https://youtu.be/v_a99qWt9pc?t=2158s">35:58</a>. Google, за словами лектора, почався з двох студентів, яким набридло шукати інформацію в онлайн-бібліотеці: вони написали пошуковий рушій, якому не потрібна точна назва книги — досить контексту. Засновники Stripe самі намагалися інтегрувати платіжну систему й переконалися, наскільки це складно <a class="tc" data-t="2199" href="https://youtu.be/v_a99qWt9pc?t=2199s">36:39</a>; Stripe побудував мільярдну імперію на тому, що їхню платіжку будь-хто інтегрує за п'ять хвилин.</p>
+    <p>Висновок <a class="tc" data-t="2238" href="https://youtu.be/v_a99qWt9pc?t=2238s">37:18</a>: коли є біль, з яким стикаєтеся ви чи ваші близькі, і люди розв'язують його костилями, ваш продукт — це «адамантієвий костиль». Він не дерев'яний, не трісне, завжди працює, і за нього готові платити.</p>
+  </section>
+
+  <section id="pain-sources">
+    <h2>Де шукати біль: чотири кошики <a class="tc" data-t="671" href="https://youtu.be/v_a99qWt9pc?t=671s">11:11</a></h2>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>#</th><th>Кошик</th><th>Що туди потрапляє</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Ви самі</td><td>Власні потреби й звички: щось дратує, довго вантажиться, бракує кнопки, глючить. Якщо маєте здатність до саморефлексії, ви — свій найкращий користувач. Якщо ні — це нормально, є ще три кошики.</td></tr>
+        <tr><td>2</td><td>Досвід: індустрія або робота <a class="tc" data-t="729" href="https://youtu.be/v_a99qWt9pc?t=729s">12:09</a></td><td>Робочі процеси, в які ви були занурені: що не влаштовує вас як спеціаліста або на що скаржаться колеги.</td></tr>
+        <tr><td>3</td><td>Спільноти <a class="tc" data-t="835" href="https://youtu.be/v_a99qWt9pc?t=835s">13:55</a></td><td>Форуми, Reddit, Twitter, профільні ком'юніті — місця, де люди на щось скаржаться. Шукайте біль, який повторюється, або повторюване бажання чогось не робити.</td></tr>
+        <tr><td>4</td><td>Дані й тренди <a class="tc" data-t="884" href="https://youtu.be/v_a99qWt9pc?t=884s">14:44</a></td><td>Для досвідчених стартаперів і тих, хто розуміється на конкретній індустрії: новини, нові закони, запуски софту — вузькі місця, яким одразу знадобляться костилі.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Приклад до другого кошика — Slack <a class="tc" data-t="756" href="https://youtu.be/v_a99qWt9pc?t=756s">12:36</a>. Команді аутсорс-компанії не подобалося вести великий проєкт одночасно в Jira, месенджерах і пошті, тож вони написали для себе чат із тегами, командами й інтеграціями. Так з'явився Slack.</p>
+    <p>Приклад до четвертого кошика <a class="tc" data-t="884" href="https://youtu.be/v_a99qWt9pc?t=884s">14:44</a>: коли в Україні готували закон про право власності з реєстром квартир, юристи вже наймали розробників на софт, який за 100 гривень подає все за людину.</p>
+    <aside class="callout callout--tip"><p>З чого почати на практиці <a class="tc" data-t="933" href="https://youtu.be/v_a99qWt9pc?t=933s">15:33</a>: якщо вмієте рефлексувати — поговоріть із собою й випишіть, що вас дратує. Якщо ні — розпитайте батьків, колег, друзів, родину. Далі — спільноти, Reddit, форуми, відгуки в магазинах застосунків і навіть коментарі в Google Maps. Якщо добре знаєте свою індустрію — Statista та подібні сайти.</p></aside>
+    <p>У матеріалах курсу є PDF з інструментами для market research <a class="tc" data-t="962" href="https://youtu.be/v_a99qWt9pc?t=962s">16:02</a>: більшість безкоштовні й дають змогу шукати не вручну, а автоматизовано. Лектор також радить Statista зі звітами про тренди майже в будь-якій ніші та Google Trends, який безкоштовно показує попит. PDF — не домашка, але лектор просить його переглянути <a class="tc" data-t="1035" href="https://youtu.be/v_a99qWt9pc?t=1035s">17:15</a>.</p>
+  </section>
+
+  <section id="pain-formula">
+    <h2>Формула болю <a class="tc" data-t="1064" href="https://youtu.be/v_a99qWt9pc?t=1064s">17:44</a></h2>
+    <p>Біль — не щось абстрактне. Щоб його описати, лектор дає формулу, яку далі називає «синьою»: у квадратні дужки підставляєте свій випадок <a class="tc" data-t="1083" href="https://youtu.be/v_a99qWt9pc?t=1083s">18:03</a>.</p>
+    <p><strong>[Хто] намагається [що зробити], але [що заважає], тому змушений [костиль], і це коштує [ціна].</strong></p>
+    <ul>
+      <li><strong>Хто</strong> — ваш майбутній користувач або персона.</li>
+      <li><strong>Що намагається зробити</strong> — досягти, запакувати, відправити, неважливо що.</li>
+      <li><strong>Що заважає</strong> — рішення не існує, воно надто довге або надто дороге.</li>
+      <li><strong>Костиль</strong> — як людина змушена впоратися сама.</li>
+      <li><strong>Ціна</strong> — гроші або час.</li>
+    </ul>
+    <p>Ціна — не лише гроші, а й час <a class="tc" data-t="1110" href="https://youtu.be/v_a99qWt9pc?t=1110s">18:30</a>: багато інструментів насамперед економлять час. Ця онлайн-лекція — теж приклад: без відеозв'язку довелося б орендувати офіс і їхати туди й назад.</p>
+    <p>«Людям незручно керувати фінансами» — надто абстрактно, а «люди» — надто широко <a class="tc" data-t="1140" href="https://youtu.be/v_a99qWt9pc?t=1140s">19:00</a>. У межах Startup Terminal ви навряд чи побудуєте рішення для всього людства: зазвичай це рішення для конкретної частини людей із конкретною проблемою. Приклад лектора <a class="tc" data-t="1168" href="https://youtu.be/v_a99qWt9pc?t=1168s">19:28</a> — фрілансер із клієнтами, у якого кепські справи з фінансовою грамотністю. Він веде таблички в Google Sheets, щоб не мати проблем із податковою. Проблема є? Так. Він її вже якось розв'язує? Так. Грошей це не коштує, але забирає близько 3 годин на місяць <a class="tc" data-t="1202" href="https://youtu.be/v_a99qWt9pc?t=1202s">20:02</a>. Чи готовий він платити 200 гривень на місяць, щоб усе це автоматизувати? Лектор вважає, що так, і нагадує: багато ФОПів уже користуються софтом, який підказує, скільки податків платити й коли подавати декларацію.</p>
+  </section>
+
+  <section id="pain-criteria">
+    <h2>П'ять критеріїв справжнього болю <a class="tc" data-t="1246" href="https://youtu.be/v_a99qWt9pc?t=1246s">20:46</a></h2>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>#</th><th>Критерій</th><th>Що це означає</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Повторюваність</td><td>Біль не з'являється раз на рік, а тим паче раз на три роки чи раз на десятиліття. В ідеалі — щотижня або щомісяця. Виняток — щось на кшталт закриття фінансового року, якщо це важливо.</td></tr>
+        <tr><td>2</td><td>Має вартість <a class="tc" data-t="1265" href="https://youtu.be/v_a99qWt9pc?t=1265s">21:05</a></td><td>Біль можна порахувати в еквіваленті вартості: у годинах або грошах.</td></tr>
+        <tr><td>3</td><td>Усвідомленість <a class="tc" data-t="1286" href="https://youtu.be/v_a99qWt9pc?t=1286s">21:26</a></td><td>На запитання «Ви це робите?» люди відповідають: «Так, роблю». Негативної реакції при цьому може й не бути: лектор вів власні фінанси в Excel за звичкою, без жодного болю, — а коли з'явився застосунок, перестав це робити й платить за нього.</td></tr>
+        <tr><td>4</td><td>Є костиль <a class="tc" data-t="1307" href="https://youtu.be/v_a99qWt9pc?t=1307s">21:47</a></td><td>Готового софту немає, тож потреба змушує людей вигадувати обхідне рішення власноруч, як фрілансер із таблицею. Паролі колись записували на папірцях — а 1Password побудували на цьому цілий бізнес.</td></tr>
+        <tr><td>5</td><td>Адресність <a class="tc" data-t="1368" href="https://youtu.be/v_a99qWt9pc?t=1368s">22:48</a></td><td>«Останній, але по суті перший» критерій. Addressable market — це люди, які відповідають на питання «хто?». Навіть якщо проблема є в багатьох, цих людей можна описати як customer persona. Без цього ви будуєте продукт наосліп.</td></tr>
+      </tbody>
+    </table></div>
+    <aside class="callout callout--tip"><p>Домашку починайте з цього <a class="tc" data-t="1433" href="https://youtu.be/v_a99qWt9pc?t=1433s">23:53</a>: запишіть три болі, які відповідають п'яти критеріям і вкладаються в синю формулу. Щонайменше один ви точно знайдете в себе — наприклад, закінчуються токени в Claude або телефон сам не чистить пам'ять.</p></aside>
+  </section>
+
+  <section id="qa-custdev">
+    <h2>З питань учасників: клієнти чи бізнеси, CustDev <a class="tc" data-t="1645" href="https://youtu.be/v_a99qWt9pc?t=1645s">27:25</a></h2>
+    <p>На запитання, на кого орієнтуватися в перших проєктах — на бізнеси чи на клієнтів, — лектор відповів: на клієнтів <a class="tc" data-t="1659" href="https://youtu.be/v_a99qWt9pc?t=1659s">27:39</a>. У B2B модель будується на контрактах, і провести CustDev із бізнесами складніше. У B2C можна почитати форуми, поговорити з цільовою аудиторією, знайти болі й доволі швидко запустити продукт <a class="tc" data-t="1700" href="https://youtu.be/v_a99qWt9pc?t=1700s">28:20</a>. Орієнтуватися на бізнес має сенс, якщо ви вже в бізнес-середовищі й маєте виходи на інші компанії, але це потребує компетенції.</p>
+    <p>Інший учасник розповів, що провів CustDev і 20 людей сказали йому: «Вау, класна ідея» <a class="tc" data-t="1803" href="https://youtu.be/v_a99qWt9pc?t=1803s">30:03</a>. Лектор одразу уточнив, що саме він робив: презентував свою ідею чи питав людей про їхній досвід.</p>
+    <aside class="callout callout--warning"><p>CustDev — це запитання про досвід людей, а не презентація вашої ідеї.</p></aside>
+    <p>Скільки інтерв'ю достатньо <a class="tc" data-t="1887" href="https://youtu.be/v_a99qWt9pc?t=1887s">31:27</a>: п'ять — поки що не статистично значуще. Для CustDev у стартапі десять людей — це окей: якщо в десяти розмовах повторюється той самий патерн, це вже варто того, щоб рухатися далі <a class="tc" data-t="1919" href="https://youtu.be/v_a99qWt9pc?t=1919s">31:59</a>. Для B2C-продукту з десятками тисяч, сотнями тисяч чи мільйонами користувачів нормальний бенчмарк — 20 інтерв'ю.</p>
+    <p>Ще один учасник розібрав ідею прозорості благодійних зборів <a class="tc" data-t="1957" href="https://youtu.be/v_a99qWt9pc?t=1957s">32:37</a>. Лектор пройшовся з ним по критеріях і порадив винести ідею на прожарку: соціальні проєкти дуже ресурсомісткі й їх складно реалізувати самотужки, тож сам він такий проєкт не брав би <a class="tc" data-t="2100" href="https://youtu.be/v_a99qWt9pc?t=2100s">35:00</a>.</p>
+  </section>
+
+  <section id="jtbd">
+    <h2>Фреймворк 2. Jobs To Be Done <a class="tc" data-t="2276" href="https://youtu.be/v_a99qWt9pc?t=2276s">37:56</a></h2>
+    <p>Коли болі знайдено, в них треба глибше розібратися. Для цього — методологія Jobs To Be Done професора Гарвардської школи бізнесу Клейтона Крістенсена, популярна і в маркетингу, і в продукті. Основна ідея <a class="tc" data-t="2300" href="https://youtu.be/v_a99qWt9pc?t=2300s">38:20</a>:</p>
+    <blockquote class="quote"><p>Люди не купують продукти, вони їх наймають на роботу, щоб ці продукти виконали цю роботу за них і звільнили їх час.</p></blockquote>
+    <p>Класичні приклади — газонокосарка й дриль <a class="tc" data-t="2328" href="https://youtu.be/v_a99qWt9pc?t=2328s">38:48</a>. Газон можна підстригти ножицями, але косарка впорається за 15 хвилин замість 4 годин: її «наймають» косити траву. Дриль купують не тому, що люблять робити дірки, а тому, що треба повісити поличку <a class="tc" data-t="2346" href="https://youtu.be/v_a99qWt9pc?t=2346s">39:06</a>.</p>
+    <p><strong>Формула JTBD</strong> <a class="tc" data-t="2430" href="https://youtu.be/v_a99qWt9pc?t=2430s">40:30</a>. JTBD спрощує синю формулу: те, що в ній описано як «хтось намагається щось зробити», тут називають ситуацією. Формула звучить приблизно так: коли я в ситуації [X], я хочу зробити [дію] й отримати [результат] <a class="tc" data-t="2468" href="https://youtu.be/v_a99qWt9pc?t=2468s">41:08</a>. Пізніше лектор підсумовує її трьома словами: «ситуація, дія, результат».</p>
+    <aside class="callout callout--warning"><p>Без роботи з болем JTBD не працює: немає фундаменту, і формулу не побудувати, бо вона вже починає розкладати костилі на складові.</p></aside>
+    <p><strong>Товари-замінники</strong> <a class="tc" data-t="2508" href="https://youtu.be/v_a99qWt9pc?t=2508s">41:48</a>. Найважливіше, що підсвічує JTBD і що проходитиме через увесь подальший аналіз, — замінники. Класичний маркетинг подивився б на конкурентів і їхні фічі й зробив би щось схоже <a class="tc" data-t="2537" href="https://youtu.be/v_a99qWt9pc?t=2537s">42:17</a>. Але коли будуєте з нуля, важливо усвідомлювати, що у вашого рішення є замінники, і часто їх більше за один.</p>
+    <p>У прикладі з фрілансером замінники такі <a class="tc" data-t="2748" href="https://youtu.be/v_a99qWt9pc?t=2748s">45:48</a>: Excel, Google Sheets, нотатки в телефоні, знайомий бухгалтер, який зробить усе «за пиво», аутсорсингова бухгалтерська агенція і просто вміння терпіти. Шостий варіант — пам'ять — лектор навіть не вписав, бо це найгірший варіант: «Не робіть так».</p>
+    <blockquote class="quote"><p>І вам, як стартапу, важливо усвідомлювати, що вашим конкурентом може бути не інша компанія, а людська звичка.</p></blockquote>
+    <p><strong>McDonald's і молочні коктейлі</strong> <a class="tc" data-t="2785" href="https://youtu.be/v_a99qWt9pc?t=2785s">46:25</a>. McDonald's хотів продавати більше коктейлів і спершу питав людей у лоб: більший стакан, полуничний смак, смак бабл-гам? Нові смаки впроваджували, але нічого не змінювалося. CustDev за методологією JTBD показав, що компанія конкурує не за смак, а зі звичкою перекусити дорогою на роботу <a class="tc" data-t="2876" href="https://youtu.be/v_a99qWt9pc?t=2876s">47:56</a>: донатом, бубликом, батончиком, кавою, бананом. Тож конкурувати смаком, густотою чи ціною не має сенсу.</p>
+    <p>Для CustDev звідси висновок: важливо, як ви ставите запитання <a class="tc" data-t="2918" href="https://youtu.be/v_a99qWt9pc?t=2918s">48:38</a>. Не питати, чого люди хотіли б, а розбиратися, з якою звичкою і з яким болем ви насправді маєте справу <a class="tc" data-t="2951" href="https://youtu.be/v_a99qWt9pc?t=2951s">49:11</a>. Інакше можна робити продукт «у стіл»: люди й без нього розв'язують проблему так просто, що навіть не шукають костиль.</p>
+    <p><strong>Стартап масок</strong> <a class="tc" data-t="2999" href="https://youtu.be/v_a99qWt9pc?t=2999s">49:59</a>. Перед війною команда хотіла продавати в Києві яскраві брендовані маски на хвилі популярності карт забруднення міста й навіть почала купувати верстати в Китаї. Але замінником виявилося терпіння: людям було просто байдуже.</p>
+    <p>Що дає розуміння, з ким ви конкуруєте <a class="tc" data-t="3071" href="https://youtu.be/v_a99qWt9pc?t=3071s">51:11</a>? По-перше, воно формує очікування: ви будуєте мільярдну компанію чи сталий бізнес із MRR на рівні 100 тисяч доларів <a class="tc" data-t="3092" href="https://youtu.be/v_a99qWt9pc?t=3092s">51:32</a>. По-друге, допомагає в рекламі <a class="tc" data-t="3115" href="https://youtu.be/v_a99qWt9pc?t=3115s">51:55</a>: розуміючи замінники, ви якісніше опишете value proposition і отримаєте вищу конверсію.</p>
+  </section>
+
+  <section id="radar">
+    <h2>Фреймворк 3. Радар <a class="tc" data-t="3219" href="https://youtu.be/v_a99qWt9pc?t=3219s">53:39</a></h2>
+    <p>Коли шукаєте біль, особливо соло, поступово «зашорюєтеся» й перевантажуєтеся. Тут вмикається третя частина фреймворку, яка сама є окремим фреймворком, — радар. Його думка дуже проста <a class="tc" data-t="3252" href="https://youtu.be/v_a99qWt9pc?t=3252s">54:12</a>:</p>
+    <blockquote class="quote"><p>Нічого нового не існує. Буквально, якщо ви подивитесь на будь-який продукт, він завжди складений з якихось кубиків… Просто він складений в дуже красивій пропорції.</p></blockquote>
+    <p>На вхід радару йде ідея, доведена до стадії JTBD і записана формулою, — з проблемами, замінниками, конкурентами й костилями <a class="tc" data-t="3284" href="https://youtu.be/v_a99qWt9pc?t=3284s">54:44</a>. Так само можна розкласти на сектори готовий продукт, який ви хочете розвивати <a class="tc" data-t="3391" href="https://youtu.be/v_a99qWt9pc?t=3391s">56:31</a>.</p>
+    <p><strong>Формат навмисно простий</strong> <a class="tc" data-t="3309" href="https://youtu.be/v_a99qWt9pc?t=3309s">55:09</a>. Аркуш A4 або Figma: дві перехресні лінії й чотири підписані сектори. Для домашки нічого спеціально оформлювати не треба: сфотографуйте аркуш або зробіть картинку у Figma з логотипами чи назвами компаній <a class="tc" data-t="3357" href="https://youtu.be/v_a99qWt9pc?t=3357s">55:57</a>. Шаблон радару лектор пообіцяв зробити на прохання учасників <a class="tc" data-t="5094" href="https://youtu.be/v_a99qWt9pc?t=5094s">1:24:54</a>.</p>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Сектор</th><th>Що туди вписувати</th><th>Приклад із лекції</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Прямі конкуренти <a class="tc" data-t="3391" href="https://youtu.be/v_a99qWt9pc?t=3391s">56:31</a></td><td>Інші рішення, які вже є на ринку. Не просто перелік: у кожного відмічаєте, що в нього найкраще.</td><td>Phantom проти MetaMask. У MetaMask було безліч налаштувань, усе заплутано й постійно глючило. Phantom на момент виходу був зрозумілим навіть без досвіду в крипті: токени з'являються самі, своп, переказ і перегляд транзакцій у Solscan — усі базові функції на одному екрані.</td></tr>
+        <tr><td>Аналогічний досвід <a class="tc" data-t="3510" href="https://youtu.be/v_a99qWt9pc?t=3510s">58:30</a></td><td>Те, що розібрали в JTBD: конкурент з аналогічним досвідом, життєва ситуація або товар-замінник — «ті самі костилі». Ви не завжди конкуруєте з прямими конкурентами.</td><td>Звичка як конкурент — див. розділ про JTBD.</td></tr>
+        <tr><td>Суміжні ринки <a class="tc" data-t="3559" href="https://youtu.be/v_a99qWt9pc?t=3559s">59:19</a></td><td>«Найцікавіше в цьому радарі»: що подобається людям у зовсім інших нішах і що звідти можна взяти собі.</td><td>Monobank. В Україні не було банківських застосунків із класним UX, але були просто класні застосунки. Суміжними ринками для Monobank стали таксі, Glovo, мобільні ігри <a class="tc" data-t="3600" href="https://youtu.be/v_a99qWt9pc?t=3600s">1:00:00</a>; звідти він узяв зручний UX і гейміфікацію — як-от котика за досягнення.</td></tr>
+        <tr><td>Глобальні тренди <a class="tc" data-t="3656" href="https://youtu.be/v_a99qWt9pc?t=3656s">1:00:56</a></td><td>Для тих, хто має експертний досвід у своїй ніші й уміє читати тренди. Просто корисно, а іноді дає вагомий ефект.</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <aside class="callout callout--warning"><p>Порядок секторів має значення <a class="tc" data-t="3727" href="https://youtu.be/v_a99qWt9pc?t=3727s">1:02:07</a>: прямі конкуренти → аналогічний досвід → суміжні ринки → глобальні тренди. «Якщо ви підете там в іншому порядку, ви заплутаєтесь».</p></aside>
+    <p><strong>Як пройти радар удома</strong> <a class="tc" data-t="3680" href="https://youtu.be/v_a99qWt9pc?t=3680s">1:01:20</a>. Знайдіть біль — можна почати з конкретної сфери: особисті фінанси, блокчейн, стейкінг, відкладання на пенсію, ігри. Випишіть болі, проженіть їх через критерії, відібрані розкладіть за JTBD — так з'явиться опис продукту, з яким ви робите канвас радару <a class="tc" data-t="3727" href="https://youtu.be/v_a99qWt9pc?t=3727s">1:02:07</a>. На виході — майже готовий продукт, який далі оцінюватимете <a class="tc" data-t="3764" href="https://youtu.be/v_a99qWt9pc?t=3764s">1:02:44</a>.</p>
+    <p><strong>Радар сканує не весь продукт, а його частину</strong> <a class="tc" data-t="3827" href="https://youtu.be/v_a99qWt9pc?t=3827s">1:03:47</a> — ту, яку ви вже описали в JTBD як «ситуація, дія, результат». Коли продукт стане зрозумілим, ту саму методологію можна застосовувати до окремих його частин: онбордингу, пуш-сповіщень, UX <a class="tc" data-t="3904" href="https://youtu.be/v_a99qWt9pc?t=3904s">1:05:04</a>.</p>
+    <p>Приклад інсайту <a class="tc" data-t="3942" href="https://youtu.be/v_a99qWt9pc?t=3942s">1:05:42</a>: за дослідженням Vodafone 2018 року, на яке посилається лектор, людина в Україні в середньому 3,5 раза на день відкриває банківський застосунок просто подивитися баланс <a class="tc" data-t="3960" href="https://youtu.be/v_a99qWt9pc?t=3960s">1:06:00</a>. Monobank побудував навколо цієї цифри весь екран; у ПриватБанку і ПУМБ такого акценту не було, а в Ощадбанку тоді взагалі не було застосунку. Це стало конкретною перевагою Monobank.</p>
+  </section>
+
+  <section id="scoring">
+    <h2>Фреймворк 4. Скоринг <a class="tc" data-t="4007" href="https://youtu.be/v_a99qWt9pc?t=4007s">1:06:47</a></h2>
+    <p>Коли дослідження зроблено — ви поговорили з людьми й із собою, виписали болі, синтезували їх у JTBD і накидали радар, — можна оцінювати <a class="tc" data-t="4026" href="https://youtu.be/v_a99qWt9pc?t=4026s">1:07:06</a>. Оцінка йде за трьома критеріями, кожен від 1 до 5. Бали ставите самі, як експертну оцінку, а лектор перевірить, наскільки адекватно їх проставлено <a class="tc" data-t="4062" href="https://youtu.be/v_a99qWt9pc?t=4062s">1:07:42</a>.</p>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Критерій</th><th>Що оцінюємо</th><th>Орієнтири з лекції</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Доказовість <a class="tc" data-t="4086" href="https://youtu.be/v_a99qWt9pc?t=4086s">1:08:06</a></td><td>Наскільки біль підтверджений базою, яку ви зібрали під час пошуку болю й записали у формулах.</td><td><strong>5</strong> — болі знайдено, вони усвідомлені, повторювані, в них є костилі, і все це можна записати в JTBD. <strong>1</strong> — «Лише в мене це болить. Я ніяк це не вирішую і терплю».</td></tr>
+        <tr><td>Адаптивність, або переносимість <a class="tc" data-t="4110" href="https://youtu.be/v_a99qWt9pc?t=4110s">1:08:30</a></td><td>Наскільки просто втілити вже доказове рішення у ваш продукт.</td><td>Застосунок, розширення для Google Chrome, API, яке легко інтегрувати. Тут потрібні і фантазія, і експертиза.</td></tr>
+        <tr><td>Вартість, або дешевизна повторення <a class="tc" data-t="4169" href="https://youtu.be/v_a99qWt9pc?t=4169s">1:09:29</a></td><td>Скільки ресурсу потрібно, щоб це зробити.</td><td>Одні продукти команда розробляє пів року, інші можна «на колінці» зробити за три дні: сайт і форма зворотного зв'язку.</td></tr>
+      </tbody>
+    </table></div>
+    <aside class="callout callout--tip"><p>Дешевизну повторення оцінюйте з коментарем <a class="tc" data-t="4169" href="https://youtu.be/v_a99qWt9pc?t=4169s">1:09:29</a>. Доказовість видно з ваших формул, а дешевизну лектор оцінює з власного досвіду розробки. Якщо такого досвіду у вас немає — нічого страшного, ставте, як бачите.</p></aside>
+    <p>Саме цей критерій, за словами лектора, «робить ваш погляд тверезим»: чи реально це взагалі зробити <a class="tc" data-t="4233" href="https://youtu.be/v_a99qWt9pc?t=4233s">1:10:33</a>. Соціальні проєкти майже неможливо витягнути соло — бюрократія, складні рішення, договори, — тому за вартістю реалізації вони майже завжди отримують одиницю.</p>
+    <p><strong>Що робити із сумою балів</strong> <a class="tc" data-t="4279" href="https://youtu.be/v_a99qWt9pc?t=4279s">1:11:19</a>. Сума трьох оцінок — від 3 до 15:</p>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Сума</th><th>Що робити</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>до 6</td><td>Не робіть цього: або немає сенсу, або не працюватиме, або ви витратите на це пів життя.</td></tr>
+        <tr><td>7–9</td><td>Запишіть і майте на увазі <a class="tc" data-t="4299" href="https://youtu.be/v_a99qWt9pc?t=4299s">1:11:39</a>. Можливо, знайдете рішення чи людину, яка повірить в ідею, і ресурсу стане більше, або отримаєте поради після прожарки. Ідея має право на життя, але є цілком реальні перешкоди.</td></tr>
+        <tr><td>10–12</td><td>Варто уваги <a class="tc" data-t="4337" href="https://youtu.be/v_a99qWt9pc?t=4337s">1:12:17</a>: з цим можна експериментувати, починати реалізовувати, змінювати напрям у майбутньому.</td></tr>
+        <tr><td>13–15</td><td>«Бінго»: починайте валідувати, придумайте назву, робіть сайт, запускайте маркетинг, робіть пітчдек.</td></tr>
+      </tbody>
+    </table></div>
+    <aside class="callout callout--info"><p>Усе це — після вівторка: домашка до понеділка, лектор перевірить її в ніч із понеділка на вівторок і, найімовірніше, скоригує ваші оцінки.</p></aside>
+    <p><strong>Реалістичні очікування</strong> <a class="tc" data-t="4401" href="https://youtu.be/v_a99qWt9pc?t=4401s">1:13:21</a>. Радар допомагає знайти патерни розв'язання болів, а «патерни рішення це і є продукт». Оскільки болів і патернів кілька, до 10 ідей згенерувати цілком реально. Результат лектор описує категоріями TRIAL, ADOPT, ASSESS і HOLD:</p>
+    <ul>
+      <li>Ідеал — одна-дві ідеї, які проходять TRIAL.</li>
+      <li>Одна-дві ідеї рівня ADOPT — «ви прям гуру», час іти в Y Combinator <a class="tc" data-t="4438" href="https://youtu.be/v_a99qWt9pc?t=4438s">1:13:58</a>.</li>
+      <li>Десять ідей, з яких вісім ASSESS, одна HOLD і одна TRIAL, — ви впоралися. Якщо десяти ідей немає — це нормально.</li>
+      <li>Навіть одна ідея із середньою оцінкою — вже великий успіх: ви розумієте методологію <a class="tc" data-t="4987" href="https://youtu.be/v_a99qWt9pc?t=4987s">1:23:07</a>. Три ідеї із середньою оцінкою й одна з високою — «ви прям геній».</li>
+    </ul>
+  </section>
+
+  <section id="keep-it-simple">
+    <h2>Не ускладнюйте <a class="tc" data-t="4467" href="https://youtu.be/v_a99qWt9pc?t=4467s">1:14:27</a></h2>
+    <p>Не будьте надто критичними до себе: мета — навчитися шукати, де щось зламано і як на цьому заробити, а не підганяти під ідею надуману проблему. Винаходити велосипед не потрібно <a class="tc" data-t="4514" href="https://youtu.be/v_a99qWt9pc?t=4514s">1:15:14</a>: якщо стартап базується на механіці Excel-таблиці — це абсолютно нормально. Часу мало, тож технічна реалізація може бути не найкрутішою.</p>
+    <p>На минулому Terminal учасник зробив prediction market для ігор на кшталт Dota <a class="tc" data-t="4569" href="https://youtu.be/v_a99qWt9pc?t=4569s">1:16:09</a>. Виручка з'явилася вже за перший тиждень, а ще до завершення Colosseum йому написав Polymarket.</p>
+    <p>Найскладніше — знайти людський біль і придумати креативне рішення <a class="tc" data-t="4632" href="https://youtu.be/v_a99qWt9pc?t=4632s">1:17:12</a>. Не обов'язково платити 200 доларів за Claude Code і тижнями будувати «пушку-ракету»: інколи рішення — це чат-бот або підписка на email-розсилку. Люди будують мільйонні проєкти на дуже простих рішеннях.</p>
+    <p>А ідея, яка народилася з «я так відчуваю» і не спирається на біль, — радше хобі: грошей навряд чи принесе, хоча задоволення буде багато <a class="tc" data-t="4695" href="https://youtu.be/v_a99qWt9pc?t=4695s">1:18:15</a>.</p>
+  </section>
+
+  <section id="prism">
+    <h2>PRISM і три червоні прапорці <a class="tc" data-t="4749" href="https://youtu.be/v_a99qWt9pc?t=4749s">1:19:09</a></h2>
+    <p>Останній крок, коли ви пройшли радар і маєте провалідовані ідеї, — PRISM. За підходом він схожий на те, як розробники оцінюють беклог, але плутати їх не треба <a class="tc" data-t="4790" href="https://youtu.be/v_a99qWt9pc?t=4790s">1:19:50</a>:</p>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Що оцінюєте</th><th>Метод</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Нову фічу в наявному продукті — наприклад, придуману через радар</td><td>RICE або його простіша версія ICE: Impact, Confidence, Effort — який вплив це матиме, наскільки ви в це вірите і скільки ресурсів команди забере. RICE додає до ICE ще й те, скільки користувачів це зачепить за певний період.</td></tr>
+        <tr><td>Ідею стартапу, який розв'язує біль <a class="tc" data-t="4825" href="https://youtu.be/v_a99qWt9pc?t=4825s">1:20:25</a></td><td>PRISM</td></tr>
+      </tbody>
+    </table></div>
+    <aside class="callout callout--warning"><p>«Не треба по RICE оцінювати стартап і не треба по PRISM оцінювати фічу існуючого продукту. Це дві різні речі» <a class="tc" data-t="4858" href="https://youtu.be/v_a99qWt9pc?t=4858s">1:20:58</a>.</p></aside>
+    <p>PRISM простий, бо вся база для нього у вас уже є <a class="tc" data-t="4874" href="https://youtu.be/v_a99qWt9pc?t=4874s">1:21:14</a>. Окремо доведеться порахувати охоплення — через TAM, SAM і SOM. А щодо вартості виробництва — скільки вам це обійдеться і яка буде маржинальність — лектор долучиться й поставить свою оцінку.</p>
+    <p>Після оцінки залишається перевірка на три прапорці <a class="tc" data-t="4900" href="https://youtu.be/v_a99qWt9pc?t=4900s">1:21:40</a>. Якщо ідея потрапляє хоча б під один, вона, в принципі, нерелевантна.</p>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>#</th><th>Прапорець</th><th>Як його розпізнати</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Немає конкретного «хто»</td><td>Неможливо знайти, хто має цю проблему. Згадайте синю формулу <a class="tc" data-t="4933" href="https://youtu.be/v_a99qWt9pc?t=4933s">1:22:13</a>: якщо «люди намагаються щось зробити», значить, ніхто не намагається, бо «люди — це всі й ніхто одночасно». Не можете ідентифікувати цільову аудиторію — її немає, або пошук болів проведено погано.</td></tr>
+        <tr><td>2</td><td>Ніхто не платить</td><td>За проблему, в принципі, ніхто не платить: її ігнорують, терплять або обходять настільки простим костилем, що він нічого не вимагає. Тоді, найімовірніше, платити й не будуть.</td></tr>
+        <tr><td>3</td><td>Одна чужа технологія</td><td>Увесь стартап тримається на одній технології, яка вам не належить, — той самий Technology First із початку лекції.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Відмовитися від такої ідеї — абсолютно окей <a class="tc" data-t="4987" href="https://youtu.be/v_a99qWt9pc?t=4987s">1:23:07</a>. При цьому прапорець важить більше за бали <a class="tc" data-t="5063" href="https://youtu.be/v_a99qWt9pc?t=5063s">1:24:23</a>:</p>
+    <blockquote class="quote"><p>Навіть якщо оцінка окей, але є прапорець, ідея зрізається.</p></blockquote>
+    <p>Це не покарання: прапорці потрібні, щоб уже на етапі Idea Generation у вас була впевненість, що в ідеї є цінність і з неї можна зробити продукт.</p>
+  </section>
+
+  <section id="chain">
+    <h2>Як чотири фреймворки складаються в один процес <a class="tc" data-t="5035" href="https://youtu.be/v_a99qWt9pc?t=5035s">1:23:55</a></h2>
+    <p>На практиці все зводиться до однієї таблиці, яку лектор попросив заповнити. Шаблон він пообіцяв надіслати, щоб учасникам не довелося нічого вигадувати, а йому було легше перевіряти.</p>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Етап</th><th>Інструмент</th><th>Що на виході</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1. Дослідження болю</td><td>Problem First: чотири кошики, синя формула, п'ять критеріїв</td><td>Болі, описані формулою, з конкретним «хто»</td></tr>
+        <tr><td>2. Біль → робота</td><td>Jobs To Be Done</td><td>Ситуація, дія, результат і список товарів-замінників</td></tr>
+        <tr><td>3. Пошук патернів</td><td>Радар: чотири сектори в заданому порядку</td><td>Патерни рішення</td></tr>
+        <tr><td>4. Синтез ідеї</td><td>Поєднання знайдених патернів</td><td>Назва ідеї та її короткий опис <a class="tc" data-t="5063" href="https://youtu.be/v_a99qWt9pc?t=5063s">1:24:23</a></td></tr>
+        <tr><td>5. Скоринг</td><td>Три осі від 1 до 5, PRISM, три прапорці</td><td>Оцінка й рішення: братися, відкласти чи відмовитися</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="next">
+    <h2>Що далі в програмі <a class="tc" data-t="5276" href="https://youtu.be/v_a99qWt9pc?t=5276s">1:27:56</a></h2>
+    <p>Після прожарки — лекції про валідацію, value proposition і маркетинг <a class="tc" data-t="5423" href="https://youtu.be/v_a99qWt9pc?t=5423s">1:30:23</a>. На маркетинговій буде практична домашка: бюджет від 200 до 1000 гривень, бізнес-кабінет, креатив і тестова реклама, а також як вести Twitter криптопроєкту і що таке контент-план. Найпростіший і найшвидший спосіб знайти аудиторію, за словами лектора, — Facebook <a class="tc" data-t="5489" href="https://youtu.be/v_a99qWt9pc?t=5489s">1:31:29</a>.</p>
+  </section>
+
+  <section id="homework" class="homework">
+    <h2>Домашнє завдання</h2>
+    <ol>
+      <li>Пройдіть усі п'ять етапів: болі → JTBD → радар → синтез ідей → скоринг. «Ваша домашка — це, по суті, пройтися по тому, що було» <a class="tc" data-t="5174" href="https://youtu.be/v_a99qWt9pc?t=5174s">1:26:14</a>.</li>
+      <li>Почніть із болів: запишіть три болі, які відповідають п'яти критеріям і вкладаються в синю формулу <a class="tc" data-t="1433" href="https://youtu.be/v_a99qWt9pc?t=1433s">23:53</a>. Кількість гнучка — може бути й п'ять, і для них можна запропонувати різні рішення <a class="tc" data-t="5222" href="https://youtu.be/v_a99qWt9pc?t=5222s">1:27:02</a>.</li>
+      <li>Згенеруйте до 10 ідей. Десять — це максимум: якщо ідей менше, це нормально, і «рівно 10 ідей — це не рівно 10 успішних ідей». За один-два дні це цілком реально.</li>
+      <li>Радар: фото аркуша або картинка у Figma з логотипами чи назвами компаній. Шаблон радару лектор пообіцяв зробити <a class="tc" data-t="5094" href="https://youtu.be/v_a99qWt9pc?t=5094s">1:24:54</a>.</li>
+      <li>Оцініть ідеї за трьома осями від 1 до 5, дешевизну повторення — з коментарем <a class="tc" data-t="4169" href="https://youtu.be/v_a99qWt9pc?t=4169s">1:09:29</a>. Охоплення для PRISM порахуйте через TAM, SAM і SOM <a class="tc" data-t="4874" href="https://youtu.be/v_a99qWt9pc?t=4874s">1:21:14</a>. Перевірте кожну ідею на три прапорці.</li>
+      <li>Заповніть таблицю за шаблоном, який лектор пообіцяв надіслати <a class="tc" data-t="5035" href="https://youtu.be/v_a99qWt9pc?t=5035s">1:23:55</a>, і надішліть посилання в Telegram, у чат із домашками <a class="tc" data-t="5222" href="https://youtu.be/v_a99qWt9pc?t=5222s">1:27:02</a>.</li>
+      <li>Дедлайн — до кінця понеділка, 31 серпня <a class="tc" data-t="2054" href="https://youtu.be/v_a99qWt9pc?t=2054s">34:14</a>. Лектор перевірятиме роботи в ніч із понеділка на вівторок і залишить фідбек прямо у ваших файлах <a class="tc" data-t="5587" href="https://youtu.be/v_a99qWt9pc?t=5587s">1:33:07</a>; обговорення — на першому чекпоінті 1 вересня <a class="tc" data-t="5312" href="https://youtu.be/v_a99qWt9pc?t=5312s">1:28:32</a>.</li>
+      <li>Ідеї й фідбек обговорюють лише на чекпоінтах: на обговорення ідей в особистих повідомленнях із менторами діє мораторій <a class="tc" data-t="5312" href="https://youtu.be/v_a99qWt9pc?t=5312s">1:28:32</a>.</li>
+      <li>Не обов'язково, але лектор просить: відкрийте в матеріалах PDF з інструментами для market research <a class="tc" data-t="1035" href="https://youtu.be/v_a99qWt9pc?t=1035s">17:15</a>.</li>
+    </ol>
+  </section>
+
+  <section id="checklist" class="checklist">
+    <h2>Коротко: чекліст</h2>
+    <ol>
+      <li>Ідея нічого не варта, доки не розв'язує реальний біль.</li>
+      <li>Не будуйте стартап на одній технології, яка вам не належить.</li>
+      <li>Сайт і пітчдек без працюючого продукту дають мало шансів.</li>
+      <li>Шукайте біль у чотирьох кошиках: ви самі, досвід, спільноти, дані й тренди.</li>
+      <li>Описуйте біль формулою: хто, що намагається зробити, що заважає, костиль, ціна.</li>
+      <li>Ціна — це і гроші, і час.</li>
+      <li>Справжній біль повторюваний, має вартість, усвідомлений, має костиль і конкретного «хто».</li>
+      <li>CustDev — запитання про досвід людей, а не презентація ідеї; для стартапу вистачить 10 інтерв'ю.</li>
+      <li>Ваш конкурент — часто не компанія, а звичка чи просто терпіння.</li>
+      <li>Радар проходьте по порядку: прямі конкуренти, аналогічний досвід, суміжні ринки, глобальні тренди.</li>
+      <li>Найцікавіші рішення часто лежать на суміжних ринках.</li>
+      <li>Сума балів до 6 — не беріться, 13–15 — починайте валідувати.</li>
+      <li>Дешевизну повторення оцінюйте з коментарем.</li>
+      <li>Один червоний прапорець відсікає ідею навіть із гарною оцінкою.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Джерело: <a href="https://youtu.be/v_a99qWt9pc">запис лекції «Idea Generation» на YouTube</a> — Дмитро Дименко, Solana Startup Terminal 2.0, 27.08.2026.</p>
+  <p>Конспект зроблено на основі машинної розшифровки запису; формулювання лектора передано близько до сказаного.</p>
+  <p>Концепт сторінки — Alex, учасник програми.</p>
+</footer>
+
+</body>
+</html>
