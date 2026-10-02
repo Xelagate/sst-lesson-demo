@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Idea Generation: ринок і конкуренти — конспект</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #001020;
+    --surface: #061b30;
+    --blue: #0367c8;
+    --light-blue: #8cc6ff;
+    --yellow: #ffea00;
+    --text: #d2dfec;
+    --muted: #a6bbcf;
+    --line: #274057;
+    font-family: "Manrope", sans-serif;
+    background: var(--page);
+    color: var(--text);
+    font-synthesis: none;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    width: min(1240px, calc(100% - 64px));
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+  }
+  ::selection { color: var(--page); background: var(--light-blue); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 5px; }
+  a { color: var(--light-blue); text-underline-offset: .22em; }
+  a:hover { color: #fff; }
+  h1, h2 { font-family: "Unbounded", sans-serif; color: #f6f9ff; font-weight: 600; }
+  p { margin: 0 0 1.25em; }
+  strong { color: #f3f7fc; font-weight: 800; }
+
+  .lesson-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 0 0 18px; font-size: 13px; }
+  .lesson-nav a { color: var(--light-blue); text-decoration: none; }
+  .lesson-nav a:hover { text-decoration: underline; }
+  .lesson-nav a[aria-current] { color: var(--muted); pointer-events: none; }
+  .concept-note {
+    position: relative;
+    padding: 22px 0 22px 22px;
+    color: #b9cadb;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .concept-note::before {
+    content: "";
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+
+  /* A perforated lesson ticket, with no invented ticket data. */
+  .lesson-hero {
+    --inset: clamp(24px, 4.2vw, 56px);
+    padding: var(--inset);
+    border: 1px solid #294967;
+    border-radius: 36px;
+    background: #00203f;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--light-blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .035em;
+  }
+  .eyebrow::before {
+    content: "";
+    flex: 0 0 24px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--yellow);
+  }
+  .lesson-hero h1 {
+    max-width: 1080px;
+    margin: 0 0 24px;
+    font-size: clamp(28px, 4.1vw, 54px);
+    line-height: 1.22;
+    letter-spacing: -.04em;
+    text-wrap: balance;
+  }
+  .lead { max-width: 80ch; margin: 0; color: #bdcfe1; font-size: 16px; line-height: 1.75; }
+  .lesson-meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 32px calc(-1 * var(--inset)) calc(-1 * var(--inset));
+    padding: 22px var(--inset) 26px;
+    border-top: 1px dashed #53718c;
+    list-style: none;
+  }
+  .lesson-meta::before, .lesson-meta::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #294967;
+    border-radius: 50%;
+    background: var(--page);
+  }
+  .lesson-meta::before { left: -11px; border-left-color: transparent; }
+  .lesson-meta::after { right: -11px; border-right-color: transparent; }
+  .lesson-meta li {
+    padding: 6px 14px;
+    border: 1px solid #36536d;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .lesson-meta li:first-child { background: #0b3155; color: #fff; }
+  .lesson-meta li:last-child { color: var(--yellow); }
+
+  .lesson-media { display: grid; gap: 24px; margin-top: 24px; }
+  .player {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    align-self: start;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #000c18;
+    scroll-margin-top: 24px;
+  }
+  .player > div, .player iframe {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .chapters {
+    min-width: 0;
+    padding: 24px 12px 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+  .chapters h2 { margin: 0 12px 17px 0; font-size: 15px; line-height: 1.5; }
+  .chapters ol {
+    max-height: 360px;
+    margin: 0;
+    padding: 0 10px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-gutter: stable;
+  }
+  .chapters li {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 10px 2px;
+    border-top: 1px solid #1e354b;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .chapters li:first-child { border-top: 0; padding-top: 4px; }
+  .chapters li span { padding-top: 5px; }
+  .chapters li:focus-within span, .chapters li:hover span { color: #fff; }
+  .chapters .tc { width: 70px; justify-content: center; min-height: 30px; font-size: 11px; }
+  .chapters ol, .table-scroll { scrollbar-width: thin; scrollbar-color: #587b9b #061b30; }
+
+  .tc {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 9px;
+    border: 1px solid #34546f;
+    border-radius: 100px;
+    background: #092741;
+    color: var(--light-blue);
+    font-family: "Manrope", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+    letter-spacing: .015em;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background-color .16s, color .16s, border-color .16s, box-shadow .16s;
+  }
+  .tc:hover, .tc:focus-visible {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    color: var(--page);
+    box-shadow: 0 4px 18px rgb(255 234 0 / 16%);
+  }
+
+  .summary { width: 70ch; max-width: 100%; margin: 72px auto 0; }
+  .summary > section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .summary h2 {
+    margin: 0 0 25px;
+    font-size: clamp(21px, 2.25vw, 27px);
+    line-height: 1.45;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+  .summary h2 .tc { margin: 0 0 3px 4px; }
+  .summary ul, .summary ol { margin: 20px 0 26px; padding-left: 26px; }
+  .summary li { padding-left: 6px; margin: 12px 0; }
+  .summary li::marker { color: var(--light-blue); font-weight: 700; }
+  .summary section > :last-child { margin-bottom: 0; }
+
+  .quote {
+    margin: 32px 0;
+    padding: 7px 0 7px 25px;
+    border-left: 3px solid var(--yellow);
+    color: #f1f6fc;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.65;
+  }
+  .quote p { margin: 0; }
+  .callout {
+    --callout-accent: var(--light-blue);
+    margin: 28px 0;
+    padding: 22px 24px;
+    border: 1px solid #2f506f;
+    border-left: 3px solid var(--callout-accent);
+    border-radius: 0 18px 18px 0;
+    background: #09243e;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .callout p { margin: 0; }
+  .callout--tip { --callout-accent: #b9d4e9; border-color: #344b5d; border-left-color: var(--callout-accent); background: #112536; }
+  .callout--warning { --callout-accent: var(--yellow); border-color: #514d2c; border-left-color: var(--callout-accent); background: #242719; color: #e5e3cb; }
+  .summary > .callout--info {
+    margin-top: 0;
+    padding: 28px 30px;
+    border-left-width: 1px;
+    border-top: 3px solid var(--blue);
+    border-radius: 20px;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    margin: 28px 0;
+    overflow-x: auto;
+    border: 1px solid #34506b;
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th, td { padding: 17px 18px; text-align: left; vertical-align: top; }
+  th { border-bottom: 1px solid #3b5a77; background: #103351; color: #eef6ff; font-weight: 800; }
+  td { border-bottom: 1px solid #294158; }
+  th + th, td + td { border-left: 1px solid #294158; }
+  tbody tr:nth-child(even) { background: #0a2136; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { color: #eef5ff; font-weight: 600; }
+  td .tc { margin-top: 4px; }
+  #pain-sources td:nth-child(2), #pain-criteria td:nth-child(2) { min-width: 145px; }
+  #radar td:first-child, #scoring td:first-child { min-width: 145px; }
+
+  .summary > .homework {
+    margin-top: 64px;
+    padding: 32px;
+    border: 1px solid #365b7d;
+    border-top: 3px solid var(--light-blue);
+    border-radius: 24px;
+    background: #00203f;
+  }
+  .homework ol { margin: 0; padding-left: 24px; }
+  .homework li { margin: 0; padding: 18px 0 18px 8px; border-bottom: 1px dashed #3a5470; font-size: 16px; }
+  .homework li:first-child { padding-top: 0; }
+  .homework li:last-child { border: 0; padding-bottom: 0; }
+  .homework li::marker { color: var(--yellow); }
+  .summary > .checklist { margin-top: 40px; padding-top: 36px; border-top-style: dashed; }
+  .checklist ol { list-style: none; padding: 0; margin-bottom: 0; }
+  .checklist li { position: relative; margin: 0; padding: 15px 0 15px 32px; border-bottom: 1px solid #1e354b; font-size: 16px; }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 4px;
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid var(--light-blue);
+    border-bottom: 2px solid var(--light-blue);
+    transform: rotate(-45deg);
+  }
+  .page-footer {
+    width: 70ch;
+    max-width: 100%;
+    margin: 64px auto 0;
+    padding: 32px 0 40px;
+    border-top: 1px dashed #3a5470;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .page-footer p { margin: 0 0 14px; font-size: 12px; line-height: 1.8; }
+  .page-footer p:last-child { margin-top: 28px; margin-bottom: 0; color: #cedcea; }
+
+  @media (min-width: 1050px) {
+    .lesson-media { grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr); align-items: stretch; }
+    .chapters { position: relative; min-height: 0; }
+    .chapters ol { position: absolute; inset: 65px 12px 14px 24px; max-height: none; }
+  }
+  @media (min-width: 700px) and (max-width: 1049px) {
+    .chapters ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  }
+  @media (max-width: 599px) {
+    body { width: calc(100% - 32px); font-size: 16px; }
+    .concept-note { padding-top: 17px; padding-bottom: 17px; font-size: 11px; }
+    .concept-note::before { top: 23px; }
+    .lesson-hero { --inset: 22px; border-radius: 24px; }
+    .eyebrow { gap: 9px; font-size: 11px; letter-spacing: 0; margin-bottom: 20px; }
+    .eyebrow::before { flex-basis: 16px; }
+    .lesson-hero h1 { font-size: clamp(25px, 6.9vw, 39px); line-height: 1.3; letter-spacing: -.035em; }
+    .lead { font-size: 14px; }
+    .lesson-meta { gap: 8px; margin-top: 24px; padding-top: 18px; padding-bottom: 20px; }
+    .lesson-meta li { padding: 5px 10px; font-size: 11px; }
+    .lesson-media { gap: 16px; margin-top: 16px; }
+    .player { border-radius: 16px; scroll-margin-top: 16px; }
+    .chapters { padding-left: 18px; border-radius: 20px; }
+    .chapters ol { max-height: 340px; }
+    .summary { margin-top: 44px; }
+    .summary > section { margin-top: 40px; padding-top: 26px; }
+    .summary h2 { font-size: 20px; line-height: 1.5; }
+    .summary > .callout--info, .callout { padding: 19px 20px; font-size: 14px; }
+    .quote { margin: 26px 0; padding-left: 19px; font-size: 19px; }
+    .summary > .homework { padding: 24px 20px; border-radius: 20px; }
+    .homework li, .checklist li { font-size: 15px; }
+    .page-footer { margin-top: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('player');
+    let player;
+    let ready = false;
+
+    // Native links remain usable while the API loads, or if embedding fails.
+    document.querySelectorAll('a.tc').forEach(link => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+    document.querySelectorAll('.table-scroll').forEach(wrapper => {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', wrapper.closest('section').querySelector('h2').textContent.trim());
+    });
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a.tc');
+      if (!link || !ready || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const seconds = Number(link.dataset.t);
+      if (!Number.isFinite(seconds)) return;
+      try {
+        player.seekTo(seconds, true);
+        player.playVideo();
+      } catch {
+        ready = false;
+        return;
+      }
+      event.preventDefault();
+      container.scrollIntoView({
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+
+    window.onYouTubeIframeAPIReady = () => {
+      // Keep #player intact: YouTube replaces only this inner mount.
+      const mount = document.createElement('div');
+      container.append(mount);
+      player = new YT.Player(mount, {
+        videoId: container.dataset.videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: { playsinline: 1, rel: 0 },
+        events: {
+          onReady: event => {
+            ready = true;
+            event.target.getIframe().title = document.querySelector('h1').textContent;
+          },
+          onError: () => { ready = false; }
+        }
+      });
+    };
+    const api = document.createElement('script');
+    api.src = 'https://www.youtube.com/iframe_api';
+    api.async = true;
+    api.onerror = () => { ready = false; };
+    document.head.append(api);
+  });
+</script>
+</head>
+<body>
+
+
+<aside class="concept-note">Неофіційний концепт: так могла б виглядати сторінка уроку Startup Terminal. Це не сторінка Superteam Ukraine — її зробив Alex, учасник програми.</aside>
+
+<nav class="lesson-nav" aria-label="Уроки">
+  <a href="2026-08-26-idea-gen-nick.html">Idea Gen, Нік · 26.08</a>
+  <a href="index.html">Idea Generation, Діма · 27.08</a>
+  <a href="2026-09-08-validation-idea.html">Validation · 08.09</a>
+  <a href="2026-09-15-value-proposition.html">Value proposition · 15.09</a>
+  <a href="2026-09-22-gtm-nick.html">GTM · 22.09</a>
+  <a href="2026-09-24-marketing.html">Marketing · 24.09</a>
+  <a href="2026-09-29-ai-in-project-building.html">AI у побудові проєкту · 29.09</a>
+  <a href="2026-03-18-idea-generation-nick.html" aria-current="page">Весна: Idea Generation</a>
+  <a href="2026-03-25-market-research.html">Весна: Market Research</a>
+  <a href="2026-04-08-gtm-structuring-dima.html">Весна: GTM Structuring</a>
+  <a href="2026-04-09-development-team-management.html">Весна: Development і команда</a>
+  <a href="2026-04-15-marketing-team-management.html">Весна: Marketing team</a>
+  <a href="2026-04-17-vc-fundraising.html">Весна: VC і Fundraising</a>
+</nav>
+
+<header class="lesson-hero">
+  <p class="eyebrow">Solana Startup Terminal · весняний потік 2026</p>
+  <h1>Idea Generation, частина 2: ринок і конкуренти без «ми перші й кращі за всіх»</h1>
+  <p class="lead">Друга частина теми Idea Generation. Лектор показує, як аналізувати конкурентів і ринок так, щоб це витримало питання інвестора: чесно відповісти, чому ви не перші, не казати «краще в усьому», зосередитись на унікальній перевазі й порахувати TAM, SAM і SOM. Головна ідея: аналіз потрібен насамперед вам самим, а в пітчдек іде коротка суть. У кінці — відповіді на питання слухачів.</p>
+  <ul class="lesson-meta">
+    <li>Лектор: Нік</li>
+    <li>опубліковано 18.03.2026</li>
+    <li>73 хв</li>
+  </ul>
+</header>
+
+<div class="lesson-media"><div class="player" id="player" data-video-id="DzSkA68cxso"></div>
+
+<nav class="chapters" aria-label="Розділи відео">
+  <h2>Розділи відео</h2>
+  <ol>
+    <li><a class="tc" data-t="1" href="https://youtu.be/DzSkA68cxso?t=1s">0:01</a> <span>Вступ: друга частина Idea Generation</span></li>
+    <li><a class="tc" data-t="46" href="https://youtu.be/DzSkA68cxso?t=46s">0:46</a> <span>Нагадування: фреймворк генерації ідеї</span></li>
+    <li><a class="tc" data-t="136" href="https://youtu.be/DzSkA68cxso?t=136s">2:16</a> <span>Валідація ідеї з людьми</span></li>
+    <li><a class="tc" data-t="234" href="https://youtu.be/DzSkA68cxso?t=234s">3:54</a> <span>Ви не перші: Polymarket і біткоїн</span></li>
+    <li><a class="tc" data-t="378" href="https://youtu.be/DzSkA68cxso?t=378s">6:18</a> <span>Три типові способи показати конкурентів</span></li>
+    <li><a class="tc" data-t="443" href="https://youtu.be/DzSkA68cxso?t=443s">7:23</a> <span>Таблиця з галочками: кілька ніш, MetaMask і Phantom</span></li>
+    <li><a class="tc" data-t="572" href="https://youtu.be/DzSkA68cxso?t=572s">9:32</a> <span>Таблиця для себе, а не для пітчдека</span></li>
+    <li><a class="tc" data-t="614" href="https://youtu.be/DzSkA68cxso?t=614s">10:14</a> <span>Чому «краще в усьому» — проблема</span></li>
+    <li><a class="tc" data-t="750" href="https://youtu.be/DzSkA68cxso?t=750s">12:30</a> <span>Знижка комісій — це демпінг</span></li>
+    <li><a class="tc" data-t="914" href="https://youtu.be/DzSkA68cxso?t=914s">15:14</a> <span>APY на малій ліквідності</span></li>
+    <li><a class="tc" data-t="938" href="https://youtu.be/DzSkA68cxso?t=938s">15:38</a> <span>Декартова площина</span></li>
+    <li><a class="tc" data-t="1076" href="https://youtu.be/DzSkA68cxso?t=1076s">17:56</a> <span>Підсумок: не перевантажуйте людей</span></li>
+    <li><a class="tc" data-t="1133" href="https://youtu.be/DzSkA68cxso?t=1133s">18:53</a> <span>Матриця: три ніші, три гравці</span></li>
+    <li><a class="tc" data-t="1283" href="https://youtu.be/DzSkA68cxso?t=1283s">21:23</a> <span>Як знайти конкурентів</span></li>
+    <li><a class="tc" data-t="1314" href="https://youtu.be/DzSkA68cxso?t=1314s">21:54</a> <span>Не порівнюйте себе з монополістом</span></li>
+    <li><a class="tc" data-t="1434" href="https://youtu.be/DzSkA68cxso?t=1434s">23:54</a> <span>Що перемагає: команда, маркетинг, UX, фічі</span></li>
+    <li><a class="tc" data-t="1513" href="https://youtu.be/DzSkA68cxso?t=1513s">25:13</a> <span>Партнерства — додатковий пункт</span></li>
+    <li><a class="tc" data-t="1603" href="https://youtu.be/DzSkA68cxso?t=1603s">26:43</a> <span>З чого почати табличку</span></li>
+    <li><a class="tc" data-t="1656" href="https://youtu.be/DzSkA68cxso?t=1656s">27:36</a> <span>Другий крок: ринок і помилка з вибором ринку</span></li>
+    <li><a class="tc" data-t="1777" href="https://youtu.be/DzSkA68cxso?t=1777s">29:37</a> <span>TAM, SAM і SOM</span></li>
+    <li><a class="tc" data-t="2071" href="https://youtu.be/DzSkA68cxso?t=2071s">34:31</a> <span>Як порахувати: top-down</span></li>
+    <li><a class="tc" data-t="2188" href="https://youtu.be/DzSkA68cxso?t=2188s">36:28</a> <span>Bottom-up і синхронізація трьох чисел</span></li>
+    <li><a class="tc" data-t="2251" href="https://youtu.be/DzSkA68cxso?t=2251s">37:31</a> <span>Value theory: люди помножити на ціну</span></li>
+    <li><a class="tc" data-t="2419" href="https://youtu.be/DzSkA68cxso?t=2419s">40:19</a> <span>Не беріть весь ринок</span></li>
+    <li><a class="tc" data-t="2555" href="https://youtu.be/DzSkA68cxso?t=2555s">42:35</a> <span>Метрики: ARPU і вартість залучення</span></li>
+    <li><a class="tc" data-t="2627" href="https://youtu.be/DzSkA68cxso?t=2627s">43:47</a> <span>Приклад: платформа з комісією 40%</span></li>
+    <li><a class="tc" data-t="2924" href="https://youtu.be/DzSkA68cxso?t=2924s">48:44</a> <span>Підсумок: п'ять правил</span></li>
+    <li><a class="tc" data-t="3098" href="https://youtu.be/DzSkA68cxso?t=3098s">51:38</a> <span>Практичні поради: онбординг, ICP, власний ресерч</span></li>
+    <li><a class="tc" data-t="3300" href="https://youtu.be/DzSkA68cxso?t=3300s">55:00</a> <span>Не цитуйте загальний TVL</span></li>
+    <li><a class="tc" data-t="3394" href="https://youtu.be/DzSkA68cxso?t=3394s">56:34</a> <span>Спілкуйтеся з людьми</span></li>
+    <li><a class="tc" data-t="3476" href="https://youtu.be/DzSkA68cxso?t=3476s">57:56</a> <span>Питання: чи втомилися від квестів</span></li>
+    <li><a class="tc" data-t="3685" href="https://youtu.be/DzSkA68cxso?t=3685s">1:01:25</a> <span>Питання: де відкрити компанію</span></li>
+    <li><a class="tc" data-t="4002" href="https://youtu.be/DzSkA68cxso?t=4002s">1:06:42</a> <span>Питання: непрямі конкуренти</span></li>
+    <li><a class="tc" data-t="4204" href="https://youtu.be/DzSkA68cxso?t=4204s">1:10:04</a> <span>Завдання до наступного разу</span></li>
+  </ol>
+</nav></div>
+
+<main class="summary">
+
+  <aside class="callout callout--info"><p><strong>Що в цьому уроці:</strong> як показувати конкурентів так, щоб це витримало питання інвестора; чому не варто казати «ми перші» чи «ми кращі в усьому»; матриця «три ніші, три гравці»; порядок аргументів: команда, маркетинг, UX, функції; TAM, SAM, SOM і три способи їх порахувати; ARPU і вартість залучення; як шукати конкурентів і не цитувати загальний TVL; відповіді на питання про квести, юрисдикцію компанії та непрямих конкурентів.</p></aside>
+
+<section id="frame">
+    <h2>Про що лекція <a class="tc" data-t="8" href="https://youtu.be/DzSkA68cxso?t=8s">0:08</a></h2>
+    <p>Це друга частина теми Idea Generation. Сьогодні лектор говорить про те, як аналізувати ринок, як його порахувати, як робити конкурентний аналіз, і трохи зачіпає початок go-to-market стратегії — про неї буде багато на наступних воркшопах <a class="tc" data-t="8" href="https://youtu.be/DzSkA68cxso?t=8s">0:08</a>. Навчити креативності, каже він, майже неможливо, тому він розбиває все на фреймворки <a class="tc" data-t="46" href="https://youtu.be/DzSkA68cxso?t=46s">0:46</a>.</p>
+    <p>Нагадування з минулого разу: працюємо навколо гепів у ринку; дивимось, чи хтось їх уже закриває; якщо так — чи можемо ми бути кращими <a class="tc" data-t="111" href="https://youtu.be/DzSkA68cxso?t=111s">1:51</a>. Далі валідуємо ідею з людьми: колеги по треку, ментори, учасники Superteam Ukraine, навіть бабуся чи мама <a class="tc" data-t="136" href="https://youtu.be/DzSkA68cxso?t=136s">2:16</a>. Фідбек від них буде менш релевантним, але валідувати все одно треба: повний ресерч ринку ще не гарантує, що ніхто не зробив цього краще за вас <a class="tc" data-t="162" href="https://youtu.be/DzSkA68cxso?t=162s">2:42</a>.</p>
+    <p>Тому лишаються три питання: що робити з конкурентами, чи є ринок і для кого ми будуємо <a class="tc" data-t="162" href="https://youtu.be/DzSkA68cxso?t=162s">2:42</a>. Сьогодні — конкуренти, ринок і ключові метрики.</p>
+  </section>
+
+  <section id="not-first">
+    <h2>Ви не перші <a class="tc" data-t="234" href="https://youtu.be/DzSkA68cxso?t=234s">3:54</a></h2>
+    <p>Найгірше, що можна сказати інвестору, — «я перший протокол, який це робить». У нього тоді два варіанти: довести, що ви не перші, або вирішити, що ринок ще не готовий <a class="tc" data-t="234" href="https://youtu.be/DzSkA68cxso?t=234s">3:54</a>.</p>
+    <p>Приклад — Polymarket: заснований у 2021 році, але інфраструктури й способів валідувати події ще не було. Лише наприкінці 2024-го всі зрозуміли, що навколо цього можна будувати prediction market <a class="tc" data-t="234" href="https://youtu.be/DzSkA68cxso?t=234s">3:54</a>. Навіть біткоїн не був першим: перші ідеї такого роду з'явилися ще у 1998 році, робочі концепти — у 2004–2006. Біткоїн потрапив у свій час: крах американського ринку зробив його альтернативним активом <a class="tc" data-t="303" href="https://youtu.be/DzSkA68cxso?t=303s">5:03</a>.</p>
+  </section>
+
+  <section id="table">
+    <h2>Таблиця з галочками: що в ній добре <a class="tc" data-t="378" href="https://youtu.be/DzSkA68cxso?t=378s">6:18</a></h2>
+    <p>Більшість структурує слайд про конкурентів одним із трьох способів. Кожен має проблеми, а з погляду інвестора поганого в них часто більше, ніж хорошого <a class="tc" data-t="378" href="https://youtu.be/DzSkA68cxso?t=378s">6:18</a>.</p>
+    <p>Перший — величезна таблиця з галочками й хрестиками. Ще гірше, якщо замість галочок «yes/no» стоять абзаци тексту. Інвестор або команда Colosseum на таку таблицю дивитися не буде <a class="tc" data-t="378" href="https://youtu.be/DzSkA68cxso?t=378s">6:18</a><a class="tc" data-t="435" href="https://youtu.be/DzSkA68cxso?t=435s">7:15</a>.</p>
+    <p>Добре в ній одне: автори розуміють, що ніша не одна. Вибирайте дві-три ніші. Приклад — MetaMask: починався з гаманця для тих, хто не хоче сидіти на централізованій біржі, а тепер там і prediction market, і нативний стейкінг, і ще десятки функцій <a class="tc" data-t="443" href="https://youtu.be/DzSkA68cxso?t=443s">7:23</a><a class="tc" data-t="467" href="https://youtu.be/DzSkA68cxso?t=467s">7:47</a>. Phantom — перший і найкращий гаманець на Solana, в останньому раунді залучив 150 млн доларів. Від MetaMask він відрізняється архітектурно, на рівні роботи з акаунтами й токенами Solana <a class="tc" data-t="496" href="https://youtu.be/DzSkA68cxso?t=496s">8:16</a><a class="tc" data-t="522" href="https://youtu.be/DzSkA68cxso?t=522s">8:42</a>.</p>
+    <p>Таку таблицю варто мати для себе. Крім функціоналу пропишіть, чим ви краще: маркетинг, залучення аудиторії, взаємодія з іншими протоколами, партнерства <a class="tc" data-t="572" href="https://youtu.be/DzSkA68cxso?t=572s">9:32</a>.</p>
+    <aside class="callout callout--warning"><p>У пітчдек усе це не ставте: слайд стає нечитабельним, а «краще по 25 пунктах із 36» нічого не каже <a class="tc" data-t="572" href="https://youtu.be/DzSkA68cxso?t=572s">9:32</a><a class="tc" data-t="614" href="https://youtu.be/DzSkA68cxso?t=614s">10:14</a>.</p></aside>
+  </section>
+
+  <section id="better-all">
+    <h2>Чому «краще в усьому» — проблема <a class="tc" data-t="614" href="https://youtu.be/DzSkA68cxso?t=614s">10:14</a></h2>
+    <p>Лектор розповідає про команду, яка за власним аналізом була кращою за конкурентів у всьому. Кожен інвестор, з яким він її зводив, питав одне: чому ж ви тоді не заробляєте? Відповіді в команди не було <a class="tc" data-t="614" href="https://youtu.be/DzSkA68cxso?t=614s">10:14</a>.</p>
+    <p>Чому так виходить. Більший API — а звідки він береться і чи є за ним ліквідність <a class="tc" data-t="726" href="https://youtu.be/DzSkA68cxso?t=726s">12:06</a>? Менші комісії — це те саме, що демпінг, а великі гравці мають виручку і можуть працювати в мінус довше за вас. Так ви вбиваєте власну бізнес-модель <a class="tc" data-t="750" href="https://youtu.be/DzSkA68cxso?t=750s">12:30</a><a class="tc" data-t="783" href="https://youtu.be/DzSkA68cxso?t=783s">13:03</a>. Юридична зручність для B2C може робити продукт менш цікавим для B2B; а «глобальний ринок» через регуляцію швидко перетворюється на локальний <a class="tc" data-t="783" href="https://youtu.be/DzSkA68cxso?t=783s">13:03</a>.</p>
+    <p>Окремо — APY. Якщо в пулі 100 доларів і APY 10 000%, то коли в пулі стане 1000 доларів, APY впаде у 10–20 разів, а можливо й у 100 <a class="tc" data-t="914" href="https://youtu.be/DzSkA68cxso?t=914s">15:14</a>.</p>
+    <aside class="callout callout--warning"><p>Кожне поліпшення в одному напрямку погіршує продукт в іншому. Знижуєте ціну — падає маржа; піднімаєте APY — потрібна відповідь, звідки він <a class="tc" data-t="862" href="https://youtu.be/DzSkA68cxso?t=862s">14:22</a>. Чим більше ви кажете, що кращі в усьому, тим менше вам вірять <a class="tc" data-t="938" href="https://youtu.be/DzSkA68cxso?t=938s">15:38</a>.</p></aside>
+    <p>Краще розуміти свій ринок і бізнес-модель, знати свої фінанси, те, як ви онбордите клієнтів і як заробляєте, — і відштовхуватися від цього <a class="tc" data-t="938" href="https://youtu.be/DzSkA68cxso?t=938s">15:38</a>.</p>
+  </section>
+
+  <section id="cartesian">
+    <h2>Декартова площина <a class="tc" data-t="938" href="https://youtu.be/DzSkA68cxso?t=938s">15:38</a></h2>
+    <p>Третій варіант — «улюблена» декартова площина з двома осями, де ви в правому верхньому куті, а решта десь нижче. Іноді збоку дописують унікальну перевагу, і цього іноді достатньо, але краще дати більше конкретики <a class="tc" data-t="938" href="https://youtu.be/DzSkA68cxso?t=938s">15:38</a>.</p>
+    <p>Проблема в тому, що на такій картинці одразу питають: чому вони так низько, якщо мали б бути вище? А це просто дизайнер так поставив — для нього це дизайн, а не математика <a class="tc" data-t="1026" href="https://youtu.be/DzSkA68cxso?t=1026s">17:06</a>. Тож акцент має бути на тому, чим ви справді відрізняєтесь <a class="tc" data-t="1026" href="https://youtu.be/DzSkA68cxso?t=1026s">17:06</a>.</p>
+    <p>Підсумок по конкурентах: не перевантажуйте людей. Не треба казати, що в кожній функції у вас трохи менша комісія або що ви мультичейн і некастодіальні — це не конкурентна перевага <a class="tc" data-t="1076" href="https://youtu.be/DzSkA68cxso?t=1076s">17:56</a>.</p>
+    <aside class="callout callout--tip"><p>Функціонал, якого немає в інших, ще не робить вас кращими. Конкурентна перевага — це те, на чому ви заробляєте <a class="tc" data-t="1104" href="https://youtu.be/DzSkA68cxso?t=1104s">18:24</a>.</p></aside>
+  </section>
+
+  <section id="matrix">
+    <h2>Матриця: три ніші, три гравці <a class="tc" data-t="1133" href="https://youtu.be/DzSkA68cxso?t=1133s">18:53</a></h2>
+    <p>Спочатку фокусуємось на конкурентній перевазі, потім дивимось на кілька ніш <a class="tc" data-t="1133" href="https://youtu.be/DzSkA68cxso?t=1133s">18:53</a>. Якщо вас витіснять із двох ніш, залишиться третя — і для першого стартапу це вже перемога <a class="tc" data-t="1169" href="https://youtu.be/DzSkA68cxso?t=1169s">19:29</a>.</p>
+    <p>Практично: намалюйте для себе дев'ять рядків — три ніші, і в кожній три найбільші гравці (або двоє найбільших і один перспективний, який, на вашу думку, швидко зросте) <a class="tc" data-t="1252" href="https://youtu.be/DzSkA68cxso?t=1252s">20:52</a>.</p>
+    <p>Як знайти: фільтр за наративами на Cryptorank, агрегатори даних, або CoinMarketCap зі стартапами, відфільтрованими за нішею; також допоможуть Google, Claude і ChatGPT <a class="tc" data-t="1283" href="https://youtu.be/DzSkA68cxso?t=1283s">21:23</a>.</p>
+    <aside class="callout callout--warning"><p>Не вписуйте очевидного монополіста. Якщо ви в prediction market — не пишіть Polymarket чи Kalshi. На ринку централізованих бірж не воюйте з Binance: у нього 22% ринку, а в найближчого конкурента 6%. Беріть когось менше <a class="tc" data-t="1314" href="https://youtu.be/DzSkA68cxso?t=1314s">21:54</a><a class="tc" data-t="1340" href="https://youtu.be/DzSkA68cxso?t=1340s">22:20</a>. Виняток — залізо: гаманець на ринку, де Ledger і Trezor, доведеться порівнювати саме з ними <a class="tc" data-t="1373" href="https://youtu.be/DzSkA68cxso?t=1373s">22:53</a>.</p></aside>
+  </section>
+
+  <section id="wins">
+    <h2>Що перемагає: порядок аргументів <a class="tc" data-t="1434" href="https://youtu.be/DzSkA68cxso?t=1434s">23:54</a></h2>
+    <p>Це порада для тих, хто будує стартап не вперше, але ідея корисна всім. Якщо в одного стартапу команда сильніша — виграє він. Якщо команди приблизно однакові — виграє той, у кого кращі маркетинг і дистрибуція. Якщо й вони схожі — кращий UX/UI <a class="tc" data-t="1434" href="https://youtu.be/DzSkA68cxso?t=1434s">23:54</a>.</p>
+    <p>Лише коли все це приблизно рівне, починається історія про функцію, яка щось виконує на дві секунди швидше. Причому не на 100%, а, скажімо, на 5–10%; якщо ж вона прискорює вдвічі, це цілком може бути вашою перевагою <a class="tc" data-t="1463" href="https://youtu.be/DzSkA68cxso?t=1463s">24:23</a>.</p>
+    <p>Партнерства — важливий, але додатковий пункт. Перші чотири стосуються продукту, а партнерства й network exposure — це те, наскільки ви вмієте цим користуватись. Акселератор якраз для цього: ви знайдете менторів і майбутніх партнерів <a class="tc" data-t="1513" href="https://youtu.be/DzSkA68cxso?t=1513s">25:13</a><a class="tc" data-t="1540" href="https://youtu.be/DzSkA68cxso?t=1540s">25:40</a>.</p>
+    <aside class="callout callout--tip"><p>З чого почати табличку, якщо не знаєте порядок: команда в вас, найімовірніше, не кращою за команду Polymarket, тож починайте з дистрибуції, UX, функціоналу або з того, що ви робите щось нове чи закриваєте геп. Підійде і те, що вам просто подобається, або вирішення проблеми сусіда по гуртожитку. Будь-що з цього може бути вашою унікальною пропозицією <a class="tc" data-t="1603" href="https://youtu.be/DzSkA68cxso?t=1603s">26:43</a>.</p></aside>
+  </section>
+
+  <section id="market">
+    <h2>Другий крок: ринок <a class="tc" data-t="1656" href="https://youtu.be/DzSkA68cxso?t=1656s">27:36</a></h2>
+    <p>Що, якщо ви кращі за всіх конкурентів — або вони взагалі мертві? У кожному акселераторі чи на хакатоні знайдеться людина, яка скаже, що ми підемо онбордити епіцентри й продавати їм токенізовані програми лояльності. Складність у дистрибуції: це B2B- чи навіть B2B2C-продаж, а бізнес не хоче втрачати користувачів <a class="tc" data-t="1656" href="https://youtu.be/DzSkA68cxso?t=1656s">27:36</a>.</p>
+    <p>Треба чітко розуміти: під нове є ринок, є частка, яку ви можете взяти, є користувачі, які цим скористаються. Часто на старті обирають не той ринок <a class="tc" data-t="1713" href="https://youtu.be/DzSkA68cxso?t=1713s">28:33</a>. Приклад — Grammarly: вони думали, що клієнти — це ті, для кого англійська не рідна. Але найбільше користувачів прийшло з Британії та США <a class="tc" data-t="1750" href="https://youtu.be/DzSkA68cxso?t=1750s">29:10</a>.</p>
+  </section>
+
+  <section id="tam">
+    <h2>TAM, SAM і SOM <a class="tc" data-t="1777" href="https://youtu.be/DzSkA68cxso?t=1777s">29:37</a></h2>
+    <p>Ринок описують трьома числами: Total Available Market (TAM), Serviceable Available Market (SAM) і Serviceable Obtainable Market (SOM). Рухатись можна і згори вниз, і знизу вгору <a class="tc" data-t="1777" href="https://youtu.be/DzSkA68cxso?t=1777s">29:37</a>.</p>
+    <p>TAM. Типова помилка для perp DEX: написати, що це весь обсяг торгівлі ф'ючерсами у світі на всіх біржах — 80 чи 120 трильйонів доларів. Але ви не таргетуєте Web2-трейдерів чи тих, хто торгує на конкретних централізованих біржах; ви таргетуєте Web3-трейдерів, які торгують ончейн <a class="tc" data-t="1800" href="https://youtu.be/DzSkA68cxso?t=1800s">30:00</a><a class="tc" data-t="1863" href="https://youtu.be/DzSkA68cxso?t=1863s">31:03</a>. TAM — це ринок, який ви могли б захопити, якби були єдиним монополістом <a class="tc" data-t="1893" href="https://youtu.be/DzSkA68cxso?t=1893s">31:33</a>.</p>
+    <p>SAM. Береться частина TAM, релевантна конкретній проблемі, яку ви вирішуєте. Приклад: perp DEX на Solana з роутингом через Jupiter, який розв'язує проблему для 15% трейдерів — тих, хто бере плече від 50x і не встигає реагувати на margin call. SAM — ці 15% <a class="tc" data-t="1893" href="https://youtu.be/DzSkA68cxso?t=1893s">31:33</a>.</p>
+    <p>SOM — ще вужче, бо в нового продукту поки немає довіри, бренду, аудиторії та інвесторів. Лектор називає SOM тим, що можна отримати за перший рік роботи: наприклад, «я можу провести через свій perp DEX 20 млн доларів обсягу» і з цього порахувати виручку за бізнес-моделлю <a class="tc" data-t="1998" href="https://youtu.be/DzSkA68cxso?t=1998s">33:18</a><a class="tc" data-t="2041" href="https://youtu.be/DzSkA68cxso?t=2041s">34:01</a>.</p>
+  </section>
+
+  <section id="count">
+    <h2>Як порахувати розмір ринку <a class="tc" data-t="2071" href="https://youtu.be/DzSkA68cxso?t=2071s">34:31</a></h2>
+    <p>Лінивий варіант (top-down): для насичених ринків беруть 100%, від них 5% — це SAM, і ще 5% від цих 5% — SOM <a class="tc" data-t="2071" href="https://youtu.be/DzSkA68cxso?t=2071s">34:31</a><a class="tc" data-t="2125" href="https://youtu.be/DzSkA68cxso?t=2125s">35:25</a>. Менш лінивий — аналізувати ринок так, як розібрано вище. Найдокладніший — взяти односторінкову таблицю, яку лектор кидав у групу, і порахувати все глибоко <a class="tc" data-t="2125" href="https://youtu.be/DzSkA68cxso?t=2125s">35:25</a>.</p>
+    <aside class="callout callout--warning"><p>Не думайте, що 10 годин лише на цю частину зроблять вас переможцем хакатону. Діє правило 80/20 <a class="tc" data-t="2158" href="https://youtu.be/DzSkA68cxso?t=2158s">35:58</a>.</p></aside>
+    <p>Bottom-up: за SOM береться ваша точка беззбитковості або беззбитковість ×2 — це ринок, на якому бізнес не помре. Далі йдемо до ринків, куди можна масштабуватись (їх може бути кілька), і вже відштовхуючись від цього рахуємо TAM. Три числа синхронізуємо між собою <a class="tc" data-t="2188" href="https://youtu.be/DzSkA68cxso?t=2188s">36:28</a><a class="tc" data-t="2218" href="https://youtu.be/DzSkA68cxso?t=2218s">36:58</a>.</p>
+  </section>
+
+  <section id="value">
+    <h2>Value theory: люди помножити на ціну <a class="tc" data-t="2251" href="https://youtu.be/DzSkA68cxso?t=2251s">37:31</a></h2>
+    <p>Останній підхід лектор вважає найближчим до правди, бо решта — це ваші прикидки. Формула проста: кількість людей, які готові купити продукт, помножена на його ціну <a class="tc" data-t="2251" href="https://youtu.be/DzSkA68cxso?t=2251s">37:31</a>.</p>
+    <p>Він виводить із абстрактних розмов про обсяг ринку до бізнес-моделі. Можна залучити мільйон користувачів по долару, а можна мати сто бізнесів, які платять по 10 000 доларів. Приклад другого — Palantir, що працює з урядами й мілітарі-тех, у вузькій ніші <a class="tc" data-t="2281" href="https://youtu.be/DzSkA68cxso?t=2281s">38:01</a><a class="tc" data-t="2378" href="https://youtu.be/DzSkA68cxso?t=2378s">39:38</a>.</p>
+    <p>Підсумок: обираємо кілька ніш, дивимось на обсяг кожної, звужуємо за проблемою. Будуєте perp DEX — не беріть увесь обсяг ф'ючерсів; торгового бота — не беріть Web2-хедж-фонди; програму лояльності — не беріть глобальний ринок (там Японія й United займуть величезну частку, нерелевантну вам) <a class="tc" data-t="2419" href="https://youtu.be/DzSkA68cxso?t=2419s">40:19</a><a class="tc" data-t="2449" href="https://youtu.be/DzSkA68cxso?t=2449s">40:49</a>. Якщо проєкт на Європу — рахуйте Європу, а не світ <a class="tc" data-t="2449" href="https://youtu.be/DzSkA68cxso?t=2449s">40:49</a>.</p>
+    <aside class="callout callout--warning"><p>Не роздувайте цифри. Лектор розповідає, що в одного фонду був внутрішній жарт про найбільше число в пітчдеку за рік — це було 160 трильйонів у якогось стартапу <a class="tc" data-t="2507" href="https://youtu.be/DzSkA68cxso?t=2507s">41:47</a>.</p></aside>
+  </section>
+
+  <section id="metrics">
+    <h2>Метрики й бізнес-модель <a class="tc" data-t="2555" href="https://youtu.be/DzSkA68cxso?t=2555s">42:35</a></h2>
+    <p>Якщо спростити стартап до цифр, головних метрик дві: дохід на користувача чи клієнта (ARPU або ARPC) і вартість залучення (customer або user acquisition cost). Інвестори на середній і пізній стадії питатимуть про фінансову модель, маржинальність і CAC <a class="tc" data-t="2555" href="https://youtu.be/DzSkA68cxso?t=2555s">42:35</a><a class="tc" data-t="2612" href="https://youtu.be/DzSkA68cxso?t=2612s">43:32</a>.</p>
+    <p>Після аналізу ринку треба усвідомити, що з цими користувачами й конкурентами ви будете прибутковими в обраному форматі <a class="tc" data-t="2627" href="https://youtu.be/DzSkA68cxso?t=2627s">43:47</a>. Приклад: стартап, що хотів будувати платформу для залучення інвестицій і брати 40% комісії. Стартапу, який шукає 10 тисяч, дають інвесторів на 10 тисяч і забирають 4 тисячі — таке ніхто не купить. Але ці 40% були потрібні, щоб команда не була збитковою. Лектор підказав їм, що будувати це не варто <a class="tc" data-t="2671" href="https://youtu.be/DzSkA68cxso?t=2671s">44:31</a><a class="tc" data-t="2713" href="https://youtu.be/DzSkA68cxso?t=2713s">45:13</a>.</p>
+    <p>У Web3 ключові: користувачі, вартість залучення одного, скільки він приносить за життя (lifetime value, метрика трохи інша), і як швидко ви дійдете до беззбитковості <a class="tc" data-t="2750" href="https://youtu.be/DzSkA68cxso?t=2750s">45:50</a>. Дивитись на це треба на початку: багато хто придумує ідею, не дивиться на фінанси, витрачає місяць і починає заново <a class="tc" data-t="2786" href="https://youtu.be/DzSkA68cxso?t=2786s">46:26</a>.</p>
+    <aside class="callout callout--tip"><p>Якщо за 10 доларів ви можете зекономити комусь 15 — економте. Лише слідкуйте, щоб це не було демпінгом: великі гравці цього не люблять. Якщо ж це «овер-прайс», вас ніхто не покарає <a class="tc" data-t="2786" href="https://youtu.be/DzSkA68cxso?t=2786s">46:26</a><a class="tc" data-t="2884" href="https://youtu.be/DzSkA68cxso?t=2884s">48:04</a>.</p></aside>
+    <aside class="callout callout--warning"><p>Вартість залучення користувача не має перевищувати гроші, які ви з нього отримуєте. Якщо бізнес-модель не сходиться, це нікому не потрібно — хіба що ви громадська організація з грошима від держави <a class="tc" data-t="3176" href="https://youtu.be/DzSkA68cxso?t=3176s">52:56</a>.</p></aside>
+  </section>
+
+  <section id="recap">
+    <h2>Підсумок: п'ять правил <a class="tc" data-t="2924" href="https://youtu.be/DzSkA68cxso?t=2924s">48:44</a></h2>
+    <p>Лектор ще раз проходить головне.</p>
+    <ol>
+    <li>Ви не можете бути першими. Два лаунчпади, з якими він працював, писали про себе «ми другі найкращі» — і на це зверталась увага. Чи спрацює це у вас — інше питання <a class="tc" data-t="2924" href="https://youtu.be/DzSkA68cxso?t=2924s">48:44</a><a class="tc" data-t="2939" href="https://youtu.be/DzSkA68cxso?t=2939s">48:59</a>.</li>
+    <li>Не можна бути кращими за всіх у всьому: починають ставити занадто багато питань, і ви ламаєте або бізнес-модель, або позиціонування, або неправильно трактуєте факти чи регуляцію <a class="tc" data-t="2939" href="https://youtu.be/DzSkA68cxso?t=2939s">48:59</a>.</li>
+    <li>Бути таким, яким ви є, з конкретними унікальними пропозиціями. Не будувати декартову площину <a class="tc" data-t="3009" href="https://youtu.be/DzSkA68cxso?t=3009s">50:09</a>.</li>
+    <li>Таблиця на шість блоків: три ніші, з одного боку конкуренти, з іншого — чим ви кращі. Навіть чернетка буде кращою за більшість конкурентних аналізів, які лектор бачить у пітчдеках <a class="tc" data-t="3026" href="https://youtu.be/DzSkA68cxso?t=3026s">50:26</a>.</li>
+    <li>Ринок: SAM і SOM можна порахувати просто — 5% від 5%, або як «15% користувачів у категорії страждають від проблеми» <a class="tc" data-t="3074" href="https://youtu.be/DzSkA68cxso?t=3074s">51:14</a>.</li>
+    </ol>
+  </section>
+
+  <section id="research">
+    <h2>Власний ресерч <a class="tc" data-t="3098" href="https://youtu.be/DzSkA68cxso?t=3098s">51:38</a></h2>
+    <p>Краще мати хорошу проблему з десятьма тисячами користувачів, ніж жодних проблем із двома. Пропускна здатність інфраструктури — питання до розробників, зараз важливо, як онбордити цих людей <a class="tc" data-t="3098" href="https://youtu.be/DzSkA68cxso?t=3098s">51:38</a>.</p>
+    <p>Пам'ятайте про ціну: якщо всі готові купити за долар, це не означає, що стільки ж купить за п'ять. Щоб це зрозуміти, потрібен ideal customer profile — про нього наступний воркшоп про go-to-market <a class="tc" data-t="3124" href="https://youtu.be/DzSkA68cxso?t=3124s">52:04</a><a class="tc" data-t="3176" href="https://youtu.be/DzSkA68cxso?t=3176s">52:56</a>.</p>
+    <p>Робіть власний ресерч: фреймворк — лише каркас, а артефакт, зручний для вас, складаєте самі. П'яти хвилин зазвичай недостатньо: подивіться крипторесурси, погугліть, спитайте в AI, спитайте в чаті наставників <a class="tc" data-t="3231" href="https://youtu.be/DzSkA68cxso?t=3231s">53:51</a>.</p>
+    <aside class="callout callout--warning"><p>Не пишіть у пітчдеку загальний TVL усього DeFi. Це комбінація DEX, lending і різних блокчейнів. Виберіть на DefiLlama категорію свого типу продукту й звузьте реальний ринок <a class="tc" data-t="3300" href="https://youtu.be/DzSkA68cxso?t=3300s">55:00</a>. Інвестори й так можуть це перевірити, а вам цю цифру доведеться постійно оновлювати <a class="tc" data-t="3341" href="https://youtu.be/DzSkA68cxso?t=3341s">55:41</a>.</p></aside>
+    <p>І робіть те, що любите: якщо продукт вам не подобається і ви будуєте його лише заради грошей, вас надовго не вистачить <a class="tc" data-t="3341" href="https://youtu.be/DzSkA68cxso?t=3341s">55:41</a>.</p>
+  </section>
+
+  <section id="people">
+    <h2>Спілкуйтеся з людьми <a class="tc" data-t="3394" href="https://youtu.be/DzSkA68cxso?t=3394s">56:34</a></h2>
+    <p>Люди мають тенденцію відповідати на питання, навіть коли здається, що вони зайняті <a class="tc" data-t="3394" href="https://youtu.be/DzSkA68cxso?t=3394s">56:34</a>. Шанс отримати відповідь найвищий, якщо постукати в офіс, трохи нижчий — на івенті, і найнижчий — після короткого листа на знайдену пошту без нагадування.</p>
+    <p>Шукайте, де конверсія фідбеку висока, і людей, які щось знають і готові допомагати. І наприкінці: мрійте, будуйте і повторюйте — з першого разу, ймовірно, не вийде <a class="tc" data-t="3436" href="https://youtu.be/DzSkA68cxso?t=3436s">57:16</a>.</p>
+  </section>
+
+  <section id="qa-quests">
+    <h2>Питання: чи втомилися від квестів <a class="tc" data-t="3476" href="https://youtu.be/DzSkA68cxso?t=3476s">57:56</a></h2>
+    <p>Слухач зауважив, що платформи квестів на кшталт Galxe добре працюють і з великими, і з малими нагородами, тож чому лектор каже, що люди від квестів втомились <a class="tc" data-t="3476" href="https://youtu.be/DzSkA68cxso?t=3476s">57:56</a>.</p>
+    <p>Відповідь: якщо ви будуєте інфраструктуру для таких платформ, її використовуватимуть, і ви зможете онбордити клієнтів. Але «втомились» — це про те, коли за чотири години ти лише підписуєшся на Twitter, заходиш у Discord і робиш одну транзакцію, і так по колу. Спільноти це не будує, конверсія нижча, ніж у креативніших активацій <a class="tc" data-t="3530" href="https://youtu.be/DzSkA68cxso?t=3530s">58:50</a>. Які саме — питання до вашого продукту; комусь підходять турніри, комусь prediction markets, де юзер хеджує свою активність <a class="tc" data-t="3530" href="https://youtu.be/DzSkA68cxso?t=3530s">58:50</a><a class="tc" data-t="3598" href="https://youtu.be/DzSkA68cxso?t=3598s">59:58</a>.</p>
+  </section>
+
+  <section id="qa-jurisdiction">
+    <h2>Питання: де відкрити компанію, якщо клієнти платять стейблами <a class="tc" data-t="3685" href="https://youtu.be/DzSkA68cxso?t=3685s">1:01:25</a></h2>
+    <p>Є два варіанти. Перший: підключити on-ramp провайдера, який переказуватиме вам гроші у звичній валюті (наприклад, на доларовий рахунок) і обробляє всі платежі. Тоді юрисдикція головного офісу майже не важлива, різниця лише в податках і, в Україні, у коді КВЕД <a class="tc" data-t="3685" href="https://youtu.be/DzSkA68cxso?t=3685s">1:01:25</a><a class="tc" data-t="3745" href="https://youtu.be/DzSkA68cxso?t=3745s">1:02:25</a>.</p>
+    <p>Другий: самим отримувати крипту. Історично в Європі для цього була Естонія — там зареєстровано багато українських компаній. Крім того, у багатьох країнах можна мати власний VASP; класичні варіанти — Британські Віргінські острови, Кайманові (популярні для венчурних фондів), Сейшели (частково для хедж-фондів), Гонконг, якщо працюєте на Азію, але там потрібні ліцензії <a class="tc" data-t="3745" href="https://youtu.be/DzSkA68cxso?t=3745s">1:02:25</a><a class="tc" data-t="3824" href="https://youtu.be/DzSkA68cxso?t=3824s">1:03:44</a>.</p>
+    <p>Часто юрисдикцію диктує лід-інвестор: якщо всі його гроші на Кайманах, ви відкриваєте компанію там, і він переказує кошти внутрішньобанківським платежем <a class="tc" data-t="3824" href="https://youtu.be/DzSkA68cxso?t=3824s">1:03:44</a>. Порада: вирішувати це за кілька місяців до відкриття компанії, дивлячись на оновлення регуляції в регіоні, де плануєте працювати <a class="tc" data-t="3824" href="https://youtu.be/DzSkA68cxso?t=3824s">1:03:44</a>.</p>
+    <aside class="callout callout--tip"><p>MiCA — це європейський регламент, який описує, як бізнесам працювати з криптоактивами. Він діє на весь ЄС, а кожна країна може вносити локальні правки <a class="tc" data-t="3966" href="https://youtu.be/DzSkA68cxso?t=3966s">1:06:06</a>.</p></aside>
+    <aside class="callout callout--warning"><p>Лектор сам називає тему дуже широкою й не дає юридичної поради; деталі залежать від типу діяльності та регіону <a class="tc" data-t="3824" href="https://youtu.be/DzSkA68cxso?t=3824s">1:03:44</a>.</p></aside>
+  </section>
+
+  <section id="qa-indirect">
+    <h2>Питання: чи враховувати непрямих конкурентів <a class="tc" data-t="4002" href="https://youtu.be/DzSkA68cxso?t=4002s">1:06:42</a></h2>
+    <p>Так, за суб'єктивною думкою лектора, варто <a class="tc" data-t="4032" href="https://youtu.be/DzSkA68cxso?t=4032s">1:07:12</a>. Приклад: ви будували централізовану біржу, зрозуміли, що це складно, і вирішили розвернутись у платіжку. Платіжка була непрямим конкурентом, а тепер стала прямим <a class="tc" data-t="4057" href="https://youtu.be/DzSkA68cxso?t=4057s">1:07:37</a>. Непрямі конкуренти корисні, щоб побачити, що ви кращі за них, і, можливо, пізніше розвернутись у їхню нішу; вони також займають частину ринку <a class="tc" data-t="4057" href="https://youtu.be/DzSkA68cxso?t=4057s">1:07:37</a>.</p>
+    <p>Інший приклад — агрегатор кіберспортивної інформації поверх Polymarket: HLTV для нього радше джерело даних, але водночас і непрямий конкурент. Лектор сам зауважує, що приклад не ідеальний <a class="tc" data-t="4126" href="https://youtu.be/DzSkA68cxso?t=4126s">1:08:46</a>.</p>
+    <aside class="callout callout--warning"><p>Не варто залізати надто глибоко. За п'ять років у кожного буде власний вайбкодений застосунок, аналізувати тисячу конкурентів нудно й складно. Витрачати на це три повні робочі дні не треба <a class="tc" data-t="4126" href="https://youtu.be/DzSkA68cxso?t=4126s">1:08:46</a><a class="tc" data-t="4167" href="https://youtu.be/DzSkA68cxso?t=4167s">1:09:27</a>.</p></aside>
+  </section>
+
+  <section id="tools">
+    <h2>Ресурси з лекції</h2>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Інструмент</th><th>Для чого радить лектор</th><th>Таймкод</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="https://cryptorank.io/" target="_blank" rel="noopener">Cryptorank</a></td><td>Фільтрація проєктів за наративами, щоб знайти конкурентів у ніші.</td><td><a class="tc" data-t="1283" href="https://youtu.be/DzSkA68cxso?t=1283s">21:23</a></td></tr>
+        <tr><td><a href="https://coinmarketcap.com/" target="_blank" rel="noopener">CoinMarketCap</a></td><td>Знайти стартапи, відфільтровані за нішею, і вже великих гравців у ній.</td><td><a class="tc" data-t="1283" href="https://youtu.be/DzSkA68cxso?t=1283s">21:23</a></td></tr>
+        <tr><td><a href="https://claude.com/" target="_blank" rel="noopener">Claude</a> і <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a></td><td>Підказати можливих конкурентів у ніші — разом із Google.</td><td><a class="tc" data-t="1283" href="https://youtu.be/DzSkA68cxso?t=1283s">21:23</a></td></tr>
+        <tr><td><a href="https://defillama.com/" target="_blank" rel="noopener">DefiLlama</a></td><td>Обрати категорію свого типу продукту й звузити реальний ринок, замість загального TVL усього DeFi.</td><td><a class="tc" data-t="3300" href="https://youtu.be/DzSkA68cxso?t=3300s">55:00</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="homework" class="homework">
+    <h2>Повторити самостійно</h2>
+    <ol>
+      <li>Домашнє завдання було дано наприкінці. Для кожного свого проєкту оберіть одну, дві чи три ніші, подивіться, хто там ваші конкуренти, і виберіть по три в кожній. Якщо ніша лише одна — дивіться не три, а п'ять-шість конкурентів. Потім проаналізуйте ринок і зробіть просту модельку SAM–SOM. Опишіть, чому зараз саме той момент, щоб вийти на цей ринок <a class="tc" data-t="4204" href="https://youtu.be/DzSkA68cxso?t=4204s">1:10:04</a><a class="tc" data-t="4236" href="https://youtu.be/DzSkA68cxso?t=4236s">1:10:36</a>.</li>
+      <li>Відповідь на «чому зараз»: подумайте, чому раніше це не вдавалось або було нерелевантним. Приклад лектора — крипткартка: Mastercard робить свою зараз, а у 2021-му це було передчасно <a class="tc" data-t="4271" href="https://youtu.be/DzSkA68cxso?t=4271s">1:11:11</a>.</li>
+      <li>Складіть для себе таблицю: дві-три ніші, три гравці в кожній, і навпроти — чим ви кращі <a class="tc" data-t="1603" href="https://youtu.be/DzSkA68cxso?t=1603s">26:43</a>. Лектор пообіцяв ще раз продублювати в чаті таблицю й список аспектів аналізу конкурента <a class="tc" data-t="4300" href="https://youtu.be/DzSkA68cxso?t=4300s">1:11:40</a>.</li>
+      <li>Для кожної переваги перевірте, чи не ламає вона щось в іншому місці: маржу, джерело APY, регуляцію <a class="tc" data-t="862" href="https://youtu.be/DzSkA68cxso?t=862s">14:22</a>.</li>
+      <li>Порахуйте ринок двома способами: зверху вниз (TAM, SAM, SOM) і знизу вгору, від точки беззбитковості. Потім звірте з «кількість покупців × ціна» <a class="tc" data-t="2188" href="https://youtu.be/DzSkA68cxso?t=2188s">36:28</a><a class="tc" data-t="2251" href="https://youtu.be/DzSkA68cxso?t=2251s">37:31</a>.</li>
+      <li>Випишіть ARPU і вартість залучення користувача та перевірте, що друге не більше за перше <a class="tc" data-t="3176" href="https://youtu.be/DzSkA68cxso?t=3176s">52:56</a>.</li>
+      <li>Знайдіть на DefiLlama свою категорію, замість загального TVL <a class="tc" data-t="3300" href="https://youtu.be/DzSkA68cxso?t=3300s">55:00</a>.</li>
+      <li>Напишіть кільком людям із ніші, а краще зустріньтесь на івенті чи зайдіть в офіс <a class="tc" data-t="3394" href="https://youtu.be/DzSkA68cxso?t=3394s">56:34</a>.</li>
+    </ol>
+  </section>
+
+  <section id="checklist" class="checklist">
+    <h2>Коротко: чекліст</h2>
+    <ol>
+      <li>Ви не перші: готуйте відповідь, чому раніше не вийшло або чому зараз саме час.</li>
+      <li>«Краще в усьому» викликає недовіру; кожне поліпшення має ціну в іншому місці.</li>
+      <li>Знижка комісій — це демпінг, який програє великим гравцям.</li>
+      <li>Слайд про конкурентів — без величезної таблиці галочок і без декартової площини.</li>
+      <li>Для себе: дві-три ніші, три гравці в кожній, і чим ви кращі.</li>
+      <li>Не порівнюйте себе з очевидним монополістом ніші.</li>
+      <li>Порядок аргументів: команда, маркетинг і дистрибуція, UX/UI, і лише потім функції.</li>
+      <li>TAM — не весь ринок категорії: звужуйте до тих, кого ви справді таргетуєте.</li>
+      <li>SAM — частина, для якої ви вирішуєте конкретну проблему; SOM — те, що реально взяти за перший рік.</li>
+      <li>Додайте розрахунок «кількість покупців × ціна» — він найближчий до правди.</li>
+      <li>Дивіться на ARPU і вартість залучення ще до того, як витратите місяць на ідею.</li>
+      <li>Не пишіть загальний TVL DeFi — беріть категорію свого продукту.</li>
+      <li>Непрямих конкурентів врахуйте, але без глибокого занурення.</li>
+      <li>Питайте людей: особиста зустріч дає найбільшу конверсію фідбеку.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Джерело: <a href="https://youtu.be/DzSkA68cxso">запис лекції «SST - Idea Generation - Nick» на YouTube</a> — Solana Startup Terminal, весняний потік 2026, опубліковано 18.03.2026.</p>
+  <p>Конспект зроблено на основі машинної розшифровки запису; формулювання лектора передано близько до сказаного. Назви інструментів у розшифровці часто спотворені — їх відновлено за контекстом.</p>
+  <p>Концепт сторінки — Alex, учасник програми.</p>
+</footer>
+
+</body>
+</html>

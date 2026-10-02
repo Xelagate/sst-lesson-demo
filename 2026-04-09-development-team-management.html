@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ролі, процеси й фінанси стартапу — конспект</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #001020;
+    --surface: #061b30;
+    --blue: #0367c8;
+    --light-blue: #8cc6ff;
+    --yellow: #ffea00;
+    --text: #d2dfec;
+    --muted: #a6bbcf;
+    --line: #274057;
+    font-family: "Manrope", sans-serif;
+    background: var(--page);
+    color: var(--text);
+    font-synthesis: none;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    width: min(1240px, calc(100% - 64px));
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+  }
+  ::selection { color: var(--page); background: var(--light-blue); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 5px; }
+  a { color: var(--light-blue); text-underline-offset: .22em; }
+  a:hover { color: #fff; }
+  h1, h2 { font-family: "Unbounded", sans-serif; color: #f6f9ff; font-weight: 600; }
+  p { margin: 0 0 1.25em; }
+  strong { color: #f3f7fc; font-weight: 800; }
+
+  .lesson-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 0 0 18px; font-size: 13px; }
+  .lesson-nav a { color: var(--light-blue); text-decoration: none; }
+  .lesson-nav a:hover { text-decoration: underline; }
+  .lesson-nav a[aria-current] { color: var(--muted); pointer-events: none; }
+  .concept-note {
+    position: relative;
+    padding: 22px 0 22px 22px;
+    color: #b9cadb;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .concept-note::before {
+    content: "";
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+
+  /* A perforated lesson ticket, with no invented ticket data. */
+  .lesson-hero {
+    --inset: clamp(24px, 4.2vw, 56px);
+    padding: var(--inset);
+    border: 1px solid #294967;
+    border-radius: 36px;
+    background: #00203f;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--light-blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .035em;
+  }
+  .eyebrow::before {
+    content: "";
+    flex: 0 0 24px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--yellow);
+  }
+  .lesson-hero h1 {
+    max-width: 1080px;
+    margin: 0 0 24px;
+    font-size: clamp(28px, 4.1vw, 54px);
+    line-height: 1.22;
+    letter-spacing: -.04em;
+    text-wrap: balance;
+  }
+  .lead { max-width: 80ch; margin: 0; color: #bdcfe1; font-size: 16px; line-height: 1.75; }
+  .lesson-meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 32px calc(-1 * var(--inset)) calc(-1 * var(--inset));
+    padding: 22px var(--inset) 26px;
+    border-top: 1px dashed #53718c;
+    list-style: none;
+  }
+  .lesson-meta::before, .lesson-meta::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #294967;
+    border-radius: 50%;
+    background: var(--page);
+  }
+  .lesson-meta::before { left: -11px; border-left-color: transparent; }
+  .lesson-meta::after { right: -11px; border-right-color: transparent; }
+  .lesson-meta li {
+    padding: 6px 14px;
+    border: 1px solid #36536d;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .lesson-meta li:first-child { background: #0b3155; color: #fff; }
+  .lesson-meta li:last-child { color: var(--yellow); }
+
+  .lesson-media { display: grid; gap: 24px; margin-top: 24px; }
+  .player {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    align-self: start;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #000c18;
+    scroll-margin-top: 24px;
+  }
+  .player > div, .player iframe {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .chapters {
+    min-width: 0;
+    padding: 24px 12px 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+  .chapters h2 { margin: 0 12px 17px 0; font-size: 15px; line-height: 1.5; }
+  .chapters ol {
+    max-height: 360px;
+    margin: 0;
+    padding: 0 10px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-gutter: stable;
+  }
+  .chapters li {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 10px 2px;
+    border-top: 1px solid #1e354b;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .chapters li:first-child { border-top: 0; padding-top: 4px; }
+  .chapters li span { padding-top: 5px; }
+  .chapters li:focus-within span, .chapters li:hover span { color: #fff; }
+  .chapters .tc { width: 70px; justify-content: center; min-height: 30px; font-size: 11px; }
+  .chapters ol, .table-scroll { scrollbar-width: thin; scrollbar-color: #587b9b #061b30; }
+
+  .tc {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 9px;
+    border: 1px solid #34546f;
+    border-radius: 100px;
+    background: #092741;
+    color: var(--light-blue);
+    font-family: "Manrope", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+    letter-spacing: .015em;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background-color .16s, color .16s, border-color .16s, box-shadow .16s;
+  }
+  .tc:hover, .tc:focus-visible {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    color: var(--page);
+    box-shadow: 0 4px 18px rgb(255 234 0 / 16%);
+  }
+
+  .summary { width: 70ch; max-width: 100%; margin: 72px auto 0; }
+  .summary > section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .summary h2 {
+    margin: 0 0 25px;
+    font-size: clamp(21px, 2.25vw, 27px);
+    line-height: 1.45;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+  .summary h2 .tc { margin: 0 0 3px 4px; }
+  .summary ul, .summary ol { margin: 20px 0 26px; padding-left: 26px; }
+  .summary li { padding-left: 6px; margin: 12px 0; }
+  .summary li::marker { color: var(--light-blue); font-weight: 700; }
+  .summary section > :last-child { margin-bottom: 0; }
+
+  .quote {
+    margin: 32px 0;
+    padding: 7px 0 7px 25px;
+    border-left: 3px solid var(--yellow);
+    color: #f1f6fc;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.65;
+  }
+  .quote p { margin: 0; }
+  .callout {
+    --callout-accent: var(--light-blue);
+    margin: 28px 0;
+    padding: 22px 24px;
+    border: 1px solid #2f506f;
+    border-left: 3px solid var(--callout-accent);
+    border-radius: 0 18px 18px 0;
+    background: #09243e;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .callout p { margin: 0; }
+  .callout--tip { --callout-accent: #b9d4e9; border-color: #344b5d; border-left-color: var(--callout-accent); background: #112536; }
+  .callout--warning { --callout-accent: var(--yellow); border-color: #514d2c; border-left-color: var(--callout-accent); background: #242719; color: #e5e3cb; }
+  .summary > .callout--info {
+    margin-top: 0;
+    padding: 28px 30px;
+    border-left-width: 1px;
+    border-top: 3px solid var(--blue);
+    border-radius: 20px;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    margin: 28px 0;
+    overflow-x: auto;
+    border: 1px solid #34506b;
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th, td { padding: 17px 18px; text-align: left; vertical-align: top; }
+  th { border-bottom: 1px solid #3b5a77; background: #103351; color: #eef6ff; font-weight: 800; }
+  td { border-bottom: 1px solid #294158; }
+  th + th, td + td { border-left: 1px solid #294158; }
+  tbody tr:nth-child(even) { background: #0a2136; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { color: #eef5ff; font-weight: 600; }
+  td .tc { margin-top: 4px; }
+  #pain-sources td:nth-child(2), #pain-criteria td:nth-child(2) { min-width: 145px; }
+  #radar td:first-child, #scoring td:first-child { min-width: 145px; }
+
+  .summary > .homework {
+    margin-top: 64px;
+    padding: 32px;
+    border: 1px solid #365b7d;
+    border-top: 3px solid var(--light-blue);
+    border-radius: 24px;
+    background: #00203f;
+  }
+  .homework ol { margin: 0; padding-left: 24px; }
+  .homework li { margin: 0; padding: 18px 0 18px 8px; border-bottom: 1px dashed #3a5470; font-size: 16px; }
+  .homework li:first-child { padding-top: 0; }
+  .homework li:last-child { border: 0; padding-bottom: 0; }
+  .homework li::marker { color: var(--yellow); }
+  .summary > .checklist { margin-top: 40px; padding-top: 36px; border-top-style: dashed; }
+  .checklist ol { list-style: none; padding: 0; margin-bottom: 0; }
+  .checklist li { position: relative; margin: 0; padding: 15px 0 15px 32px; border-bottom: 1px solid #1e354b; font-size: 16px; }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 4px;
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid var(--light-blue);
+    border-bottom: 2px solid var(--light-blue);
+    transform: rotate(-45deg);
+  }
+  .page-footer {
+    width: 70ch;
+    max-width: 100%;
+    margin: 64px auto 0;
+    padding: 32px 0 40px;
+    border-top: 1px dashed #3a5470;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .page-footer p { margin: 0 0 14px; font-size: 12px; line-height: 1.8; }
+  .page-footer p:last-child { margin-top: 28px; margin-bottom: 0; color: #cedcea; }
+
+  @media (min-width: 1050px) {
+    .lesson-media { grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr); align-items: stretch; }
+    .chapters { position: relative; min-height: 0; }
+    .chapters ol { position: absolute; inset: 65px 12px 14px 24px; max-height: none; }
+  }
+  @media (min-width: 700px) and (max-width: 1049px) {
+    .chapters ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  }
+  @media (max-width: 599px) {
+    body { width: calc(100% - 32px); font-size: 16px; }
+    .concept-note { padding-top: 17px; padding-bottom: 17px; font-size: 11px; }
+    .concept-note::before { top: 23px; }
+    .lesson-hero { --inset: 22px; border-radius: 24px; }
+    .eyebrow { gap: 9px; font-size: 11px; letter-spacing: 0; margin-bottom: 20px; }
+    .eyebrow::before { flex-basis: 16px; }
+    .lesson-hero h1 { font-size: clamp(25px, 6.9vw, 39px); line-height: 1.3; letter-spacing: -.035em; }
+    .lead { font-size: 14px; }
+    .lesson-meta { gap: 8px; margin-top: 24px; padding-top: 18px; padding-bottom: 20px; }
+    .lesson-meta li { padding: 5px 10px; font-size: 11px; }
+    .lesson-media { gap: 16px; margin-top: 16px; }
+    .player { border-radius: 16px; scroll-margin-top: 16px; }
+    .chapters { padding-left: 18px; border-radius: 20px; }
+    .chapters ol { max-height: 340px; }
+    .summary { margin-top: 44px; }
+    .summary > section { margin-top: 40px; padding-top: 26px; }
+    .summary h2 { font-size: 20px; line-height: 1.5; }
+    .summary > .callout--info, .callout { padding: 19px 20px; font-size: 14px; }
+    .quote { margin: 26px 0; padding-left: 19px; font-size: 19px; }
+    .summary > .homework { padding: 24px 20px; border-radius: 20px; }
+    .homework li, .checklist li { font-size: 15px; }
+    .page-footer { margin-top: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('player');
+    let player;
+    let ready = false;
+
+    // Native links remain usable while the API loads, or if embedding fails.
+    document.querySelectorAll('a.tc').forEach(link => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+    document.querySelectorAll('.table-scroll').forEach(wrapper => {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', wrapper.closest('section').querySelector('h2').textContent.trim());
+    });
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a.tc');
+      if (!link || !ready || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const seconds = Number(link.dataset.t);
+      if (!Number.isFinite(seconds)) return;
+      try {
+        player.seekTo(seconds, true);
+        player.playVideo();
+      } catch {
+        ready = false;
+        return;
+      }
+      event.preventDefault();
+      container.scrollIntoView({
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+
+    window.onYouTubeIframeAPIReady = () => {
+      // Keep #player intact: YouTube replaces only this inner mount.
+      const mount = document.createElement('div');
+      container.append(mount);
+      player = new YT.Player(mount, {
+        videoId: container.dataset.videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: { playsinline: 1, rel: 0 },
+        events: {
+          onReady: event => {
+            ready = true;
+            event.target.getIframe().title = document.querySelector('h1').textContent;
+          },
+          onError: () => { ready = false; }
+        }
+      });
+    };
+    const api = document.createElement('script');
+    api.src = 'https://www.youtube.com/iframe_api';
+    api.async = true;
+    api.onerror = () => { ready = false; };
+    document.head.append(api);
+  });
+</script>
+</head>
+<body>
+
+<aside class="concept-note">Неофіційний концепт: так могла б виглядати сторінка уроку Startup Terminal. Це не сторінка Superteam Ukraine — її зробив Alex, учасник програми.</aside>
+
+<nav class="lesson-nav" aria-label="Уроки">
+  <a href="2026-08-26-idea-gen-nick.html">Idea Gen, Нік · 26.08</a>
+  <a href="index.html">Idea Generation, Діма · 27.08</a>
+  <a href="2026-09-08-validation-idea.html">Validation · 08.09</a>
+  <a href="2026-09-15-value-proposition.html">Value proposition · 15.09</a>
+  <a href="2026-09-22-gtm-nick.html">GTM · 22.09</a>
+  <a href="2026-09-24-marketing.html">Marketing · 24.09</a>
+  <a href="2026-09-29-ai-in-project-building.html">AI у побудові проєкту · 29.09</a>
+  <a href="2026-03-18-idea-generation-nick.html">Весна: Idea Generation</a>
+  <a href="2026-03-25-market-research.html">Весна: Market Research</a>
+  <a href="2026-04-08-gtm-structuring-dima.html">Весна: GTM Structuring</a>
+  <a href="2026-04-09-development-team-management.html" aria-current="page">Весна: Development і команда</a>
+  <a href="2026-04-15-marketing-team-management.html">Весна: Marketing team</a>
+  <a href="2026-04-17-vc-fundraising.html">Весна: VC і Fundraising</a>
+</nav>
+
+<header class="lesson-hero">
+  <p class="eyebrow">Solana Startup Terminal · весняний потік 2026</p>
+  <h1>Процес розробки стартапу: ролі в маленькій команді, lean-дашборд і фінмодель</h1>
+  <p class="lead">Оглядова лекція на високому рівні, для тих, хто не вчив економіку. Нік пояснює, як розподілити ролі в команді з одного-чотирьох людей і не виглядати дивно для інвесторів, як тримати стартап під контролем через lean-дашборд і як порахувати базову фінансову модель та юніт-економіку. Головна ідея: ідея має приносити більше, ніж коштує, а для цього треба рахувати всі витрати й пам'ятати, що користувачі йдуть.</p>
+  <ul class="lesson-meta">
+    <li>Лектор: Нік</li>
+    <li>опубліковано 09.04.2026</li>
+    <li>75 хв</li>
+  </ul>
+</header>
+
+<div class="lesson-media"><div class="player" id="player" data-video-id="ieuOmY-6LCs"></div>
+
+<nav class="chapters" aria-label="Розділи відео">
+  <h2>Розділи відео</h2>
+  <ol>
+    <li><a class="tc" data-t="3" href="https://youtu.be/ieuOmY-6LCs?t=3s">0:03</a> <span>Про що лекція і чому її поставили зараз</span></li>
+    <li><a class="tc" data-t="138" href="https://youtu.be/ieuOmY-6LCs?t=138s">2:18</a> <span>Три теми: ролі, процеси, фінанси</span></li>
+    <li><a class="tc" data-t="194" href="https://youtu.be/ieuOmY-6LCs?t=194s">3:14</a> <span>Навіть команда з двох — це команда</span></li>
+    <li><a class="tc" data-t="289" href="https://youtu.be/ieuOmY-6LCs?t=289s">4:49</a> <span>Чому маленькій команді не потрібні C-level</span></li>
+    <li><a class="tc" data-t="411" href="https://youtu.be/ieuOmY-6LCs?t=411s">6:51</a> <span>Кофаундер — найкраща роль</span></li>
+    <li><a class="tc" data-t="448" href="https://youtu.be/ieuOmY-6LCs?t=448s">7:28</a> <span>CEO закриває всі прогалини</span></li>
+    <li><a class="tc" data-t="556" href="https://youtu.be/ieuOmY-6LCs?t=556s">9:16</a> <span>Be all in 1: фокус на двох із трьох</span></li>
+    <li><a class="tc" data-t="672" href="https://youtu.be/ieuOmY-6LCs?t=672s">11:12</a> <span>CEO мусить уміти говорити й продавати</span></li>
+    <li><a class="tc" data-t="784" href="https://youtu.be/ieuOmY-6LCs?t=784s">13:04</a> <span>Піч: структура, vision і перший крок</span></li>
+    <li><a class="tc" data-t="897" href="https://youtu.be/ieuOmY-6LCs?t=897s">14:57</a> <span>Стартап — не робота з 9 до 5</span></li>
+    <li><a class="tc" data-t="1020" href="https://youtu.be/ieuOmY-6LCs?t=1020s">17:00</a> <span>Agile, waterfall і lean</span></li>
+    <li><a class="tc" data-t="1290" href="https://youtu.be/ieuOmY-6LCs?t=1290s">21:30</a> <span>Дашборд ключових метрик</span></li>
+    <li><a class="tc" data-t="1427" href="https://youtu.be/ieuOmY-6LCs?t=1427s">23:47</a> <span>Коли робити твіттер, сайт і стратегію</span></li>
+    <li><a class="tc" data-t="1520" href="https://youtu.be/ieuOmY-6LCs?t=1520s">25:20</a> <span>Фандрейзинг: поки лише спойлер</span></li>
+    <li><a class="tc" data-t="1649" href="https://youtu.be/ieuOmY-6LCs?t=1649s">27:29</a> <span>Не всім потрібні всі елементи</span></li>
+    <li><a class="tc" data-t="1782" href="https://youtu.be/ieuOmY-6LCs?t=1782s">29:42</a> <span>Чому говоримо про монетизацію</span></li>
+    <li><a class="tc" data-t="1825" href="https://youtu.be/ieuOmY-6LCs?t=1825s">30:25</a> <span>PnL і юніт-економіка простими словами</span></li>
+    <li><a class="tc" data-t="2006" href="https://youtu.be/ieuOmY-6LCs?t=2006s">33:26</a> <span>ARPU проти CAC</span></li>
+    <li><a class="tc" data-t="2074" href="https://youtu.be/ieuOmY-6LCs?t=2074s">34:34</a> <span>3,3 економіка</span></li>
+    <li><a class="tc" data-t="2153" href="https://youtu.be/ieuOmY-6LCs?t=2153s">35:53</a> <span>Фінансова проєкція: виручка</span></li>
+    <li><a class="tc" data-t="2255" href="https://youtu.be/ieuOmY-6LCs?t=2255s">37:35</a> <span>Витрати: рахувати все</span></li>
+    <li><a class="tc" data-t="2415" href="https://youtu.be/ieuOmY-6LCs?t=2415s">40:15</a> <span>Ідея: оптимізація витрат на AI</span></li>
+    <li><a class="tc" data-t="2767" href="https://youtu.be/ieuOmY-6LCs?t=2767s">46:07</a> <span>Питання про ліміти AI і обхідні шляхи</span></li>
+    <li><a class="tc" data-t="2992" href="https://youtu.be/ieuOmY-6LCs?t=2992s">49:52</a> <span>Cashflow</span></li>
+    <li><a class="tc" data-t="3077" href="https://youtu.be/ieuOmY-6LCs?t=3077s">51:17</a> <span>Юніт-економіка: маржа і чиста маржа</span></li>
+    <li><a class="tc" data-t="3207" href="https://youtu.be/ieuOmY-6LCs?t=3207s">53:27</a> <span>Проєкції за обсягами й обґрунтований scaling</span></li>
+    <li><a class="tc" data-t="3369" href="https://youtu.be/ieuOmY-6LCs?t=3369s">56:09</a> <span>Підписки й комісії проти разових платежів</span></li>
+    <li><a class="tc" data-t="3628" href="https://youtu.be/ieuOmY-6LCs?t=3628s">1:00:28</a> <span>Churn rate</span></li>
+    <li><a class="tc" data-t="3752" href="https://youtu.be/ieuOmY-6LCs?t=3752s">1:02:32</a> <span>LTV до CAC</span></li>
+    <li><a class="tc" data-t="3919" href="https://youtu.be/ieuOmY-6LCs?t=3919s">1:05:19</a> <span>Приклад: хедж-фонд для бідних</span></li>
+    <li><a class="tc" data-t="3971" href="https://youtu.be/ieuOmY-6LCs?t=3971s">1:06:11</a> <span>Загальний flow і команда з агентів</span></li>
+    <li><a class="tc" data-t="4176" href="https://youtu.be/ieuOmY-6LCs?t=4176s">1:09:36</a> <span>Питання: GitBook, Notion, Netlify</span></li>
+    <li><a class="tc" data-t="4262" href="https://youtu.be/ieuOmY-6LCs?t=4262s">1:11:02</a> <span>Питання: міст для транзакцій</span></li>
+    <li><a class="tc" data-t="4402" href="https://youtu.be/ieuOmY-6LCs?t=4402s">1:13:22</a> <span>Підсумок: equity і roadmap</span></li>
+  </ol>
+</nav></div>
+
+<main class="summary">
+
+  <aside class="callout callout--info"><p><strong>Що в цьому уроці:</strong> які ролі лишати в команді з двох-трьох людей і чому C-level там зайві; що має вміти CEO; чим відрізняються agile, waterfall і lean та який дашборд варто зібрати; коли робити твіттер, сайт і маркетинг; PnL, фінансова проєкція, витрати й cashflow; юніт-економіка, ARPU, CAC, LTV і churn; чому підписки й комісії краще за разові платежі; ідея оптимізації витрат на AI; відповіді на питання учасників.</p></aside>
+
+  <section id="roles">
+    <h2>Ролі: навіщо маленькій команді C-level <a class="tc" data-t="289" href="https://youtu.be/ieuOmY-6LCs?t=289s">4:49</a></h2>
+    <p>У команду з трьох-чотирьох людей люблять додавати всіх «C-level»: CEO, CTO, CMO <a class="tc" data-t="289" href="https://youtu.be/ieuOmY-6LCs?t=289s">4:49</a>. Для стартапу це нічого не дає, а для малої команди навіть трохи мінус: виглядає дивно для тих, хто аналізує ваш проєкт. Єдине, що ця табличка робить, — підвищує его. Якщо дуже хочеться, позицію можна вказати в LinkedIn або в розмові <a class="tc" data-t="311" href="https://youtu.be/ieuOmY-6LCs?t=311s">5:11</a>.</p>
+    <p>Класичні ролі працюють так само добре: tech lead, co-developer, marketing lead, co-marketer, product owner <a class="tc" data-t="311" href="https://youtu.be/ieuOmY-6LCs?t=311s">5:11</a>. Product owner у команді з трьох теж виглядає дивно, але цього достатньо, щоб пояснити, чим ви займаєтесь <a class="tc" data-t="356" href="https://youtu.be/ieuOmY-6LCs?t=356s">5:56</a>. Єдину позицію з верхнього рівня, яку можна лишити на малому масштабі, — CEO. CTO має сенс, коли розробників більше двох, і він ідеально розуміє всю архітектуру <a class="tc" data-t="356" href="https://youtu.be/ieuOmY-6LCs?t=356s">5:56</a>.</p>
+    <p>Якщо вас двоє, формувати історію з CEO не варто: один product, інший tech lead, обидва кофаундери <a class="tc" data-t="356" href="https://youtu.be/ieuOmY-6LCs?t=356s">5:56</a>. Кофаундер — чудова роль, головне, щоб не було п'яти. В ідеалі двоє, в крайньому разі троє, коли між ними чітко розділені execution, BD, маркетинг із продуктом і розробка <a class="tc" data-t="411" href="https://youtu.be/ieuOmY-6LCs?t=411s">6:51</a>.</p>
+    <p>Прості правила: CEO виконує й закриває всі прогалини <a class="tc" data-t="448" href="https://youtu.be/ieuOmY-6LCs?t=448s">7:28</a>. Він може бути технічним, продуктовим чи маркетинговим CEO, тобто робить роботу CEO й ще трохи зверху. Якщо CEO розробник і координує команду та знає архітектуру, CTO не потрібен. Якщо CEO відповідає за маркетинг, не потрібен CMO <a class="tc" data-t="474" href="https://youtu.be/ieuOmY-6LCs?t=474s">7:54</a>. CTO стає релевантним лише за трьох і більше розробників, але й тоді сенсу мало <a class="tc" data-t="512" href="https://youtu.be/ieuOmY-6LCs?t=512s">8:32</a>.</p>
+    <aside class="callout callout--tip"><p>Ролі треба прописати так, щоб не виглядати дивно для суддів хакатону, потім для інвесторів і партнерів. Ті самі ролі потрапляють у документацію та на слайд із командою в пітчдеку <a class="tc" data-t="411" href="https://youtu.be/ieuOmY-6LCs?t=411s">6:51</a><a class="tc" data-t="448" href="https://youtu.be/ieuOmY-6LCs?t=448s">7:28</a>.</p></aside>
+    <p>Учасник запитав, чи є тут негласні правила. Нік відповів: це не правило, просто виглядає дивно, кожен виконує свою роль <a class="tc" data-t="537" href="https://youtu.be/ieuOmY-6LCs?t=537s">8:57</a><a class="tc" data-t="556" href="https://youtu.be/ieuOmY-6LCs?t=556s">9:16</a>.</p>
+  </section>
+
+  <section id="skillset">
+    <h2>Навички: фокус на двох із трьох <a class="tc" data-t="556" href="https://youtu.be/ieuOmY-6LCs?t=556s">9:16</a></h2>
+    <p>На бізнес-треку багато хто виконуватиме роль CEO, а розробники сидять на дев-треку. Для малих команд основне правило — «be all in 1» <a class="tc" data-t="556" href="https://youtu.be/ieuOmY-6LCs?t=556s">9:16</a>. Одна людина не може ідеально розуміти всі елементи продукту, розробки й маркетингової стратегії водночас. Технічні фаундери можуть бути продуктовими, але їм складно з маркетингом. Маркетингові — продуктові, але складно з розробкою. Тож Нік пропонує фокусуватися на двох із трьох напрямків: розробка, продукт, маркетинг.</p>
+    <p>Хтось у команді мусить ходити на колли. Якщо ви технічний кофаундер і не любите цього, знайдіть кофаундера, якому подобається <a class="tc" data-t="644" href="https://youtu.be/ieuOmY-6LCs?t=644s">10:44</a>. З розширенням команди з'являтимуться й інші ролі, але першим прогалину закриває CEO.</p>
+  </section>
+
+  <section id="pitch">
+    <h2>CEO, піч і продаж <a class="tc" data-t="672" href="https://youtu.be/ieuOmY-6LCs?t=672s">11:12</a></h2>
+    <p>Від CEO потрібен «високий TPS». Нік жартує: тут це не transactions per second, а вміння класно говорити, пітчити й продавати <a class="tc" data-t="672" href="https://youtu.be/ieuOmY-6LCs?t=672s">11:12</a>. Якщо ви технічний кофаундер і не любите спілкуватися з людьми, знайдіть того, хто любить і стане обличчям стартапу. Нетехнічний кофаундер, що багато говорить, може принести більше, ніж ви, коли займаєтесь неулюбленою справою <a class="tc" data-t="865" href="https://youtu.be/ieuOmY-6LCs?t=865s">14:25</a>.</p>
+    <p>Чому це важливо: «говорюча голова» дуже допомагає стартапу <a class="tc" data-t="706" href="https://youtu.be/ieuOmY-6LCs?t=706s">11:46</a>. Приклад, який Нік називає улюбленим за останні два роки: CEO одного AI-стартапу дав інтерв'ю топовому медіа й не зовсім точно назвав свої фінансові показники. Одна просто сформульована фраза привела йому інвесторів і людей <a class="tc" data-t="706" href="https://youtu.be/ieuOmY-6LCs?t=706s">11:46</a>. Нік не закликає вигадувати: інформацію треба правильно пакувати, пітчити й продавати.</p>
+    <p>У пічі говоріть про свою сильну сторону. Сильні в розробці — три хвилини про архітектуру продукту. Сильні в продукті — про проблеми, які ви знайшли, і як їх вирішуєте <a class="tc" data-t="784" href="https://youtu.be/ieuOmY-6LCs?t=784s">13:04</a>. Піч — комбінація всіх напрямків, навколо яких побудований стартап, і він має структуру: найкращі варіанти Нік розбере на одній з останніх лекцій.</p>
+    <aside class="callout callout--warning"><p>Бути адептом «завжди тільки правди, ідеальної правди» теж не варто: якщо все зламано, інвестору ви цього не скажете <a class="tc" data-t="815" href="https://youtu.be/ieuOmY-6LCs?t=815s">13:35</a>. Потрібне глобальне vision і конкретна відповідь на питання «з чого почнемо?» <a class="tc" data-t="815" href="https://youtu.be/ieuOmY-6LCs?t=815s">13:35</a>. Без першого кроку vision не продається.</p></aside>
+  </section>
+
+  <section id="not-ceo">
+    <h2>Якщо ви не CEO <a class="tc" data-t="897" href="https://youtu.be/ieuOmY-6LCs?t=897s">14:57</a></h2>
+    <p>Тоді ви закриваєте своє поле задач, але стартап відрізняється від роботи: немає такого, що задачі закінчились або «я відпрацював вісім годин і пішов відпочивати» <a class="tc" data-t="897" href="https://youtu.be/ieuOmY-6LCs?t=897s">14:57</a>. Стартап — це повна взаємодія. Якщо бачите, що свою частину зробили, а в команди є вузьке місце, перефокусуйтеся й допоможіть. Ви рухаєтесь як одна команда й закриваєте болі одне одного.</p>
+    <p>У сучасному світі вузькопрофільний спеціаліст у бізнесі «дуже юзлес». Виняток — коли ви будуєте щось highly technical, наприклад нові оптичні системи для дронів <a class="tc" data-t="980" href="https://youtu.be/ieuOmY-6LCs?t=980s">16:20</a>. В усьому іншому під рукою є Claude: півгодини брейнштормінгу вирішують половину питань стартапу. На наступному чекпоінті ви знову пічите, отримуєте нові коментарі й розбираєтесь з ними <a class="tc" data-t="1020" href="https://youtu.be/ieuOmY-6LCs?t=1020s">17:00</a>.</p>
+  </section>
+
+  <section id="process">
+    <h2>Процеси: agile, waterfall і lean <a class="tc" data-t="1020" href="https://youtu.be/ieuOmY-6LCs?t=1020s">17:00</a></h2>
+    <p>Нік показує знайомі картинки: agile (самокат, скейтборд, велосипед, автомобіль) проти waterfall (шасі, сидіння, коробка, і теж автомобіль) <a class="tc" data-t="1020" href="https://youtu.be/ieuOmY-6LCs?t=1020s">17:00</a>. Його теза: поки у вас немає самостійного бізнесу й 50 людей, вибір методології особливо не потрібен. А якщо в команді п'ятдесят агентів, їх так складно менеджити теж не треба <a class="tc" data-t="1054" href="https://youtu.be/ieuOmY-6LCs?t=1054s">17:34</a>. Методології знадобляться, коли команда від п'яти людей, ви не встигаєте за всіма стежити й ніхто нічого не робить паралельно.</p>
+    <p>Починати варто з lean. Його суть — зосереджуватися на головних проблемних метриках. Є один фреймворк чи дашборд, де зручно трекати все <a class="tc" data-t="1140" href="https://youtu.be/ieuOmY-6LCs?t=1140s">19:00</a>. Зонбордили 300 тисяч користувачів і досі не придумали, як їх монетизувати — фокус на монетизації. Сформували проблему, але немає solution — придумуємо solution.</p>
+    <p>Спочатку це може здаватися складним. Нік радить: зробіть для тесту перші три MVP, а на четвертому весь фреймворк уже буде в голові так само відточений, як його GTM, який він може повторити за дві хвилини <a class="tc" data-t="1177" href="https://youtu.be/ieuOmY-6LCs?t=1177s">19:37</a>. Суть lean — гнучко адаптуватися, фокусуватися на найболючіших місцях і рухатися максимально ефективно й паралельно <a class="tc" data-t="1230" href="https://youtu.be/ieuOmY-6LCs?t=1230s">20:30</a>. Глибше — онлайн; для проджект-менеджерів є PMBOK. Простіше за все поговорити хвилин п'ять із Claude <a class="tc" data-t="1230" href="https://youtu.be/ieuOmY-6LCs?t=1230s">20:30</a>.</p>
+  </section>
+
+  <section id="dashboard">
+    <h2>Дашборд ключових метрик <a class="tc" data-t="1290" href="https://youtu.be/ieuOmY-6LCs?t=1290s">21:30</a></h2>
+    <p>Такий дашборд Нік радить зібрати в будь-якому разі, щоб проблема завжди була перед очима <a class="tc" data-t="1290" href="https://youtu.be/ieuOmY-6LCs?t=1290s">21:30</a>. У ньому:</p>
+    <ul>
+      <li>проблема, рішення й unique value proposition <a class="tc" data-t="1290" href="https://youtu.be/ieuOmY-6LCs?t=1290s">21:30</a>;</li>
+      <li>сегменти користувачів, ICP, існуючі альтернативи (конкуренти) і метрики, які ви трекаєте <a class="tc" data-t="1309" href="https://youtu.be/ieuOmY-6LCs?t=1309s">21:49</a>;</li>
+      <li>high-level concept: просте пояснення вашого іноді складного продукту, найважливіше поле для презентації ідеї <a class="tc" data-t="1309" href="https://youtu.be/ieuOmY-6LCs?t=1309s">21:49</a>;</li>
+      <li>канали залучення й early adopters — ранні користувачі, що дають фідбек, ментори, адвайзери; навіть вейтліст на 300 тисяч людей теж early adopters, що показують трекшн <a class="tc" data-t="1364" href="https://youtu.be/ieuOmY-6LCs?t=1364s">22:44</a>;</li>
+      <li>структура costs і revenue streams: чому середній дохід на користувача більший за вартість його залучення <a class="tc" data-t="1364" href="https://youtu.be/ieuOmY-6LCs?t=1364s">22:44</a>.</li>
+    </ul>
+    <p>Метрики потрібні, бо без них важко зрозуміти, рухається стартап чи стоїть. Цей слайд можна заскринити чи роздрукувати й іноді на нього дивитися <a class="tc" data-t="1364" href="https://youtu.be/ieuOmY-6LCs?t=1364s">22:44</a>.</p>
+  </section>
+
+  <section id="timeline">
+    <h2>Коли робити твіттер, сайт і стратегію <a class="tc" data-t="1427" href="https://youtu.be/ieuOmY-6LCs?t=1427s">23:47</a></h2>
+    <p>Часте питання: коли починати маркетингову стратегію, запускати твіттер, робити сайт і фінмодель? Якщо вночі наснилась ідея на мільйон доларів, одразу в твіттер чи спершу market research? <a class="tc" data-t="1427" href="https://youtu.be/ieuOmY-6LCs?t=1427s">23:47</a> На слайді все зібрано докупи. Розробку Нік не уніфікує <a class="tc" data-t="1455" href="https://youtu.be/ieuOmY-6LCs?t=1455s">24:15</a>: якщо ви паралельно з ресерчем адаптуєте ідею, то розробляєте вже на ресерч-фазі. Якщо спершу треба зробити research і визначити solution, MVP будуєте трохи пізніше. А якщо ви швидко відкатали флоу, GTM переїде разом із vision раніше. Хто щодня дивиться на ринок, у того ресерч-фаза постійна, і він стрибає з ідеї одразу на MVP <a class="tc" data-t="1520" href="https://youtu.be/ieuOmY-6LCs?t=1520s">25:20</a>.</p>
+    <p>Фандрейзинг за три роки сильно змінився: одні радять фонди, інші акселератори, треті скаржаться на досвід. Про це Нік поговорить на майбутніх воркшопах <a class="tc" data-t="1520" href="https://youtu.be/ieuOmY-6LCs?t=1520s">25:20</a><a class="tc" data-t="1587" href="https://youtu.be/ieuOmY-6LCs?t=1587s">26:27</a>. А поки радить пройтися слайдом і подивитися, чого бракує: зробили competitor research — повернутися й зробити custdev <a class="tc" data-t="1587" href="https://youtu.be/ieuOmY-6LCs?t=1587s">26:27</a>. На стадії MVP можна нарешті думати про твіттер і дискорд. Сайт теж можна зібрати «на коліні»; якщо назва передбачає домен за $100 на місяць, із сайтом краще не поспішати <a class="tc" data-t="1617" href="https://youtu.be/ieuOmY-6LCs?t=1617s">26:57</a>.</p>
+    <aside class="callout callout--tip"><p>Не всім потрібні всі елементи: амбасадори, медіабаїнг, налив трафіку, детальний документ з архітектурою (якщо рішення пояснюється «на пальцях»). Адаптуйте стратегію під себе, але чим повніша картина, тим краще <a class="tc" data-t="1649" href="https://youtu.be/ieuOmY-6LCs?t=1649s">27:29</a><a class="tc" data-t="1689" href="https://youtu.be/ieuOmY-6LCs?t=1689s">28:09</a>.</p></aside>
+    <p>Уточнення: «development» у верхніх блоках слайда — не розробка продукту. До стадії MVP продукт уже має працювати хоча б базово, а далі — скейл за всіма напрямками. Як кажуть, будинки не розробляють, а будують <a class="tc" data-t="1689" href="https://youtu.be/ieuOmY-6LCs?t=1689s">28:09</a><a class="tc" data-t="1752" href="https://youtu.be/ieuOmY-6LCs?t=1752s">29:12</a>.</p>
+  </section>
+
+  <section id="financials">
+    <h2>Монетизація, PnL і юніт-економіка <a class="tc" data-t="1782" href="https://youtu.be/ieuOmY-6LCs?t=1782s">29:42</a></h2>
+    <p>Public goods — це не погано, але часто виходить так: ідея є, конкурентів немає, продукт працює, а монетизація або не працює, або її немає, або витрати занадто великі <a class="tc" data-t="1782" href="https://youtu.be/ieuOmY-6LCs?t=1782s">29:42</a>. Нік повторює: немає сенсу будувати, якщо витрати більші за те, що ви теоретично можете заробити.</p>
+    <p>Три поінти, які треба знати <a class="tc" data-t="1825" href="https://youtu.be/ieuOmY-6LCs?t=1825s">30:25</a>. Перший — PnL, або financial projection, якщо ви ще не заробили жодного долара: коли вас питають про PnL, питають про майбутнє фінансове планування. Він завжди йде в парі з юніт-економікою <a class="tc" data-t="1825" href="https://youtu.be/ieuOmY-6LCs?t=1825s">30:25</a>. PnL — це revenue streams, витрати, інвестиції та інше <a class="tc" data-t="1949" href="https://youtu.be/ieuOmY-6LCs?t=1949s">32:29</a>.</p>
+    <p>Юніт-економіка — це скільки коштує залучення користувача через ваші канали й скільки він приносить за весь час, тобто lifetime value <a class="tc" data-t="1949" href="https://youtu.be/ieuOmY-6LCs?t=1949s">32:29</a>. Без неї виникає ілюзія, що користувача можна залучити за копійки, а платити він буде мільйони <a class="tc" data-t="1879" href="https://youtu.be/ieuOmY-6LCs?t=1879s">31:19</a>. Улюблений приклад Ніка: фінпроєкція, де рядок розтягнули як 3000, 2000, 4000, забули, що таке геометрична прогресія, і за два роки «заробляють» три мільйони на тиждень — більше, ніж більша частина блокчейнів <a class="tc" data-t="1879" href="https://youtu.be/ieuOmY-6LCs?t=1879s">31:19</a>.</p>
+    <aside class="callout callout--warning"><p>Користувачі не лише приходять, а й йдуть. У фінансистів в Excel вони тільки приходять і платять ті самі $5 до кінця життя. Так не буває, і це руйнує багато фінмоделей. Тому потрібні метрики на кшталт churn rate <a class="tc" data-t="1975" href="https://youtu.be/ieuOmY-6LCs?t=1975s">32:55</a>.</p></aside>
+  </section>
+
+  <section id="arpu">
+    <h2>ARPU проти CAC <a class="tc" data-t="2006" href="https://youtu.be/ieuOmY-6LCs?t=2006s">33:26</a></h2>
+    <p>Багатьом інвесторам (ангелам, венчурним, екосистемним фондам) абсолютно байдуже, що за продукт. Їм важливо, щоб ARPU (дохід на користувача) був більший за CAC (вартість залучення клієнта) <a class="tc" data-t="2006" href="https://youtu.be/ieuOmY-6LCs?t=2006s">33:26</a>. Не знаєте абревіатур — перепитайте.</p>
+    <p>Бізнес прибутковий, якщо ARPU більший за CAC у певну кількість разів; цей множник і є маржею бізнесу <a class="tc" data-t="2049" href="https://youtu.be/ieuOmY-6LCs?t=2049s">34:09</a>.</p>
+    <p>Окремо Нік згадує 3,3 економіку. Це «вебтришний олдовий мем»: одні кажуть, що вона працює, інші — що ні. Нік радить DeFi-фанатам прочитати документацію Olympus, які придумали цю модель, і знайти проблему: за його словами, в якийсь момент там відбувається обвал <a class="tc" data-t="2074" href="https://youtu.be/ieuOmY-6LCs?t=2074s">34:34</a><a class="tc" data-t="2114" href="https://youtu.be/ieuOmY-6LCs?t=2114s">35:14</a>.</p>
+  </section>
+
+  <section id="projection">
+    <h2>Фінансова проєкція: виручка <a class="tc" data-t="2153" href="https://youtu.be/ieuOmY-6LCs?t=2153s">35:53</a></h2>
+    <p>Проєкція не мусить бути правдивою на 10 000%. Якщо бізнес сьогодні росте не дуже швидко, це не означає, що так буде завжди: варто закласти момент, коли ви «вистрелите» і користувачі прийдуть рікою <a class="tc" data-t="2153" href="https://youtu.be/ieuOmY-6LCs?t=2153s">35:53</a>. Водночас проєкція має бути реалістичною до того етапу, до якого вам повірять. Інвестори з фінансовим бекграундом охоче дивляться саме на неї й одразу бачать, що ви не розумієте, як працюють гроші.</p>
+    <p>Revenue — це підписки, комісії, pay-per-product та комбінації <a class="tc" data-t="2153" href="https://youtu.be/ieuOmY-6LCs?t=2153s">35:53</a>. Максимально деталізуйте, з чого й скільки заробите, хоча б для себе <a class="tc" data-t="2255" href="https://youtu.be/ieuOmY-6LCs?t=2255s">37:35</a>. Звична відповідь «зі ста користувачів п'ятдесят куплять підписку» нічого не каже: яку саме — за $5 чи корпоративну за $5000?</p>
+  </section>
+
+  <section id="costs">
+    <h2>Витрати: рахувати все <a class="tc" data-t="2255" href="https://youtu.be/ieuOmY-6LCs?t=2255s">37:35</a></h2>
+    <p>Costs складаються з багатьох елементів, і порахувати треба все <a class="tc" data-t="2255" href="https://youtu.be/ieuOmY-6LCs?t=2255s">37:35</a>: не лише зарплату розробнику, а й маркетинг, майбутній трафік, софтвер <a class="tc" data-t="2308" href="https://youtu.be/ieuOmY-6LCs?t=2308s">38:28</a>. Якщо друг сам купив собі підписку на Claude, у витрати це можна не вносити. Якщо підписку купили ви, внесіть. Якщо доступ до Claude вам дала Superteam Ukraine, поки можна не вносити, але на майбутнє внесіть: доступ не вічний <a class="tc" data-t="2308" href="https://youtu.be/ieuOmY-6LCs?t=2308s">38:28</a>.</p>
+    <p>Є ще операційні витрати, які в кожного свої. Разова підписка на інструмент, яким ви скористалися один раз, — це не «софтвер» <a class="tc" data-t="2357" href="https://youtu.be/ieuOmY-6LCs?t=2357s">39:17</a>. Чим детальніше розпишете, тим легше буде зрізати витрати в майбутньому <a class="tc" data-t="2385" href="https://youtu.be/ieuOmY-6LCs?t=2385s">39:45</a>.</p>
+  </section>
+
+  <section id="ai-costs">
+    <h2>Ідея: оптимізація витрат на AI <a class="tc" data-t="2415" href="https://youtu.be/ieuOmY-6LCs?t=2415s">40:15</a></h2>
+    <p>Для тих, хто хоче будувати не один стартап, Нік радить заглибитись у фінмоделі й в архітектуру роботи AI. Різні способи взаємодії з AI по-різному витрачають токени. Усі хочуть інтегрувати AI, думаючи, що це дешевше, хоча в багатьох випадках це не так <a class="tc" data-t="2446" href="https://youtu.be/ieuOmY-6LCs?t=2446s">40:46</a>. Нік сам над цим експериментує і запрошує поговорити.</p>
+    <p>Приклади економії: в об'ємному проєкті одне слово «Hey» до Claude з'їдало 22% місячних лімітів <a class="tc" data-t="2474" href="https://youtu.be/ieuOmY-6LCs?t=2474s">41:14</a>. Правильно налаштований флоу (замість «I will refactor the code» просто «refactor code») скоротив токени на 70% <a class="tc" data-t="2496" href="https://youtu.be/ieuOmY-6LCs?t=2496s">41:36</a>. Хтось спілкувався з AI китайською, бо туди вміщується більше змісту, і теж зекономив <a class="tc" data-t="2496" href="https://youtu.be/ieuOmY-6LCs?t=2496s">41:36</a><a class="tc" data-t="2588" href="https://youtu.be/ieuOmY-6LCs?t=2588s">43:08</a>. Нік вірить, що оптимізація запитів — корисний елемент майбутнього.</p>
+    <p>Якщо зробити фреймворк, який допомагає зрізати витрати без бою головою об стіну, це добра ідея продукту. Нік сам заплатив би за таке $5 <a class="tc" data-t="2496" href="https://youtu.be/ieuOmY-6LCs?t=2496s">41:36</a>. А бізнес тут простий: якщо ви економите клієнтові $80, бо він переходить із підписки за $100 на підписку за $20, це вже робочий бізнес. Головне — реально зрізати витрати <a class="tc" data-t="2653" href="https://youtu.be/ieuOmY-6LCs?t=2653s">44:13</a>.</p>
+    <p>Те саме стосується стартапів на грантах AWS чи Google: коли грант закінчується, рахунок може стати $24 000 <a class="tc" data-t="2708" href="https://youtu.be/ieuOmY-6LCs?t=2708s">45:08</a>.</p>
+    <p>Антоніо запитав, чи є інструмент, який відкладає запити до моменту, коли оновляться ліміти, й розмазує навантаження. Нік: це чудова ідея для продукту. Якщо його можна монетизувати — супер, якщо ні — зробіть як public good, і вам дадуть грант <a class="tc" data-t="2767" href="https://youtu.be/ieuOmY-6LCs?t=2767s">46:07</a><a class="tc" data-t="2807" href="https://youtu.be/ieuOmY-6LCs?t=2807s">46:47</a>. Він також згадав команди, які розподіляють навантаження між багатьма акаунтами, і одразу зазначив ризик: блокування акаунтів або юридичні наслідки <a class="tc" data-t="2857" href="https://youtu.be/ieuOmY-6LCs?t=2857s">47:37</a>.</p>
+  </section>
+
+  <section id="cashflow-unit">
+    <h2>Cashflow і юніт-економіка <a class="tc" data-t="2992" href="https://youtu.be/ieuOmY-6LCs?t=2992s">49:52</a></h2>
+    <p>Cashflow — це весь агрегований дохід, мінус усі витрати й податки (якщо ви їх платите) — операційний cashflow. Додайте залучене фінансування: інвестиції, гранти та інше — і вийде total cashflow <a class="tc" data-t="2992" href="https://youtu.be/ieuOmY-6LCs?t=2992s">49:52</a>. Гранти варто вносити. Не пишіть, що витрат на Claude немає, бо є грант від AWS: пишіть реальну вартість AWS і окремо суму, яку покриває грант. Тоді ви бачите, на скільки вистачає гранту: він не вічний <a class="tc" data-t="3022" href="https://youtu.be/ieuOmY-6LCs?t=3022s">50:22</a>. Нижній рядок показує, коли ви стаєте беззбитковими <a class="tc" data-t="3042" href="https://youtu.be/ieuOmY-6LCs?t=3042s">50:42</a>. Тут не ті просунуті моделі, які іноді хочеться будувати, а базова версія для ранньої стадії.</p>
+    <p>Юніт-економіка зводиться до простого: скільки ми заробляємо за один юніт і скільки витрачаємо на нього <a class="tc" data-t="3091" href="https://youtu.be/ieuOmY-6LCs?t=3091s">51:31</a>. Маржа — це ARPU мінус CAC, або одразу чиста маржа: від неї віднімаєте ще витрати на зарплати, підписки й так далі. Витрати на людей і софтвер дуже часто лишаються «за бортом», і тоді здається, що бізнес прибутковий <a class="tc" data-t="3155" href="https://youtu.be/ieuOmY-6LCs?t=3155s">52:35</a>.</p>
+    <p>Якщо бізнес-модель на комісіях, важить не кількість користувачів, а обсяги, які вони генерують <a class="tc" data-t="3207" href="https://youtu.be/ieuOmY-6LCs?t=3207s">53:27</a>. Двоє користувачів із великими обсягами кращі за тисячу дрібних, хоча онбордити першого дорожче <a class="tc" data-t="3231" href="https://youtu.be/ieuOmY-6LCs?t=3231s">53:51</a>. Проєкції будуйте так: скільки користувачів онбордимо, скільки коштує один, скільки треба на маркетинг і де візьмемо ці гроші.</p>
+    <aside class="callout callout--warning"><p>Тепер проблема не в тому, щоб побудувати продукт, а в «усе готово, дайте пів мільйона на маркетинг». Такий запит має сенс лише з конкретним трекшном: ви онбордили користувачів із конкретних каналів, вони ще не вичерпані, і збільшення бюджету їх не зробить менш ефективними <a class="tc" data-t="3272" href="https://youtu.be/ieuOmY-6LCs?t=3272s">54:32</a>. Обсяги збільшуйте поступово й трекайте метрики <a class="tc" data-t="3326" href="https://youtu.be/ieuOmY-6LCs?t=3326s">55:26</a>.</p></aside>
+  </section>
+
+  <section id="subscriptions">
+    <h2>Чому підписки й комісії, а не разові платежі <a class="tc" data-t="3369" href="https://youtu.be/ieuOmY-6LCs?t=3369s">56:09</a></h2>
+    <p>Перший приклад — Tupperware. Компанія збанкрутувала, бо робила дуже якісні контейнери, які не ламались; покупці закінчились, бо всі вже мали контейнери <a class="tc" data-t="3399" href="https://youtu.be/ieuOmY-6LCs?t=3399s">56:39</a>. Пропозиція лишилась, попит упав, бізнес закінчився.</p>
+    <p>Підписки й комісії приносять гроші постійно, а не раз. Коли дохід разовий, треба безперервно онбордити нових користувачів, а вони колись закінчуються <a class="tc" data-t="3448" href="https://youtu.be/ieuOmY-6LCs?t=3448s">57:28</a>. Якби на Chess.com можна було раз купити підписку за $10 назавжди, він був би збитковим <a class="tc" data-t="3480" href="https://youtu.be/ieuOmY-6LCs?t=3480s">58:00</a>. Виробники авто вже додають підписки на функції, як-от підігрів сидінь чи парктроніки: хтось їх купить, бо функція потрібна, а підписка не виглядає критичною <a class="tc" data-t="3501" href="https://youtu.be/ieuOmY-6LCs?t=3501s">58:21</a>. І виробники речей з разовою оплатою нерідко ставлять гірші деталі, щоб речі ламались і їх купували знову <a class="tc" data-t="3541" href="https://youtu.be/ieuOmY-6LCs?t=3541s">59:01</a>.</p>
+    <p>У цифровому світі нічого не ламається, і забрати в користувача продукт після разової покупки не вийде. Тому моделі — підписки або комісії. Разові платежі лише в крайньому разі, наприклад як комплементарний продукт у межах підписки <a class="tc" data-t="3541" href="https://youtu.be/ieuOmY-6LCs?t=3541s">59:01</a><a class="tc" data-t="3589" href="https://youtu.be/ieuOmY-6LCs?t=3589s">59:49</a>. Ще один варіант — мікротранзакції, переважно в мобільних іграх: їх треба вміти робити правильно <a class="tc" data-t="3628" href="https://youtu.be/ieuOmY-6LCs?t=3628s">1:00:28</a>.</p>
+  </section>
+
+  <section id="churn">
+    <h2>Churn і LTV до CAC <a class="tc" data-t="3628" href="https://youtu.be/ieuOmY-6LCs?t=3628s">1:00:28</a></h2>
+    <p>Коли ви працюєте з підписками чи обсягами, обсяг непостійний, а користувачі прощаються. Для цього є метрика churn rate <a class="tc" data-t="3628" href="https://youtu.be/ieuOmY-6LCs?t=3628s">1:00:28</a>. Нік називає орієнтир близько 20%: таке значення не викличе питань, хоча загалом це багато. Знизити churn можна через retention-метрики <a class="tc" data-t="3664" href="https://youtu.be/ieuOmY-6LCs?t=3664s">1:01:04</a>.</p>
+    <p>Це не означає, що кожен користувач піде через сім місяців. Це означає, що потік користувачів у середньому живе з вами сім місяців; хтось піде через два тижні, а хтось купить річну підписку <a class="tc" data-t="3717" href="https://youtu.be/ieuOmY-6LCs?t=3717s">1:01:57</a>. З цього виходить підсумок для юніт-економіки: залучаємо так, стільки-то відвалюється, lifetime value у місяцях такий, CAC такий — отже, LTV до CAC <a class="tc" data-t="3752" href="https://youtu.be/ieuOmY-6LCs?t=3752s">1:02:32</a>. За словами Ніка, якщо ця метрика позитивна й більша за 3–4, з бізнесом можна рухатися далі <a class="tc" data-t="3766" href="https://youtu.be/ieuOmY-6LCs?t=3766s">1:02:46</a>.</p>
+    <p>Таку модель варто показати комусь, щоб указали на помилки, або ж зробити брейншторм із Claude <a class="tc" data-t="3766" href="https://youtu.be/ieuOmY-6LCs?t=3766s">1:02:46</a>. CAC рахуйте не лише як маркетинг, а як комбінацію всього <a class="tc" data-t="3802" href="https://youtu.be/ieuOmY-6LCs?t=3802s">1:03:22</a>. І пам'ятайте: навіть якщо ARPU $10 проти CAC $5, дорога підписка не гарантує стільки покупців, скільки ви запланували. Людей, готових її купити, обмежена кількість <a class="tc" data-t="3824" href="https://youtu.be/ieuOmY-6LCs?t=3824s">1:03:44</a>.</p>
+  </section>
+
+  <section id="hedge-flow">
+    <h2>Приклад з хедж-фондом і загальний flow <a class="tc" data-t="3919" href="https://youtu.be/ieuOmY-6LCs?t=3919s">1:05:19</a></h2>
+    <p>Фінмодель — не щось просте. Побудуйте її базово, пограйтеся: у таблиці легко щось не врахувати, помріяти про мільйони, а потім знайти одну помилку й зрозуміти, що ви ще не мільйонер <a class="tc" data-t="3868" href="https://youtu.be/ieuOmY-6LCs?t=3868s">1:04:28</a>. Багато філантропічних ідей закінчуються тим, що вони або не приносять грошей, або користувач надто дорогий.</p>
+    <p>Приклад із проєктів нинішньої акселерації: хедж-фонд для людей, які приносять по $10. Щоб він генерував потрібні гроші, треба дуже багато таких користувачів, залучених надовго. Хедж-фонд заробляє, коли хтось дав йому $20 мільйонів, а онбордити 20 мільйонів користувачів по $10 довго, і весь цей час ви збиткові <a class="tc" data-t="3919" href="https://youtu.be/ieuOmY-6LCs?t=3919s">1:05:19</a>. Висновок Ніка: хедж-фонди для бідних не працюють <a class="tc" data-t="4055" href="https://youtu.be/ieuOmY-6LCs?t=4055s">1:07:35</a>.</p>
+    <p>Далі Нік нагадує загальний flow: плануємо, будуємо стратегію й позиціонування, виконуємо, бачимо, що не працює, адаптуємо план і виконуємо знову <a class="tc" data-t="4021" href="https://youtu.be/ieuOmY-6LCs?t=4021s">1:07:01</a>. Ідею треба валідувати з людьми: це можна зробити на чекпоінті або написавши Ніку чи Дімі в особисті чи в чат <a class="tc" data-t="3971" href="https://youtu.be/ieuOmY-6LCs?t=3971s">1:06:11</a>.</p>
+    <blockquote class="quote"><p>Проблем, які неможливо вирішити, не існує. Ви просто ще не знайшли рішення.</p></blockquote>
+    <p>Цитата — <a class="tc" data-t="4021" href="https://youtu.be/ieuOmY-6LCs?t=4021s">1:07:01</a>. Пункт слайда про пошук членів команди тепер частково закривають агенти Claude: можна написати, що ви вже онбордили п'ять агентів <a class="tc" data-t="4055" href="https://youtu.be/ieuOmY-6LCs?t=4055s">1:07:35</a><a class="tc" data-t="4085" href="https://youtu.be/ieuOmY-6LCs?t=4085s">1:08:05</a>. Whitepaper-и й подібні документи зараз не дуже релевантні, вони потрібні на пізнішій стадії продукту; якщо ж ви будуєте щось технічно складне, зробіть документацію на GitBook <a class="tc" data-t="4085" href="https://youtu.be/ieuOmY-6LCs?t=4085s">1:08:05</a><a class="tc" data-t="4109" href="https://youtu.be/ieuOmY-6LCs?t=4109s">1:08:29</a>. Нік закликає мріяти, будувати й повторювати: на валідацію ідеї вистачить тижня, якщо вміти ship fast і build fast <a class="tc" data-t="4137" href="https://youtu.be/ieuOmY-6LCs?t=4137s">1:08:57</a>.</p>
+  </section>
+
+  <section id="qa">
+    <h2>Питання й підсумок <a class="tc" data-t="4176" href="https://youtu.be/ieuOmY-6LCs?t=4176s">1:09:36</a></h2>
+    <p>Антоніо запитав, чи GitBook платний. Нік не впевнений, схоже, є безкоштовний пробний період <a class="tc" data-t="4199" href="https://youtu.be/ieuOmY-6LCs?t=4199s">1:09:59</a>. Подібне можна зробити й у Notion, а ще красивіше й адаптивніше в Netlify. Але на телефоні автогенерований сайт у Netlify може «попливти», тому Notion — найкраще середнє рішення. Netlify — якщо готові заморочитися заради гарного результату <a class="tc" data-t="4219" href="https://youtu.be/ieuOmY-6LCs?t=4219s">1:10:19</a>.</p>
+    <p>Нік також розпитав учасника про міст для транзакцій. Його позиція: якщо дешеві рішення вирішують проблему, це головне; варто порахувати, скільки йде на одну транзакцію через міст <a class="tc" data-t="4277" href="https://youtu.be/ieuOmY-6LCs?t=4277s">1:11:17</a><a class="tc" data-t="4291" href="https://youtu.be/ieuOmY-6LCs?t=4291s">1:11:31</a>. Учасник відповів, що транзакції дешеві, комісія менша за 0,01%, а щодо швидкості можна мати попередньо виділену суму й діяти на Polygon до того, як кошти дійдуть мостом <a class="tc" data-t="4308" href="https://youtu.be/ieuOmY-6LCs?t=4308s">1:11:48</a>. Нік зазначив, що це створює ризики через неідеальну надійність мостів і потребує ліквідності в мережі. З таким підходом можна й власний міст побудувати <a class="tc" data-t="4349" href="https://youtu.be/ieuOmY-6LCs?t=4349s">1:12:29</a><a class="tc" data-t="4367" href="https://youtu.be/ieuOmY-6LCs?t=4367s">1:12:47</a>.</p>
+    <p>Наприкінці Нік радить кофаундерам заздалегідь почитати, як правильно ділити equity, щоб не посваритися за чотири місяці, якщо раптом вигратете все, що можна <a class="tc" data-t="4402" href="https://youtu.be/ieuOmY-6LCs?t=4402s">1:13:22</a><a class="tc" data-t="4432" href="https://youtu.be/ieuOmY-6LCs?t=4432s">1:13:52</a>. Підсумок: дивіться на development roadmap, рахуйте фінмодель і юніт-економіку хоча б на базовому рівні й не забувайте, що користувачі відвалюються, а обсяги непостійні <a class="tc" data-t="4452" href="https://youtu.be/ieuOmY-6LCs?t=4452s">1:14:12</a>.</p>
+  </section>
+
+  <section id="tools">
+    <h2>Інструменти з лекції</h2>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Інструмент</th><th>Для чого радить лектор</th><th>Таймкод</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="https://www.gitbook.com/" target="_blank" rel="noopener">GitBook</a></td><td>Технічна документація для складного продукту замість whitepaper.</td><td><a class="tc" data-t="4109" href="https://youtu.be/ieuOmY-6LCs?t=4109s">1:08:29</a></td></tr>
+        <tr><td><a href="https://www.notion.com/" target="_blank" rel="noopener">Notion</a></td><td>Сайт-документація для стартапу; найкраще середнє рішення, добре виглядає на телефоні.</td><td><a class="tc" data-t="4199" href="https://youtu.be/ieuOmY-6LCs?t=4199s">1:09:59</a></td></tr>
+        <tr><td><a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a></td><td>Гарніший і адаптивніший сайт, але автогенерований може погано виглядати на телефоні.</td><td><a class="tc" data-t="4219" href="https://youtu.be/ieuOmY-6LCs?t=4219s">1:10:19</a></td></tr>
+        <tr><td><a href="https://claude.com/" target="_blank" rel="noopener">Claude</a></td><td>Брейншторм, перевірка фінмоделі й юніт-економіки; приклади оптимізації токенів у запитах.</td><td><a class="tc" data-t="2474" href="https://youtu.be/ieuOmY-6LCs?t=2474s">41:14</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="homework" class="homework">
+    <h2>Повторити самостійно</h2>
+    <ol>
+      <li>Окремого домашнього завдання на цій лекції не було. Нік лише жартома запропонував DeFi-фанатам прочитати документацію Olympus і знайти проблему 3,3 економіки <a class="tc" data-t="2114" href="https://youtu.be/ieuOmY-6LCs?t=2114s">35:14</a>, а ідею, яку ще не перевіряли з людьми, — валідувати на чекпоінті <a class="tc" data-t="3971" href="https://youtu.be/ieuOmY-6LCs?t=3971s">1:06:11</a>.</li>
+      <li>Пройдіться слайдом із timeline і подивіться, чого вам бракує на вашій стадії: custdev, сайт, соцмережі <a class="tc" data-t="1587" href="https://youtu.be/ieuOmY-6LCs?t=1587s">26:27</a>.</li>
+      <li>Зберіть дашборд: проблема, рішення, UVP, сегменти, конкуренти, метрики, канали, costs і revenue <a class="tc" data-t="1290" href="https://youtu.be/ieuOmY-6LCs?t=1290s">21:30</a>.</li>
+      <li>Розпишіть ролі так, щоб вони не виглядали дивно в пітчдеку: CEO, tech lead, product, без зайвих C-level <a class="tc" data-t="411" href="https://youtu.be/ieuOmY-6LCs?t=411s">6:51</a>.</li>
+      <li>Деталізуйте виручку: які саме підписки чи комісії і скільки вони приносять <a class="tc" data-t="2255" href="https://youtu.be/ieuOmY-6LCs?t=2255s">37:35</a>.</li>
+      <li>Порахуйте всі витрати, включно з підписками на AI та грантами, які колись закінчаться <a class="tc" data-t="2308" href="https://youtu.be/ieuOmY-6LCs?t=2308s">38:28</a>.</li>
+      <li>Порахуйте ARPU, CAC, churn і LTV до CAC хоча б на базовому рівні <a class="tc" data-t="3752" href="https://youtu.be/ieuOmY-6LCs?t=3752s">1:02:32</a>.</li>
+      <li>Домовтеся з кофаундерами про розподіл equity наперед <a class="tc" data-t="4402" href="https://youtu.be/ieuOmY-6LCs?t=4402s">1:13:22</a>.</li>
+    </ol>
+  </section>
+
+  <section id="checklist" class="checklist">
+    <h2>Коротко: чекліст</h2>
+    <ol>
+      <li>Маленькій команді C-level не потрібні, окрім, за потреби, CEO.</li>
+      <li>Двоє кофаундерів — це нормально, п'ять — вже дивно.</li>
+      <li>CEO закриває всі прогалини й має вміти пітчити та продавати.</li>
+      <li>Фокусуйтеся на двох із трьох: розробка, продукт, маркетинг.</li>
+      <li>Стартап — не робота: допомагайте, де вузьке місце.</li>
+      <li>Збудуйте дашборд ключових метрик за lean-підходом.</li>
+      <li>Не всім потрібні всі елементи стратегії, але повна картина краща.</li>
+      <li>Рахуйте всі витрати, навіть ті, що зараз покриває грант.</li>
+      <li>Проєкція має бути реалістичною до етапу, на якому вам ще вірять.</li>
+      <li>ARPU має бути більшим за CAC у кілька разів.</li>
+      <li>Рахуйте чисту маржу з витратами на людей і софтвер.</li>
+      <li>Підписки й комісії краще за разові платежі.</li>
+      <li>Користувачі відвалюються: враховуйте churn і рахуйте LTV до CAC.</li>
+      <li>Просити гроші на маркетинг можна лише з обґрунтованим трекшном.</li>
+      <li>Домовляйтеся про equity одразу.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Джерело: <a href="https://youtu.be/ieuOmY-6LCs">запис лекції «Development Processing and Team management» на YouTube</a> — Solana Startup Terminal, весняний потік 2026, опубліковано 09.04.2026.</p>
+  <p>Конспект зроблено на основі машинної розшифровки запису; формулювання лектора передано близько до сказаного. Назви інструментів у розшифровці часто спотворені — їх відновлено за контекстом.</p>
+  <p>Концепт сторінки — Alex, учасник програми.</p>
+</footer>
+
+</body>
+</html>

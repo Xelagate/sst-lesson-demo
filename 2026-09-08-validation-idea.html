@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Валідація ідеї: PMF і Time to Market — конспект</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #001020;
+    --surface: #061b30;
+    --blue: #0367c8;
+    --light-blue: #8cc6ff;
+    --yellow: #ffea00;
+    --text: #d2dfec;
+    --muted: #a6bbcf;
+    --line: #274057;
+    font-family: "Manrope", sans-serif;
+    background: var(--page);
+    color: var(--text);
+    font-synthesis: none;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    width: min(1240px, calc(100% - 64px));
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+  }
+  ::selection { color: var(--page); background: var(--light-blue); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 5px; }
+  a { color: var(--light-blue); text-underline-offset: .22em; }
+  a:hover { color: #fff; }
+  h1, h2 { font-family: "Unbounded", sans-serif; color: #f6f9ff; font-weight: 600; }
+  p { margin: 0 0 1.25em; }
+  strong { color: #f3f7fc; font-weight: 800; }
+
+  .lesson-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 0 0 18px; font-size: 13px; }
+  .lesson-nav a { color: var(--light-blue); text-decoration: none; }
+  .lesson-nav a:hover { text-decoration: underline; }
+  .lesson-nav a[aria-current] { color: var(--muted); pointer-events: none; }
+  .concept-note {
+    position: relative;
+    padding: 22px 0 22px 22px;
+    color: #b9cadb;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .concept-note::before {
+    content: "";
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+
+  /* A perforated lesson ticket, with no invented ticket data. */
+  .lesson-hero {
+    --inset: clamp(24px, 4.2vw, 56px);
+    padding: var(--inset);
+    border: 1px solid #294967;
+    border-radius: 36px;
+    background: #00203f;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--light-blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .035em;
+  }
+  .eyebrow::before {
+    content: "";
+    flex: 0 0 24px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--yellow);
+  }
+  .lesson-hero h1 {
+    max-width: 1080px;
+    margin: 0 0 24px;
+    font-size: clamp(28px, 4.1vw, 54px);
+    line-height: 1.22;
+    letter-spacing: -.04em;
+    text-wrap: balance;
+  }
+  .lead { max-width: 80ch; margin: 0; color: #bdcfe1; font-size: 16px; line-height: 1.75; }
+  .lesson-meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 32px calc(-1 * var(--inset)) calc(-1 * var(--inset));
+    padding: 22px var(--inset) 26px;
+    border-top: 1px dashed #53718c;
+    list-style: none;
+  }
+  .lesson-meta::before, .lesson-meta::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #294967;
+    border-radius: 50%;
+    background: var(--page);
+  }
+  .lesson-meta::before { left: -11px; border-left-color: transparent; }
+  .lesson-meta::after { right: -11px; border-right-color: transparent; }
+  .lesson-meta li {
+    padding: 6px 14px;
+    border: 1px solid #36536d;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .lesson-meta li:first-child { background: #0b3155; color: #fff; }
+  .lesson-meta li:last-child { color: var(--yellow); }
+
+  .lesson-media { display: grid; gap: 24px; margin-top: 24px; }
+  .player {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    align-self: start;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #000c18;
+    scroll-margin-top: 24px;
+  }
+  .player > div, .player iframe {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .chapters {
+    min-width: 0;
+    padding: 24px 12px 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+  .chapters h2 { margin: 0 12px 17px 0; font-size: 15px; line-height: 1.5; }
+  .chapters ol {
+    max-height: 360px;
+    margin: 0;
+    padding: 0 10px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-gutter: stable;
+  }
+  .chapters li {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 10px 2px;
+    border-top: 1px solid #1e354b;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .chapters li:first-child { border-top: 0; padding-top: 4px; }
+  .chapters li span { padding-top: 5px; }
+  .chapters li:focus-within span, .chapters li:hover span { color: #fff; }
+  .chapters .tc { width: 70px; justify-content: center; min-height: 30px; font-size: 11px; }
+  .chapters ol, .table-scroll { scrollbar-width: thin; scrollbar-color: #587b9b #061b30; }
+
+  .tc {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 9px;
+    border: 1px solid #34546f;
+    border-radius: 100px;
+    background: #092741;
+    color: var(--light-blue);
+    font-family: "Manrope", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+    letter-spacing: .015em;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background-color .16s, color .16s, border-color .16s, box-shadow .16s;
+  }
+  .tc:hover, .tc:focus-visible {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    color: var(--page);
+    box-shadow: 0 4px 18px rgb(255 234 0 / 16%);
+  }
+
+  .summary { width: 70ch; max-width: 100%; margin: 72px auto 0; }
+  .summary > section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .summary h2 {
+    margin: 0 0 25px;
+    font-size: clamp(21px, 2.25vw, 27px);
+    line-height: 1.45;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+  .summary h2 .tc { margin: 0 0 3px 4px; }
+  .summary ul, .summary ol { margin: 20px 0 26px; padding-left: 26px; }
+  .summary li { padding-left: 6px; margin: 12px 0; }
+  .summary li::marker { color: var(--light-blue); font-weight: 700; }
+  .summary section > :last-child { margin-bottom: 0; }
+
+  .quote {
+    margin: 32px 0;
+    padding: 7px 0 7px 25px;
+    border-left: 3px solid var(--yellow);
+    color: #f1f6fc;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.65;
+  }
+  .quote p { margin: 0; }
+  .callout {
+    --callout-accent: var(--light-blue);
+    margin: 28px 0;
+    padding: 22px 24px;
+    border: 1px solid #2f506f;
+    border-left: 3px solid var(--callout-accent);
+    border-radius: 0 18px 18px 0;
+    background: #09243e;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .callout p { margin: 0; }
+  .callout--tip { --callout-accent: #b9d4e9; border-color: #344b5d; border-left-color: var(--callout-accent); background: #112536; }
+  .callout--warning { --callout-accent: var(--yellow); border-color: #514d2c; border-left-color: var(--callout-accent); background: #242719; color: #e5e3cb; }
+  .summary > .callout--info {
+    margin-top: 0;
+    padding: 28px 30px;
+    border-left-width: 1px;
+    border-top: 3px solid var(--blue);
+    border-radius: 20px;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    margin: 28px 0;
+    overflow-x: auto;
+    border: 1px solid #34506b;
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th, td { padding: 17px 18px; text-align: left; vertical-align: top; }
+  th { border-bottom: 1px solid #3b5a77; background: #103351; color: #eef6ff; font-weight: 800; }
+  td { border-bottom: 1px solid #294158; }
+  th + th, td + td { border-left: 1px solid #294158; }
+  tbody tr:nth-child(even) { background: #0a2136; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { color: #eef5ff; font-weight: 600; }
+  td .tc { margin-top: 4px; }
+  #pain-sources td:nth-child(2), #pain-criteria td:nth-child(2) { min-width: 145px; }
+  #radar td:first-child, #scoring td:first-child { min-width: 145px; }
+
+  .summary > .homework {
+    margin-top: 64px;
+    padding: 32px;
+    border: 1px solid #365b7d;
+    border-top: 3px solid var(--light-blue);
+    border-radius: 24px;
+    background: #00203f;
+  }
+  .homework ol { margin: 0; padding-left: 24px; }
+  .homework li { margin: 0; padding: 18px 0 18px 8px; border-bottom: 1px dashed #3a5470; font-size: 16px; }
+  .homework li:first-child { padding-top: 0; }
+  .homework li:last-child { border: 0; padding-bottom: 0; }
+  .homework li::marker { color: var(--yellow); }
+  .summary > .checklist { margin-top: 40px; padding-top: 36px; border-top-style: dashed; }
+  .checklist ol { list-style: none; padding: 0; margin-bottom: 0; }
+  .checklist li { position: relative; margin: 0; padding: 15px 0 15px 32px; border-bottom: 1px solid #1e354b; font-size: 16px; }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 4px;
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid var(--light-blue);
+    border-bottom: 2px solid var(--light-blue);
+    transform: rotate(-45deg);
+  }
+  .page-footer {
+    width: 70ch;
+    max-width: 100%;
+    margin: 64px auto 0;
+    padding: 32px 0 40px;
+    border-top: 1px dashed #3a5470;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .page-footer p { margin: 0 0 14px; font-size: 12px; line-height: 1.8; }
+  .page-footer p:last-child { margin-top: 28px; margin-bottom: 0; color: #cedcea; }
+
+  @media (min-width: 1050px) {
+    .lesson-media { grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr); align-items: stretch; }
+    .chapters { position: relative; min-height: 0; }
+    .chapters ol { position: absolute; inset: 65px 12px 14px 24px; max-height: none; }
+  }
+  @media (min-width: 700px) and (max-width: 1049px) {
+    .chapters ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  }
+  @media (max-width: 599px) {
+    body { width: calc(100% - 32px); font-size: 16px; }
+    .concept-note { padding-top: 17px; padding-bottom: 17px; font-size: 11px; }
+    .concept-note::before { top: 23px; }
+    .lesson-hero { --inset: 22px; border-radius: 24px; }
+    .eyebrow { gap: 9px; font-size: 11px; letter-spacing: 0; margin-bottom: 20px; }
+    .eyebrow::before { flex-basis: 16px; }
+    .lesson-hero h1 { font-size: clamp(25px, 6.9vw, 39px); line-height: 1.3; letter-spacing: -.035em; }
+    .lead { font-size: 14px; }
+    .lesson-meta { gap: 8px; margin-top: 24px; padding-top: 18px; padding-bottom: 20px; }
+    .lesson-meta li { padding: 5px 10px; font-size: 11px; }
+    .lesson-media { gap: 16px; margin-top: 16px; }
+    .player { border-radius: 16px; scroll-margin-top: 16px; }
+    .chapters { padding-left: 18px; border-radius: 20px; }
+    .chapters ol { max-height: 340px; }
+    .summary { margin-top: 44px; }
+    .summary > section { margin-top: 40px; padding-top: 26px; }
+    .summary h2 { font-size: 20px; line-height: 1.5; }
+    .summary > .callout--info, .callout { padding: 19px 20px; font-size: 14px; }
+    .quote { margin: 26px 0; padding-left: 19px; font-size: 19px; }
+    .summary > .homework { padding: 24px 20px; border-radius: 20px; }
+    .homework li, .checklist li { font-size: 15px; }
+    .page-footer { margin-top: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('player');
+    let player;
+    let ready = false;
+
+    // Native links remain usable while the API loads, or if embedding fails.
+    document.querySelectorAll('a.tc').forEach(link => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+    document.querySelectorAll('.table-scroll').forEach(wrapper => {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', wrapper.closest('section').querySelector('h2').textContent.trim());
+    });
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a.tc');
+      if (!link || !ready || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const seconds = Number(link.dataset.t);
+      if (!Number.isFinite(seconds)) return;
+      try {
+        player.seekTo(seconds, true);
+        player.playVideo();
+      } catch {
+        ready = false;
+        return;
+      }
+      event.preventDefault();
+      container.scrollIntoView({
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+
+    window.onYouTubeIframeAPIReady = () => {
+      // Keep #player intact: YouTube replaces only this inner mount.
+      const mount = document.createElement('div');
+      container.append(mount);
+      player = new YT.Player(mount, {
+        videoId: container.dataset.videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: { playsinline: 1, rel: 0 },
+        events: {
+          onReady: event => {
+            ready = true;
+            event.target.getIframe().title = document.querySelector('h1').textContent;
+          },
+          onError: () => { ready = false; }
+        }
+      });
+    };
+    const api = document.createElement('script');
+    api.src = 'https://www.youtube.com/iframe_api';
+    api.async = true;
+    api.onerror = () => { ready = false; };
+    document.head.append(api);
+  });
+</script>
+</head>
+<body>
+
+
+<aside class="concept-note">Неофіційний концепт: так могла б виглядати сторінка уроку Startup Terminal. Це не сторінка Superteam Ukraine — її зробив Alex, учасник програми.</aside>
+
+<nav class="lesson-nav" aria-label="Уроки">
+  <a href="2026-08-26-idea-gen-nick.html">Idea Gen, Нік · 26.08</a>
+  <a href="index.html">Idea Generation, Діма · 27.08</a>
+  <a href="2026-09-08-validation-idea.html" aria-current="page">Validation · 08.09</a>
+  <a href="2026-09-15-value-proposition.html">Value proposition · 15.09</a>
+  <a href="2026-09-22-gtm-nick.html">GTM · 22.09</a>
+  <a href="2026-09-24-marketing.html">Marketing · 24.09</a>
+  <a href="2026-09-29-ai-in-project-building.html">AI у побудові проєкту · 29.09</a>
+  <a href="2026-03-18-idea-generation-nick.html">Весна: Idea Generation</a>
+  <a href="2026-03-25-market-research.html">Весна: Market Research</a>
+  <a href="2026-04-08-gtm-structuring-dima.html">Весна: GTM Structuring</a>
+  <a href="2026-04-09-development-team-management.html">Весна: Development і команда</a>
+  <a href="2026-04-15-marketing-team-management.html">Весна: Marketing team</a>
+  <a href="2026-04-17-vc-fundraising.html">Весна: VC і Fundraising</a>
+</nav>
+
+<header class="lesson-hero">
+  <p class="eyebrow">Solana Startup Terminal 2.0 · Business Track</p>
+  <h1>Валідація ідеї: Product-Market Fit і Time to Market</h1>
+  <p class="lead">Лекція про те, як перевірити, чи потрібен ваш продукт ринку і чи вийдете ви на нього вчасно. Лектор пропонує таблицю з двох частин: ринок (двері) і продукт (ключ). Вона показує, який у вас ринок, який користувач і що доведеться подолати. Головна ідея: PMF не здобувають раз і назавжди, до нього повертаються на кожному етапі, а запускатися треба вчасно, а не ідеально.</p>
+  <ul class="lesson-meta">
+    <li>Лектор: Нік</li>
+    <li>08.09.2026</li>
+    <li>79 хв</li>
+  </ul>
+</header>
+
+<div class="lesson-media"><div class="player" id="player" data-video-id="qvu6Q7O2mk4"></div>
+
+<nav class="chapters" aria-label="Розділи відео">
+  <h2>Розділи відео</h2>
+  <ol>
+    <li><a class="tc" data-t="0" href="https://youtu.be/qvu6Q7O2mk4?t=0s">0:00</a> <span>Вступ: Product-Market Fit і Time to Market</span></li>
+    <li><a class="tc" data-t="56" href="https://youtu.be/qvu6Q7O2mk4?t=56s">0:56</a> <span>Що буде, а що відкладено на чекпоінти</span></li>
+    <li><a class="tc" data-t="102" href="https://youtu.be/qvu6Q7O2mk4?t=102s">1:42</a> <span>Що таке PMF</span></li>
+    <li><a class="tc" data-t="161" href="https://youtu.be/qvu6Q7O2mk4?t=161s">2:41</a> <span>Чи потрібен продукт ринку: приклад SMS-сервісів</span></li>
+    <li><a class="tc" data-t="268" href="https://youtu.be/qvu6Q7O2mk4?t=268s">4:28</a> <span>PMF не вигадують у голові</span></li>
+    <li><a class="tc" data-t="363" href="https://youtu.be/qvu6Q7O2mk4?t=363s">6:03</a> <span>Sequoia: вихід з глобального ринку</span></li>
+    <li><a class="tc" data-t="449" href="https://youtu.be/qvu6Q7O2mk4?t=449s">7:29</a> <span>Фреймворк: ринок як двері, продукт як ключ</span></li>
+    <li><a class="tc" data-t="481" href="https://youtu.be/qvu6Q7O2mk4?t=481s">8:01</a> <span>Ринок 1: біль горить сьогодні</span></li>
+    <li><a class="tc" data-t="779" href="https://youtu.be/qvu6Q7O2mk4?t=779s">12:59</a> <span>Ринок 2: люди звикли до болю</span></li>
+    <li><a class="tc" data-t="1018" href="https://youtu.be/qvu6Q7O2mk4?t=1018s">16:58</a> <span>Ринок 3: Future Vision</span></li>
+    <li><a class="tc" data-t="1173" href="https://youtu.be/qvu6Q7O2mk4?t=1173s">19:33</a> <span>Категорія ринку: переповнений, застійний, неіснуючий</span></li>
+    <li><a class="tc" data-t="1302" href="https://youtu.be/qvu6Q7O2mk4?t=1302s">21:42</a> <span>Де шукати нові ніші: arXiv і погляд на 2–3 роки вперед</span></li>
+    <li><a class="tc" data-t="1521" href="https://youtu.be/qvu6Q7O2mk4?t=1521s">25:21</a> <span>Що доведеться подолати: шум, звичку, недовіру</span></li>
+    <li><a class="tc" data-t="1704" href="https://youtu.be/qvu6Q7O2mk4?t=1704s">28:24</a> <span>Ком'юніті не дорівнює користувачам</span></li>
+    <li><a class="tc" data-t="1810" href="https://youtu.be/qvu6Q7O2mk4?t=1810s">30:10</a> <span>Режими провалу: вас переграли, проблему не варто вирішувати</span></li>
+    <li><a class="tc" data-t="1975" href="https://youtu.be/qvu6Q7O2mk4?t=1975s">32:55</a> <span>Інгредієнт: відрізнятися чи бути стабільним</span></li>
+    <li><a class="tc" data-t="2075" href="https://youtu.be/qvu6Q7O2mk4?t=2075s">34:35</a> <span>Оборонні технології й dual use</span></li>
+    <li><a class="tc" data-t="2350" href="https://youtu.be/qvu6Q7O2mk4?t=2350s">39:10</a> <span>Apple: від першого Mac до iPhone</span></li>
+    <li><a class="tc" data-t="2521" href="https://youtu.be/qvu6Q7O2mk4?t=2521s">42:01</a> <span>Рівні PMF і три виміри: попит, задоволення, ефективність</span></li>
+    <li><a class="tc" data-t="2695" href="https://youtu.be/qvu6Q7O2mk4?t=2695s">44:55</a> <span>Важелі: користувач, проблема, обіцянка, продукт</span></li>
+    <li><a class="tc" data-t="2933" href="https://youtu.be/qvu6Q7O2mk4?t=2933s">48:53</a> <span>Маркетинг не замінить PMF</span></li>
+    <li><a class="tc" data-t="3018" href="https://youtu.be/qvu6Q7O2mk4?t=3018s">50:18</a> <span>Підсумок: чотири важелі і чотири сходинки</span></li>
+    <li><a class="tc" data-t="3135" href="https://youtu.be/qvu6Q7O2mk4?t=3135s">52:15</a> <span>Півотинг</span></li>
+    <li><a class="tc" data-t="3246" href="https://youtu.be/qvu6Q7O2mk4?t=3246s">54:06</a> <span>Коли півотитись або виходити: Yahoo, Nokia, Stack Overflow</span></li>
+    <li><a class="tc" data-t="3527" href="https://youtu.be/qvu6Q7O2mk4?t=3527s">58:47</a> <span>Time to market</span></li>
+    <li><a class="tc" data-t="3646" href="https://youtu.be/qvu6Q7O2mk4?t=3646s">1:00:46</a> <span>Тестуйте гіпотези замість нескінченної аналітики</span></li>
+    <li><a class="tc" data-t="3672" href="https://youtu.be/qvu6Q7O2mk4?t=3672s">1:01:12</a> <span>Інноваційний чи стабільний</span></li>
+    <li><a class="tc" data-t="3811" href="https://youtu.be/qvu6Q7O2mk4?t=3811s">1:03:31</a> <span>Запізнитись чи запуститись зарано</span></li>
+    <li><a class="tc" data-t="3959" href="https://youtu.be/qvu6Q7O2mk4?t=3959s">1:05:59</a> <span>Ship fast, хакатони й погляд інвестора</span></li>
+    <li><a class="tc" data-t="4178" href="https://youtu.be/qvu6Q7O2mk4?t=4178s">1:09:38</a> <span>Повертаємось до циклу</span></li>
+    <li><a class="tc" data-t="4352" href="https://youtu.be/qvu6Q7O2mk4?t=4352s">1:12:32</a> <span>Питання: проєкт з аналітикою для трейдерів</span></li>
+    <li><a class="tc" data-t="4697" href="https://youtu.be/qvu6Q7O2mk4?t=4697s">1:18:17</a> <span>Підсумок і наступна лекція про Go-to-Market</span></li>
+  </ol>
+</nav></div>
+
+<main class="summary">
+
+  <aside class="callout callout--info"><p><strong>Що в цьому уроці:</strong> що таке PMF і чому його не можна просто вигадати; два питання, на яких тримається фреймворк лектора (ринок і продукт); три типи ринку й три категорії; режими провалу; три виміри PMF (попит, задоволення, ефективність) і чотири важелі, якими його можна міняти; півотинг і вихід; Time to Market і чому не варто чекати ідеального моменту; розбір одного проєкту наприкінці.</p></aside>
+
+  <section id="intro">
+    <h2>Про що лекція і чого в ній не буде <a class="tc" data-t="0" href="https://youtu.be/qvu6Q7O2mk4?t=0s">0:00</a></h2>
+    <p>Тема — Product-Market Fit і Time to Market. Лектор каже, що слайди трохи старі, але PMF доволі стабільна тема. Про неї варто говорити, бо на неї часто не звертають уваги, як і на Time to Market: можна зібрати повністю готовий продукт, у який на виході не проінвестують <a class="tc" data-t="27" href="https://youtu.be/qvu6Q7O2mk4?t=27s">0:27</a>.</p>
+    <p>Валідувати ідеї на цьому воркшопі планували додатково, але є ще три воркшопи та чекпоінти, де це робиться <a class="tc" data-t="56" href="https://youtu.be/qvu6Q7O2mk4?t=56s">0:56</a>. Питання й уточнення лектор радить лишити на кінець.</p>
+  </section>
+
+  <section id="pmf">
+    <h2>Що таке PMF і чому про нього думають постійно <a class="tc" data-t="102" href="https://youtu.be/qvu6Q7O2mk4?t=102s">1:42</a></h2>
+    <p>Якщо дуже просто, PMF — це наскільки ваш продукт потрібен ринку і наскільки він на цьому ринку помітний. Концепція блакитного й червоного океанів — одна з частин PMF <a class="tc" data-t="102" href="https://youtu.be/qvu6Q7O2mk4?t=102s">1:42</a>.</p>
+    <p>Після генерації й валідації ідеї треба поставити собі питання, чи продукт узагалі потрібен ринку <a class="tc" data-t="161" href="https://youtu.be/qvu6Q7O2mk4?t=161s">2:41</a>. Приклад лектора — компанії, які колись заробляли на масових SMS-розсилках. Інформацію тепер отримують інакше, і їхній продукт став вузьким <a class="tc" data-t="219" href="https://youtu.be/qvu6Q7O2mk4?t=219s">3:39</a>.</p>
+    <p>Думати треба не лише про важливість для ринку сьогодні, а й про те, наскільки ви будете важливі, коли добудуєте продукт, і в майбутньому, щоб вчасно вийти (exit). За словами лектора, засновник з кількома екзитами кращий за того, хто тягне одну компанію до нескінченності <a class="tc" data-t="219" href="https://youtu.be/qvu6Q7O2mk4?t=219s">3:39</a>.</p>
+  </section>
+
+  <section id="own-head">
+    <h2>PMF, вигаданий у голові <a class="tc" data-t="268" href="https://youtu.be/qvu6Q7O2mk4?t=268s">4:28</a></h2>
+    <p>Засновники люблять казати, що PMF у них є, але найчастіше вони придумали його собі <a class="tc" data-t="268" href="https://youtu.be/qvu6Q7O2mk4?t=268s">4:28</a>. Його треба валідувати з потенційними користувачами: пройти через Custdev і всі етапи go-to-market, про які буде наступна лекція <a class="tc" data-t="296" href="https://youtu.be/qvu6Q7O2mk4?t=296s">4:56</a>.</p>
+    <p>Можна геніально вирішити реальну проблему не тим шляхом. Лектор згадує ідеї портфоліо-трекера чи журналу для трейдерів, які вже звучали цього сезону: якщо підійти з іншого боку, проблеми немає <a class="tc" data-t="296" href="https://youtu.be/qvu6Q7O2mk4?t=296s">4:56</a>.</p>
+    <p>Приклад Sequoia <a class="tc" data-t="363" href="https://youtu.be/qvu6Q7O2mk4?t=363s">6:03</a>. Фонд розширився на глобальний ринок, а потім вийшов з нього назад, націлившись на ринки, де має найбільшу присутність. Фонди, які він структурував у Китаї, Індії та інших регіонах, стали окремими компаніями, що ще приносять гроші, але вже не залежать від нього. Лектор бачить у цьому підхід до PMF у довгій перспективі <a class="tc" data-t="396" href="https://youtu.be/qvu6Q7O2mk4?t=396s">6:36</a>.</p>
+  </section>
+
+  <section id="framework">
+    <h2>Фреймворк: двері й ключ <a class="tc" data-t="449" href="https://youtu.be/qvu6Q7O2mk4?t=449s">7:29</a></h2>
+    <p>Фреймворк тримається на двох питаннях: який у нас ринок і для якого ринку ми вирішуємо проблему; який у нас продукт і з чим ми на цей ринок прийшли <a class="tc" data-t="449" href="https://youtu.be/qvu6Q7O2mk4?t=449s">7:29</a>.</p>
+    <p>Ринок — це двері, продукт — ключ. Кам'яні двері не відкрити сокирою, а дерев'яні — легко. Ключ не обов'язково той, що ви уявили першим, тож варто розширити уявлення про ключі <a class="tc" data-t="463" href="https://youtu.be/qvu6Q7O2mk4?t=463s">7:43</a>.</p>
+    <aside class="callout callout--tip"><p>Ключ має пасувати до дверей: що відкриває дерев'яні двері, не обов'язково відкриє кам'яні <a class="tc" data-t="463" href="https://youtu.be/qvu6Q7O2mk4?t=463s">7:43</a>.</p></aside>
+  </section>
+
+  <section id="market-types">
+    <h2>Три типи ринку за станом користувача <a class="tc" data-t="481" href="https://youtu.be/qvu6Q7O2mk4?t=481s">8:01</a></h2>
+    <p><strong>Біль горить сьогодні.</strong> Користувачі без рішення «помруть» <a class="tc" data-t="481" href="https://youtu.be/qvu6Q7O2mk4?t=481s">8:01</a>. Хороший приклад в минулому — обгортки (wrappers) над ChatGPT. Люди ставили чату дуже конкретні питання й отримували погані відповіді, а своїх GPT зробити не вміли. Хто встиг у цей момент, заробив на простій обгортці з системними промптами <a class="tc" data-t="506" href="https://youtu.be/qvu6Q7O2mk4?t=506s">8:26</a>.</p>
+    <p>Тепер на такому ринку шум: лектор жартує про 250 нотейкерів, 350 фінансових контролерів і 12 тисяч трекерів калорій в App Store і Google Play. Щоб прорватися, треба чітке позиціонування й бути найкращим у класі, дешевшим або давати значно більше цінності <a class="tc" data-t="549" href="https://youtu.be/qvu6Q7O2mk4?t=549s">9:09</a>.</p>
+    <p>Приклад від лектора — Wispr Flow: диктування напряму в текст, систематизація дзвінків і підсумки, які прилітають у Telegram <a class="tc" data-t="586" href="https://youtu.be/qvu6Q7O2mk4?t=586s">9:46</a>. Будь-який нотейкер можна налаштувати схоже через API-ключ і бота, але це 25 кроків, а кожен такий крок ламає UX і відсікає користувачів. Wispr Flow додає ще й ігрові механіки: серії, статистику використання <a class="tc" data-t="632" href="https://youtu.be/qvu6Q7O2mk4?t=632s">10:32</a>.</p>
+    <aside class="callout callout--warning"><p>Недостатньо бути трохи кращим. Якщо у рішення «невелика проблемка», а вашу таблицю в Excel «заповнювати зручніше», це спрацює для когось, але це не продукт широкого класу. Треба повністю відрізнятися <a class="tc" data-t="678" href="https://youtu.be/qvu6Q7O2mk4?t=678s">11:18</a>.</p></aside>
+    <p>Приклади ринків, де «все горить»: перпетуал-DEX, футбольні фанати з фанатськими кампаніями для малих клубів <a class="tc" data-t="710" href="https://youtu.be/qvu6Q7O2mk4?t=710s">11:50</a>. Коли в людей горить, вони самі бігають і кричать про це, і це найпростіша валідація. Головне тут — підхід (approach) <a class="tc" data-t="710" href="https://youtu.be/qvu6Q7O2mk4?t=710s">11:50</a>.</p>
+    <p><strong>Люди звикли до болю.</strong> У багатьох ринках працюють у незручних системах. Лектор згадує тих, хто робить холодні розсилки й втомився відправляти 400 тисяч повідомлень руками. Наявні інструменти щось спрощують, але комунікацію не автоматизують <a class="tc" data-t="779" href="https://youtu.be/qvu6Q7O2mk4?t=779s">12:59</a>. Такі люди дивляться на вас як на ще одного, хто прийшов розв'язувати проблему, яку вони не просили розв'язувати <a class="tc" data-t="809" href="https://youtu.be/qvu6Q7O2mk4?t=809s">13:29</a>.</p>
+    <p>Треба пересилити звичку й сформувати нову. Лектор радить подумати про «Атомні звички» (можна прочитати стислий переказ) <a class="tc" data-t="833" href="https://youtu.be/qvu6Q7O2mk4?t=833s">13:53</a> і підійти психологічно: покращувати життя потроху або запускати потужний маркетинг. Нове рішення для тих, хто змирився з болем, схоже на четвертого консультанта після трьох, що взяли гроші й нічого не дали: довіри ще немає <a class="tc" data-t="862" href="https://youtu.be/qvu6Q7O2mk4?t=862s">14:22</a>.</p>
+    <p>Приклад про платформу для стартапів і фондів: основна проблема була в тому, що інвестиції починаються зі спілкування людей, а холодна розсилка «з ШІ й промпту» дає дуже малий reply rate <a class="tc" data-t="906" href="https://youtu.be/qvu6Q7O2mk4?t=906s">15:06</a>. Іноді проблему просто не варто вирішувати: новий торговий журнал не змінить життя людей, бо щоб перейти на нього, їм треба зробити свій світ гіршим на кілька тижнів <a class="tc" data-t="1018" href="https://youtu.be/qvu6Q7O2mk4?t=1018s">16:58</a>.</p>
+    <p><strong>Future Vision.</strong> Це широкі, футуристичні ідеї, яким ніхто не вірить, і треба постійно доводити, що нова парадигма працює <a class="tc" data-t="1018" href="https://youtu.be/qvu6Q7O2mk4?t=1018s">16:58</a>. Приклад — ШІ у 2022–2023 роках, коли казали, що машина не напише текст <a class="tc" data-t="1058" href="https://youtu.be/qvu6Q7O2mk4?t=1058s">17:38</a>. Інший — McDonald's: спершу ніхто не вірив, що замовлення можуть видавати за хвилину <a class="tc" data-t="1147" href="https://youtu.be/qvu6Q7O2mk4?t=1147s">19:07</a>.</p>
+    <aside class="callout callout--tip"><p>Перше, на що дивитися на ринку — менталітет майбутнього користувача: допомога потрібна зараз, людина звикла до болю чи вона вам не повірить. З цього збирається ідеальний профіль клієнта (ICP), про який говоритимуть на лекції про go-to-market <a class="tc" data-t="1101" href="https://youtu.be/qvu6Q7O2mk4?t=1101s">18:21</a>.</p></aside>
+  </section>
+
+  <section id="category">
+    <h2>Категорія ринку <a class="tc" data-t="1173" href="https://youtu.be/qvu6Q7O2mk4?t=1173s">19:33</a></h2>
+    <p>Категорій теж три: переповнений ринок, застійний і той, якого ще не існує <a class="tc" data-t="1173" href="https://youtu.be/qvu6Q7O2mk4?t=1173s">19:33</a>.</p>
+    <p><strong>Переповнений.</strong> Там багато стартапів і багато людей, що шукають ідеальне рішення. Можна зробити щось кастомізоване або для вузької аудиторії, з якою вам комфортно. Не будуйте ще один Jupiter, Raydium чи Pump.fun, а робіть те, що ідейно нове або сильно краще <a class="tc" data-t="1173" href="https://youtu.be/qvu6Q7O2mk4?t=1173s">19:33</a>. Як приклад різного підходу лектор згадує Robinhood, де меми можна прив'язати до акцій <a class="tc" data-t="1216" href="https://youtu.be/qvu6Q7O2mk4?t=1216s">20:16</a>.</p>
+    <p><strong>Ринок, якого ще не існує.</strong> Polymarket створив ринок, якого до нього не було, хоча ідея ринків передбачень була описана й досліджена ще з 1998 року <a class="tc" data-t="1277" href="https://youtu.be/qvu6Q7O2mk4?t=1277s">21:17</a>.</p>
+  </section>
+
+  <section id="new-ideas">
+    <h2>Де шукати нові ніші <a class="tc" data-t="1302" href="https://youtu.be/qvu6Q7O2mk4?t=1302s">21:42</a></h2>
+    <p>Якщо не виходить згенерувати глибоку ідею, а market research не хочеться, лектор радить сайт <a href="https://arxiv.org/" target="_blank" rel="noopener">arXiv</a> з науковими статтями. Можна самому або через AI парсити статті за ключовими словами й будувати ідеї про речі, над якими ще мало думали. Це для неіснуючих ринків і Future Vision <a class="tc" data-t="1302" href="https://youtu.be/qvu6Q7O2mk4?t=1302s">21:42</a>.</p>
+    <p>Друга опція — взяти останній рядок таблиці й попросити AI згенерувати ідею, актуальну не за рік, а за два-три роки. Так видно покроковий шлях: у 2022 році був ринок AI, потім з'явилися голосовий і текстовий вхід, генерація картинок і відео, тепер 3D-анімація <a class="tc" data-t="1422" href="https://youtu.be/qvu6Q7O2mk4?t=1422s">23:42</a>.</p>
+    <aside class="callout callout--tip"><p>Не обов'язково будувати щось величезне на кшталт Polymarket (це жахливо складна інфраструктура). Збудуйте щось просте, що вирішує одну конкретну біль, якої ще немає, але поки ви будуєте, вона з'явиться <a class="tc" data-t="1478" href="https://youtu.be/qvu6Q7O2mk4?t=1478s">24:38</a>.</p></aside>
+  </section>
+
+  <section id="overcome">
+    <h2>Що доведеться подолати на ринку <a class="tc" data-t="1521" href="https://youtu.be/qvu6Q7O2mk4?t=1521s">25:21</a></h2>
+    <p>На кожному ринку є щось, що треба подолати. Шум і конкуренцію: потрібні великі маркетингові кошти або ультраунікальний маркетинг. Лектор радить іти в такий ринок, лише якщо ви дуже креативні <a class="tc" data-t="1521" href="https://youtu.be/qvu6Q7O2mk4?t=1521s">25:21</a>.</p>
+    <p>Звичку: тут потрібен аналітичний підхід, тобто зібрати дані й побудувати план, як людині змінити звичку. Приклад — звичка торгувати на централізованих біржах, яку подолав Hyperliquid <a class="tc" data-t="1563" href="https://youtu.be/qvu6Q7O2mk4?t=1563s">26:03</a>.</p>
+    <p>Недовіру (disbelief): якщо люди не вірять, що це можливо, думайте не про те, скільки грошей заробите, а про те, що ви насправді даєте цим людям <a class="tc" data-t="1563" href="https://youtu.be/qvu6Q7O2mk4?t=1563s">26:03</a>. Користувач не завжди розуміє, навіщо ще одна обгортка ChatGPT <a class="tc" data-t="1650" href="https://youtu.be/qvu6Q7O2mk4?t=1650s">27:30</a>.</p>
+    <p>Про спільноту <a class="tc" data-t="1704" href="https://youtu.be/qvu6Q7O2mk4?t=1704s">28:24</a>. Квести, підписки в Twitter і «ком'юніті» можна показувати інвесторам заради статистики, але це не люди, які реально користуються продуктом. З них прийде певний відсоток конверсії. Дивіться на нього: він буде вищий лише за креативного підходу чи справді якісного продукту, який торкається болю, з яким люди не готові миритися <a class="tc" data-t="1727" href="https://youtu.be/qvu6Q7O2mk4?t=1727s">28:47</a>.</p>
+  </section>
+
+  <section id="fail-modes">
+    <h2>Режими провалу й інгредієнт <a class="tc" data-t="1810" href="https://youtu.be/qvu6Q7O2mk4?t=1810s">30:10</a></h2>
+    <p>Засновники закохуються в ідею й доводять усім, що світ не правий. Натомість треба чітко розуміти, коли продукт перестає бути актуальним, і для цього лектор пропонує кілька режимів провалу (failure modes) <a class="tc" data-t="1727" href="https://youtu.be/qvu6Q7O2mk4?t=1727s">28:47</a>.</p>
+    <p><strong>Вас переграли (outcompeted).</strong> Конкуренти об'єктивно кращі, швидші, дешевші, цікавіші <a class="tc" data-t="1810" href="https://youtu.be/qvu6Q7O2mk4?t=1810s">30:10</a>. Це питання, до якого треба повертатися постійно, а не лише на старті <a class="tc" data-t="1864" href="https://youtu.be/qvu6Q7O2mk4?t=1864s">31:04</a>. Інакше прийде продукт набагато крутіший і забере аудиторію <a class="tc" data-t="1887" href="https://youtu.be/qvu6Q7O2mk4?t=1887s">31:27</a>.</p>
+    <p><strong>Проблему не варто вирішувати.</strong> Якщо ви її вигадали або її ніколи не було <a class="tc" data-t="1887" href="https://youtu.be/qvu6Q7O2mk4?t=1887s">31:27</a>. Лектор порівнює це з поясненням поліцейському, що повернув у забороненому місці, бо так «безпечніше» <a class="tc" data-t="1887" href="https://youtu.be/qvu6Q7O2mk4?t=1887s">31:27</a>. Як приклад — AI-агенти: усі будують «для агентів», і лектор готовий сперечатися з тим, хто це робить, не працюючи з агентами і не знаючи майбутнього користувача <a class="tc" data-t="1935" href="https://youtu.be/qvu6Q7O2mk4?t=1935s">32:15</a>.</p>
+    <aside class="callout callout--warning"><p>Для кожного продукту потрібен інгредієнт: або відрізнятися, або бути стабільним (sustainable) <a class="tc" data-t="1975" href="https://youtu.be/qvu6Q7O2mk4?t=1975s">32:55</a>. Стабільність — це послідовність: ви щодня повертаєтесь до справи, і за цим на вас підписуються. Лектор наводить приклад співзасновника, який пообіцяв рік щодня викладати відео <a class="tc" data-t="1975" href="https://youtu.be/qvu6Q7O2mk4?t=1975s">32:55</a>. Робіть щось дуже довго, і ви розберетесь у цьому настільки, що зможете показати, як воно працює <a class="tc" data-t="2015" href="https://youtu.be/qvu6Q7O2mk4?t=2015s">33:35</a>.</p></aside>
+  </section>
+
+  <section id="future-vision">
+    <h2>Future Vision: оборонка й dual use <a class="tc" data-t="2075" href="https://youtu.be/qvu6Q7O2mk4?t=2075s">34:35</a></h2>
+    <p>Щоб мати зрозумілий Future Vision, треба вміти адаптуватися до потреб ринку. Лектор показує це на оборонних технологіях: в IT-чатах закликають перейти з «нудного IT» в оборонне. Не вистачає фахівців і рішень, що працюють від А до Я <a class="tc" data-t="2075" href="https://youtu.be/qvu6Q7O2mk4?t=2075s">34:35</a>, <a class="tc" data-t="2137" href="https://youtu.be/qvu6Q7O2mk4?t=2137s">35:37</a>.</p>
+    <p>Блокчейн тут теж доречний. За словами лектора, головний маркетплейс, де військові й бригади купують дрони, працює на блокчейні. Він також згадує ідеї токенізації замінованої землі для спонсорування розмінування й записування воєнних злочинів Росії на Bitcoin для майбутніх поколінь <a class="tc" data-t="2137" href="https://youtu.be/qvu6Q7O2mk4?t=2137s">35:37</a>, <a class="tc" data-t="2182" href="https://youtu.be/qvu6Q7O2mk4?t=2182s">36:22</a>.</p>
+    <aside class="callout callout--tip"><p>Між оборонкою й мемкоїнами теж можливий перетин. Тому на етапі валідації ідеї дивіться не в одну нішу, а в дві чи три, навіть непоєднувані <a class="tc" data-t="2249" href="https://youtu.be/qvu6Q7O2mk4?t=2249s">37:29</a>. Інструмент, що відстежує зміни в лісі для лісників, може стати модулем на дроні. Dual use дуже важливий <a class="tc" data-t="2300" href="https://youtu.be/qvu6Q7O2mk4?t=2300s">38:20</a>.</p></aside>
+    <p>Лектор розповідає історію Apple як серію Future Vision. На першому Mac доводилося мати власну клавіатуру, не було ідеї миші, а програм було мало <a class="tc" data-t="2350" href="https://youtu.be/qvu6Q7O2mk4?t=2350s">39:10</a>. Mac 2 захопив велику аудиторію й змінив уявлення, що комп'ютер має бути «шафою». Потім з'явилися iPhone, iPod та інші лінійки <a class="tc" data-t="2350" href="https://youtu.be/qvu6Q7O2mk4?t=2350s">39:10</a>. Вижили iPhone, інше визнання отримало не всюди <a class="tc" data-t="2395" href="https://youtu.be/qvu6Q7O2mk4?t=2395s">39:55</a>.</p>
+    <p>З таблицею «ринок, користувач, категорія, що подолати» можна зробити продукт із якісною value proposition, зрозумілим режимом провалу, де ви не б'єте в стіну без кінця, та інгредієнтом, який дасть перевагу. Далі треба доставити (deliver) <a class="tc" data-t="2427" href="https://youtu.be/qvu6Q7O2mk4?t=2427s">40:27</a>.</p>
+  </section>
+
+  <section id="levels">
+    <h2>Рівні PMF і три виміри <a class="tc" data-t="2521" href="https://youtu.be/qvu6Q7O2mk4?t=2521s">42:01</a></h2>
+    <p>У PMF є рівні, і кожен раз треба проходити ту саму таблицю заново, дивлячись на продукт як на нове. Поки розробляєте продукт, PMF може втратитися, і тоді будуєте новий. Саме тут і працює Time to Market <a class="tc" data-t="2521" href="https://youtu.be/qvu6Q7O2mk4?t=2521s">42:01</a>, <a class="tc" data-t="2551" href="https://youtu.be/qvu6Q7O2mk4?t=2551s">42:31</a>.</p>
+    <p>PMF існує в трьох вимірах: попит, задоволення й ефективність <a class="tc" data-t="2606" href="https://youtu.be/qvu6Q7O2mk4?t=2606s">43:26</a>. Користувач, у якого є попит, прийде. Якщо задоволений — залишиться довше. Якщо ефективність покращується з кожним разом — ще довше. Лектор ілюструє це перемиканням людей між Claude і ChatGPT залежно від того, чия модель ефективніша <a class="tc" data-t="2606" href="https://youtu.be/qvu6Q7O2mk4?t=2606s">43:26</a>, <a class="tc" data-t="2657" href="https://youtu.be/qvu6Q7O2mk4?t=2657s">44:17</a>.</p>
+    <p>Утримує людей і зручний UX: багато хто просто за звичкою дістає телефон і питає AI, що відбувається на вулиці. Попит теж не вічний <a class="tc" data-t="2657" href="https://youtu.be/qvu6Q7O2mk4?t=2657s">44:17</a>, <a class="tc" data-t="2695" href="https://youtu.be/qvu6Q7O2mk4?t=2695s">44:55</a>. Для деяких користувачів існує не всі три виміри: хтось платить за ChatGPT і пише два повідомлення, хтось користується, бо ефективно, хоча незручно <a class="tc" data-t="3075" href="https://youtu.be/qvu6Q7O2mk4?t=3075s">51:15</a>.</p>
+  </section>
+
+  <section id="levers">
+    <h2>Важелі: користувач, проблема, обіцянка, продукт <a class="tc" data-t="2695" href="https://youtu.be/qvu6Q7O2mk4?t=2695s">44:55</a></h2>
+    <p>Свій PMF можна міняти самому. Є чотири важелі <a class="tc" data-t="3018" href="https://youtu.be/qvu6Q7O2mk4?t=3018s">50:18</a>.</p>
+    <ol>
+      <li><strong>Користувач.</strong> Робили для аграріїв і лісників, а їм не хочеться купувати; змінили персону на військових, і продукт став набагато актуальнішим <a class="tc" data-t="2695" href="https://youtu.be/qvu6Q7O2mk4?t=2695s">44:55</a>.</li>
+      <li><strong>Проблема.</strong> Для тих самих людей можна розв'язувати іншу. Лектор бере приклад дорогих ліків: замість лікування почати виробляти щось дешевше, що знімає біль. Він сам визнає, що з моральної точки зору це не дуже добре <a class="tc" data-t="2878" href="https://youtu.be/qvu6Q7O2mk4?t=2878s">47:58</a>, <a class="tc" data-t="2901" href="https://youtu.be/qvu6Q7O2mk4?t=2901s">48:21</a>.</li>
+      <li><strong>Обіцянка.</strong> Можна заявляти, що ви найкращі, а можна бути чесними й прямими <a class="tc" data-t="2901" href="https://youtu.be/qvu6Q7O2mk4?t=2901s">48:21</a>.</li>
+      <li><strong>Продукт.</strong> Та сама аудиторія, проблема й обіцянка, але інший шлях. Двері можна відкрити ключем, а можна «паром, молотком», а може й танком <a class="tc" data-t="2901" href="https://youtu.be/qvu6Q7O2mk4?t=2901s">48:21</a>, <a class="tc" data-t="2933" href="https://youtu.be/qvu6Q7O2mk4?t=2933s">48:53</a>.</li>
+    </ol>
+    <p>Як приклад зміни проблеми лектор розповідає про опціони: складне «за 50 доларів купую можливість купити ефір по 2300, якщо за тиждень він впаде» важко зрозуміти, а ставка на команду з відривом менше 5 очок зрозуміліша. Prediction market на ціну за хвилину схожий на ринок передбачень, а не на бінарні опціони <a class="tc" data-t="2752" href="https://youtu.be/qvu6Q7O2mk4?t=2752s">45:52</a>, <a class="tc" data-t="2823" href="https://youtu.be/qvu6Q7O2mk4?t=2823s">47:03</a>.</p>
+    <aside class="callout callout--warning"><p>Маркетинг не замінює PMF. Стартапи ранньої стадії часто вважають, що достатньо розповісти про себе багатьом людям. Вливати мільйони в маркетинг, щоб отримати людей, в якийсь момент економічно невигідно. Агенція за 100 тисяч доларів зробить, що попросили, але чи повернуться гроші — велике питання <a class="tc" data-t="2933" href="https://youtu.be/qvu6Q7O2mk4?t=2933s">48:53</a>, <a class="tc" data-t="2990" href="https://youtu.be/qvu6Q7O2mk4?t=2990s">49:50</a>.</p></aside>
+    <p>Підсумок: ви розумієте категорію ринку, розумієте, як будуєте продукт для неї, і маєте кілька інструментів для змін: сам продукт, обіцянку, персону користувача, проблему. Паралельно пам'ятаєте про попит, задоволення й ефективність <a class="tc" data-t="3018" href="https://youtu.be/qvu6Q7O2mk4?t=3018s">50:18</a>, <a class="tc" data-t="3052" href="https://youtu.be/qvu6Q7O2mk4?t=3052s">50:52</a>.</p>
+    <p>Змінювати це можна на чотирьох сходинках: коли це лише ідея, коли продукт у розробці, коли запустили і зрозуміли, що не працює, і коли продукт давно працює, але нові користувачі не приходять і бізнес стагнує <a class="tc" data-t="3101" href="https://youtu.be/qvu6Q7O2mk4?t=3101s">51:41</a>.</p>
+  </section>
+
+  <section id="pivot">
+    <h2>Півотинг <a class="tc" data-t="3135" href="https://youtu.be/qvu6Q7O2mk4?t=3135s">52:15</a></h2>
+    <p>Півотинг — коли ви використовуєте напрацювання з мінімальною зміною, щоб ідея стала актуальнішою. По суті, це застосування одного з важелів <a class="tc" data-t="3135" href="https://youtu.be/qvu6Q7O2mk4?t=3135s">52:15</a>, <a class="tc" data-t="3158" href="https://youtu.be/qvu6Q7O2mk4?t=3158s">52:38</a>.</p>
+    <p>Перед півотом треба чітко розуміти, у якому режимі провалу ви виходите з попередньої ідеї. Лектор порівнює це з ретроспективою в agile: що пішло не так і чи не повториться це знову <a class="tc" data-t="3158" href="https://youtu.be/qvu6Q7O2mk4?t=3158s">52:38</a>, <a class="tc" data-t="3183" href="https://youtu.be/qvu6Q7O2mk4?t=3183s">53:03</a>.</p>
+    <aside class="callout callout--warning"><p>Змінювати треба предметно. Не вийде сказати «будували для ретродроп-хантерів на Solana, тепер будуємо для ретродроп-хантерів на Ethereum», коли вони вже майже не хочуть нічим користуватися. Якщо не змінюєте предметно, перевірте, чи хоч один важіль справді змінює підхід. Іноді треба використати кілька <a class="tc" data-t="3183" href="https://youtu.be/qvu6Q7O2mk4?t=3183s">53:03</a>, <a class="tc" data-t="3213" href="https://youtu.be/qvu6Q7O2mk4?t=3213s">53:33</a>.</p></aside>
+  </section>
+
+  <section id="exit">
+    <h2>Коли півотитись або виходити <a class="tc" data-t="3246" href="https://youtu.be/qvu6Q7O2mk4?t=3246s">54:06</a></h2>
+    <p>Багатьох продуктів, якими користувалися 5, 10 чи 20 років тому, більше немає. Лектор згадує Yahoo, який відмовився купувати Google на кількох етапах і зрештою занепав <a class="tc" data-t="3246" href="https://youtu.be/qvu6Q7O2mk4?t=3246s">54:06</a>, <a class="tc" data-t="3297" href="https://youtu.be/qvu6Q7O2mk4?t=3297s">54:57</a>.</p>
+    <p>Цінність продукту має бути «в рейнджі». Якщо давати забагато безкоштовно, користувачі починають підозрювати щось недобре, як у випадку з безкоштовними VPN <a class="tc" data-t="3321" href="https://youtu.be/qvu6Q7O2mk4?t=3321s">55:21</a>.</p>
+    <blockquote class="quote"><p>Безкоштовний сир буває тільки в мишоловці.</p></blockquote>
+    <p>Цитата — <a class="tc" data-t="3321" href="https://youtu.be/qvu6Q7O2mk4?t=3321s">55:21</a>. Давати мало цінності теж погано, але на старті її й не буде багато: вона зростає з розвитком продукту й партнерств, що в web3 дуже важливо <a class="tc" data-t="3356" href="https://youtu.be/qvu6Q7O2mk4?t=3356s">55:56</a>. Поріг PMF при цьому теж зростає <a class="tc" data-t="3390" href="https://youtu.be/qvu6Q7O2mk4?t=3390s">56:30</a>.</p>
+    <p>Приклади: Nokia не впоралась зі смартфонами <a class="tc" data-t="3390" href="https://youtu.be/qvu6Q7O2mk4?t=3390s">56:30</a>; у Stack Overflow стався «колапс PMF», бо AI почав відповідати на ті самі питання значно краще <a class="tc" data-t="3429" href="https://youtu.be/qvu6Q7O2mk4?t=3429s">57:09</a>. Півотитись не варто боятися: шукайте шлях, який збереже найбільше часу, грошей і нервів <a class="tc" data-t="3460" href="https://youtu.be/qvu6Q7O2mk4?t=3460s">57:40</a>.</p>
+    <p>Вийти можна й раніше, збудувавши нову компанію. Це не півотинг, але працює за тими самими правилами <a class="tc" data-t="3517" href="https://youtu.be/qvu6Q7O2mk4?t=3517s">58:37</a>.</p>
+  </section>
+
+  <section id="ttm">
+    <h2>Time to Market <a class="tc" data-t="3527" href="https://youtu.be/qvu6Q7O2mk4?t=3527s">58:47</a></h2>
+    <p>Перше: думайте трохи наперед. Ви не запуститесь завтра: спочатку витрати часу, грошей чи токенів Claude на ідею, дизайн, розробку й вихід на ринок <a class="tc" data-t="3548" href="https://youtu.be/qvu6Q7O2mk4?t=3548s">59:08</a>, <a class="tc" data-t="3579" href="https://youtu.be/qvu6Q7O2mk4?t=3579s">59:39</a>. Продукт запускається в майбутньому, і важливо, щоб він був актуальним тоді. Тому час від часу варто повертатися до питання, чи буде він актуальним <a class="tc" data-t="3616" href="https://youtu.be/qvu6Q7O2mk4?t=3616s">1:00:16</a>.</p>
+    <p>Можна рухатися довгою аналітикою, повільно й дорого. Лектор рекомендує тестувати гіпотези <a class="tc" data-t="3616" href="https://youtu.be/qvu6Q7O2mk4?t=3616s">1:00:16</a>, <a class="tc" data-t="3646" href="https://youtu.be/qvu6Q7O2mk4?t=3646s">1:00:46</a>. Якщо розумієте, що будуєте лише заради грошей, подумайте, як одним чи кількома важелями зробити продукт потрібним <a class="tc" data-t="3646" href="https://youtu.be/qvu6Q7O2mk4?t=3646s">1:00:46</a>.</p>
+    <p>Друге: ви або інноваційні, або стабільні <a class="tc" data-t="3672" href="https://youtu.be/qvu6Q7O2mk4?t=3672s">1:01:12</a>. Стабільність — надавати цінність, яку гарантуєте. Інновація — розуміти, що це буде актуально в майбутньому, для чого потрібні market research і аналіз конкурентів <a class="tc" data-t="3723" href="https://youtu.be/qvu6Q7O2mk4?t=3723s">1:02:03</a>. Приклад стабільного попиту: малі реактивні двигуни для дронів-перехоплювачів, попит на які доволі стабільний <a class="tc" data-t="3781" href="https://youtu.be/qvu6Q7O2mk4?t=3781s">1:03:01</a>, а ще їжа, вода й житло <a class="tc" data-t="3811" href="https://youtu.be/qvu6Q7O2mk4?t=3811s">1:03:31</a>.</p>
+  </section>
+
+  <section id="launch">
+    <h2>Запізнитись чи запуститись зарано <a class="tc" data-t="3811" href="https://youtu.be/qvu6Q7O2mk4?t=3811s">1:03:31</a></h2>
+    <p>Якщо постійно відкладати запуск і казати «зараз добудую», ви втрачаєте продажі чи виручку <a class="tc" data-t="3811" href="https://youtu.be/qvu6Q7O2mk4?t=3811s">1:03:31</a>, <a class="tc" data-t="3870" href="https://youtu.be/qvu6Q7O2mk4?t=3870s">1:04:30</a>. Але іноді запуск зарано теж не потрапляє в Time to Market. Лектор наводить оплату криптою в Україні на EOS: тоді вона нікому не була потрібна <a class="tc" data-t="3870" href="https://youtu.be/qvu6Q7O2mk4?t=3870s">1:04:30</a>. У 2024–2025 роках платіжних інструментів уже безліч <a class="tc" data-t="3918" href="https://youtu.be/qvu6Q7O2mk4?t=3918s">1:05:18</a>.</p>
+    <aside class="callout callout--tip"><p>Треба чітко розуміти, коли найкращий час для запуску, і запускатися, а не відкладати навічно. Ship fast <a class="tc" data-t="3918" href="https://youtu.be/qvu6Q7O2mk4?t=3918s">1:05:18</a>, <a class="tc" data-t="3959" href="https://youtu.be/qvu6Q7O2mk4?t=3959s">1:05:59</a>.</p></aside>
+  </section>
+
+  <section id="investors">
+    <h2>Хакатони, гранти й погляд інвестора <a class="tc" data-t="4001" href="https://youtu.be/qvu6Q7O2mk4?t=4001s">1:06:41</a></h2>
+    <p>Лектор каже, що вікно для Time to Market трохи розширилось, але чекати конкретного моменту все одно не варто <a class="tc" data-t="4001" href="https://youtu.be/qvu6Q7O2mk4?t=4001s">1:06:41</a>. Якщо запустите продукт на хакатоні й зрозумієте, що ідея не ідеальна, а вам прийшла інша, починайте будувати її одразу, не чекайте наступного хакатону <a class="tc" data-t="4001" href="https://youtu.be/qvu6Q7O2mk4?t=4001s">1:06:41</a>. Якщо побудуєте й доставите продукт, спільнота підтримає, гранти й фінансування знайдуться <a class="tc" data-t="4042" href="https://youtu.be/qvu6Q7O2mk4?t=4042s">1:07:22</a>.</p>
+    <p>Корисно мати когось з боку інвесторів: вони дають валідацію не з погляду користувача, а з погляду інвестора <a class="tc" data-t="4042" href="https://youtu.be/qvu6Q7O2mk4?t=4042s">1:07:22</a>. Інвестора треба переконати, чому він має вкласти гроші. Тому Time to Market має бути не «одноденною монеткою на Pump.fun», а чимось предметнішим і довшим <a class="tc" data-t="4078" href="https://youtu.be/qvu6Q7O2mk4?t=4078s">1:07:58</a>.</p>
+    <p>Продукт має працювати сьогодні, а ви маєте показати, що якщо він перестане працювати завтра, ви зможете півотнутись. Для цього й існують акселератори та хакатони: щоб отримати думку не лише користувачів, а й засновників, менторів і людей з фондів <a class="tc" data-t="4103" href="https://youtu.be/qvu6Q7O2mk4?t=4103s">1:08:23</a>. Лектор каже, що вони з колегою спілкувалися з багатьма фондами й розуміють критерії, за якими фонд інвестує в одне й не інвестує в інше <a class="tc" data-t="4103" href="https://youtu.be/qvu6Q7O2mk4?t=4103s">1:08:23</a>.</p>
+  </section>
+
+  <section id="cycle">
+    <h2>Повертаємось до циклу <a class="tc" data-t="4178" href="https://youtu.be/qvu6Q7O2mk4?t=4178s">1:09:38</a></h2>
+    <p>Спершу класичний цикл: згенерували ідею, подивилися на конкурентів і на ринок, валідували з людьми. Його можна повторювати безліч разів. Після цього класифікуйте свій ринок і тип користувача та перевірте, наскільки люди, з якими ви валідували, під цей тип підпадають. Валідувати ідею стартапу з бабусею не завжди найкраща ідея <a class="tc" data-t="4178" href="https://youtu.be/qvu6Q7O2mk4?t=4178s">1:09:38</a>.</p>
+    <p>Будуйте те, що вам подобається й що ви любите: послідовність і стабільність майже завжди кращі, ніж «тільки заради грошей» <a class="tc" data-t="4178" href="https://youtu.be/qvu6Q7O2mk4?t=4178s">1:09:38</a>, <a class="tc" data-t="4247" href="https://youtu.be/qvu6Q7O2mk4?t=4247s">1:10:47</a>.</p>
+    <p>Спойлер до наступної лекції: коли є план виконання, ви будуєте стратегію, позиціонуєте проєкт, виконуєте, адаптуєтесь, можливо, півотитесь і знову повертаєтесь до циклу <a class="tc" data-t="4247" href="https://youtu.be/qvu6Q7O2mk4?t=4247s">1:10:47</a>, <a class="tc" data-t="4292" href="https://youtu.be/qvu6Q7O2mk4?t=4292s">1:11:32</a>. Робіть власний ресерч. З першого разу, за словами лектора, зазвичай не виходить <a class="tc" data-t="4292" href="https://youtu.be/qvu6Q7O2mk4?t=4292s">1:11:32</a>.</p>
+    <blockquote class="quote"><p>Мрійте, будуйте і повторюйте.</p></blockquote>
+    <p>Цитата — <a class="tc" data-t="4317" href="https://youtu.be/qvu6Q7O2mk4?t=4317s">1:11:57</a>.</p>
+  </section>
+
+  <section id="qa">
+    <h2>Питання: проєкт з аналітикою для трейдерів <a class="tc" data-t="4352" href="https://youtu.be/qvu6Q7O2mk4?t=4352s">1:12:32</a></h2>
+    <p>Учасник представив проєкт: платформа аналізує ринок і дає прогноз, що краще зробити з активом, купувати чи продавати <a class="tc" data-t="4406" href="https://youtu.be/qvu6Q7O2mk4?t=4406s">1:13:26</a>. На минулому презентуванні сказали, що буде багато питань, якщо хтось закладе квартиру чи візьме кредит, і тепер треба адаптувати це під масовий ринок <a class="tc" data-t="4406" href="https://youtu.be/qvu6Q7O2mk4?t=4406s">1:13:26</a>.</p>
+    <p>Поради лектора: подумати, куди з продуктом можна піти, до яких користувачів і яку цінність для них принести <a class="tc" data-t="4463" href="https://youtu.be/qvu6Q7O2mk4?t=4463s">1:14:23</a>. Подивитися на ліцензування й юридичні особливості різних регіонів, бо рекомендації для вас можуть бути великим знаком питання <a class="tc" data-t="4563" href="https://youtu.be/qvu6Q7O2mk4?t=4563s">1:16:03</a>. До аналітики питань менше, бо ви нікого ні до чого не змушуєте, але прогнози з рекомендаціями привертають регуляторні норми <a class="tc" data-t="4591" href="https://youtu.be/qvu6Q7O2mk4?t=4591s">1:16:31</a>. Можна також піти в B2B: бути постачальником аналітики для брокерів і букмекерів <a class="tc" data-t="4628" href="https://youtu.be/qvu6Q7O2mk4?t=4628s">1:17:08</a>.</p>
+    <p>У четвер буде чекпоінт, де додатково валідуватимуть ідеї. Через тиждень-два пройдуть по Go-to-Market: як він працює і в якому форматі його будувати. Лектор називає це важливою складовою поруч із market research, аналізом конкурентів, генерацією ідеї, PMF і Time to Market <a class="tc" data-t="4697" href="https://youtu.be/qvu6Q7O2mk4?t=4697s">1:18:17</a>.</p>
+  </section>
+
+  <section id="tools">
+    <h2>Інструменти з лекції</h2>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Інструмент</th><th>Для чого радить лектор</th><th>Таймкод</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="https://arxiv.org/" target="_blank" rel="noopener">arXiv</a></td><td>Сайт з науковими статтями: фільтрувати за ключовими словами, парсити через AI й шукати ідеї для ринків, яких ще немає.</td><td><a class="tc" data-t="1302" href="https://youtu.be/qvu6Q7O2mk4?t=1302s">21:42</a></td></tr>
+        <tr><td><a href="https://wisprflow.ai/" target="_blank" rel="noopener">Wispr Flow</a></td><td>Приклад продукту, який вирізнився в переповненій категорії нотейкерів: диктування, підсумки дзвінків у Telegram, ігрові механіки.</td><td><a class="tc" data-t="586" href="https://youtu.be/qvu6Q7O2mk4?t=586s">9:46</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="homework" class="homework">
+    <h2>Повторити самостійно</h2>
+    <ol>
+      <li>Окремого домашнього завдання на цій лекції не було. Лектор лише радить проводити власний ресерч і повторювати цикл <a class="tc" data-t="4292" href="https://youtu.be/qvu6Q7O2mk4?t=4292s">1:11:32</a>.</li>
+      <li>Визначте тип свого ринку: біль горить, люди звикли до болю чи Future Vision, і що з цього випливає для вашого ICP <a class="tc" data-t="1101" href="https://youtu.be/qvu6Q7O2mk4?t=1101s">18:21</a>.</li>
+      <li>Визначте категорію ринку (переповнений, застійний, неіснуючий) і те, що вам доведеться подолати <a class="tc" data-t="1173" href="https://youtu.be/qvu6Q7O2mk4?t=1173s">19:33</a>, <a class="tc" data-t="1521" href="https://youtu.be/qvu6Q7O2mk4?t=1521s">25:21</a>.</li>
+      <li>Перевірте, чи люди, з якими ви валідували ідею, справді належать до вашого типу користувача <a class="tc" data-t="4178" href="https://youtu.be/qvu6Q7O2mk4?t=4178s">1:09:38</a>.</li>
+      <li>Пройдіть режими провалу: чи не переграли вас, чи варто вирішувати цю проблему <a class="tc" data-t="1810" href="https://youtu.be/qvu6Q7O2mk4?t=1810s">30:10</a>, <a class="tc" data-t="1887" href="https://youtu.be/qvu6Q7O2mk4?t=1887s">31:27</a>.</li>
+      <li>Оцініть попит, задоволення й ефективність для вашого користувача <a class="tc" data-t="2606" href="https://youtu.be/qvu6Q7O2mk4?t=2606s">43:26</a>.</li>
+      <li>Якщо щось не працює, спробуйте змінити один важіль: користувача, проблему, обіцянку чи продукт, і пройдіть ретроспективу перед півотом <a class="tc" data-t="2695" href="https://youtu.be/qvu6Q7O2mk4?t=2695s">44:55</a>, <a class="tc" data-t="3158" href="https://youtu.be/qvu6Q7O2mk4?t=3158s">52:38</a>.</li>
+      <li>Не відкладайте запуск: протестуйте гіпотезу й виберіть, ви інновація чи стабільність <a class="tc" data-t="3646" href="https://youtu.be/qvu6Q7O2mk4?t=3646s">1:00:46</a>, <a class="tc" data-t="3672" href="https://youtu.be/qvu6Q7O2mk4?t=3672s">1:01:12</a>.</li>
+    </ol>
+  </section>
+
+  <section id="checklist" class="checklist">
+    <h2>Коротко: чекліст</h2>
+    <ol>
+      <li>PMF треба валідувати з користувачами, а не вигадувати в голові.</li>
+      <li>Ринок — це двері, продукт — ключ: підбирайте ключ під двері.</li>
+      <li>Дізнайтесь, який у користувача менталітет: біль горить, змирився з болем чи не повірить.</li>
+      <li>У переповненому ринку мало бути трохи кращим, треба відрізнятися.</li>
+      <li>Нову звичку формують психологією або сильним маркетингом.</li>
+      <li>Ком'юніті заради статистики не дорівнює користувачам.</li>
+      <li>Режими провалу: вас переграли чи проблему не варто вирішувати. Перевіряйте їх постійно.</li>
+      <li>Або відрізняйтесь, або будьте стабільними.</li>
+      <li>Дивіться не в одну нішу, а в дві-три: dual use відкриває двері.</li>
+      <li>PMF має три виміри: попит, задоволення, ефективність.</li>
+      <li>Є чотири важелі змін: користувач, проблема, обіцянка, продукт.</li>
+      <li>Перед півотом проведіть ретроспективу й змініть щось предметно.</li>
+      <li>Маркетинг не замінює PMF.</li>
+      <li>Не чекайте ідеального моменту запуску: ship fast.</li>
+      <li>Для інвестора ваш Time to Market має бути довшим за одноденну монетку.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Джерело: <a href="https://youtu.be/qvu6Q7O2mk4">запис лекції «Validation idea» на YouTube</a> — Solana Startup Terminal 2.0, 08.09.2026.</p>
+  <p>Конспект зроблено на основі машинної розшифровки запису; формулювання лектора передано близько до сказаного. Назви інструментів у розшифровці часто спотворені — їх відновлено за контекстом.</p>
+  <p>Концепт сторінки — Alex, учасник програми.</p>
+</footer>
+
+</body>
+</html>

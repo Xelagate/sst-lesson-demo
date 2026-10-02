@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Market research і конкуренти — конспект</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #001020;
+    --surface: #061b30;
+    --blue: #0367c8;
+    --light-blue: #8cc6ff;
+    --yellow: #ffea00;
+    --text: #d2dfec;
+    --muted: #a6bbcf;
+    --line: #274057;
+    font-family: "Manrope", sans-serif;
+    background: var(--page);
+    color: var(--text);
+    font-synthesis: none;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    width: min(1240px, calc(100% - 64px));
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+  }
+  ::selection { color: var(--page); background: var(--light-blue); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 5px; }
+  a { color: var(--light-blue); text-underline-offset: .22em; }
+  a:hover { color: #fff; }
+  h1, h2 { font-family: "Unbounded", sans-serif; color: #f6f9ff; font-weight: 600; }
+  p { margin: 0 0 1.25em; }
+  strong { color: #f3f7fc; font-weight: 800; }
+
+  .lesson-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 0 0 18px; font-size: 13px; }
+  .lesson-nav a { color: var(--light-blue); text-decoration: none; }
+  .lesson-nav a:hover { text-decoration: underline; }
+  .lesson-nav a[aria-current] { color: var(--muted); pointer-events: none; }
+  .concept-note {
+    position: relative;
+    padding: 22px 0 22px 22px;
+    color: #b9cadb;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .concept-note::before {
+    content: "";
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+
+  /* A perforated lesson ticket, with no invented ticket data. */
+  .lesson-hero {
+    --inset: clamp(24px, 4.2vw, 56px);
+    padding: var(--inset);
+    border: 1px solid #294967;
+    border-radius: 36px;
+    background: #00203f;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--light-blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .035em;
+  }
+  .eyebrow::before {
+    content: "";
+    flex: 0 0 24px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--yellow);
+  }
+  .lesson-hero h1 {
+    max-width: 1080px;
+    margin: 0 0 24px;
+    font-size: clamp(28px, 4.1vw, 54px);
+    line-height: 1.22;
+    letter-spacing: -.04em;
+    text-wrap: balance;
+  }
+  .lead { max-width: 80ch; margin: 0; color: #bdcfe1; font-size: 16px; line-height: 1.75; }
+  .lesson-meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 32px calc(-1 * var(--inset)) calc(-1 * var(--inset));
+    padding: 22px var(--inset) 26px;
+    border-top: 1px dashed #53718c;
+    list-style: none;
+  }
+  .lesson-meta::before, .lesson-meta::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #294967;
+    border-radius: 50%;
+    background: var(--page);
+  }
+  .lesson-meta::before { left: -11px; border-left-color: transparent; }
+  .lesson-meta::after { right: -11px; border-right-color: transparent; }
+  .lesson-meta li {
+    padding: 6px 14px;
+    border: 1px solid #36536d;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .lesson-meta li:first-child { background: #0b3155; color: #fff; }
+  .lesson-meta li:last-child { color: var(--yellow); }
+
+  .lesson-media { display: grid; gap: 24px; margin-top: 24px; }
+  .player {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    align-self: start;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #000c18;
+    scroll-margin-top: 24px;
+  }
+  .player > div, .player iframe {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .chapters {
+    min-width: 0;
+    padding: 24px 12px 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+  .chapters h2 { margin: 0 12px 17px 0; font-size: 15px; line-height: 1.5; }
+  .chapters ol {
+    max-height: 360px;
+    margin: 0;
+    padding: 0 10px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-gutter: stable;
+  }
+  .chapters li {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 10px 2px;
+    border-top: 1px solid #1e354b;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .chapters li:first-child { border-top: 0; padding-top: 4px; }
+  .chapters li span { padding-top: 5px; }
+  .chapters li:focus-within span, .chapters li:hover span { color: #fff; }
+  .chapters .tc { width: 70px; justify-content: center; min-height: 30px; font-size: 11px; }
+  .chapters ol, .table-scroll { scrollbar-width: thin; scrollbar-color: #587b9b #061b30; }
+
+  .tc {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 9px;
+    border: 1px solid #34546f;
+    border-radius: 100px;
+    background: #092741;
+    color: var(--light-blue);
+    font-family: "Manrope", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+    letter-spacing: .015em;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background-color .16s, color .16s, border-color .16s, box-shadow .16s;
+  }
+  .tc:hover, .tc:focus-visible {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    color: var(--page);
+    box-shadow: 0 4px 18px rgb(255 234 0 / 16%);
+  }
+
+  .summary { width: 70ch; max-width: 100%; margin: 72px auto 0; }
+  .summary > section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .summary h2 {
+    margin: 0 0 25px;
+    font-size: clamp(21px, 2.25vw, 27px);
+    line-height: 1.45;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+  .summary h2 .tc { margin: 0 0 3px 4px; }
+  .summary ul, .summary ol { margin: 20px 0 26px; padding-left: 26px; }
+  .summary li { padding-left: 6px; margin: 12px 0; }
+  .summary li::marker { color: var(--light-blue); font-weight: 700; }
+  .summary section > :last-child { margin-bottom: 0; }
+
+  .quote {
+    margin: 32px 0;
+    padding: 7px 0 7px 25px;
+    border-left: 3px solid var(--yellow);
+    color: #f1f6fc;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.65;
+  }
+  .quote p { margin: 0; }
+  .callout {
+    --callout-accent: var(--light-blue);
+    margin: 28px 0;
+    padding: 22px 24px;
+    border: 1px solid #2f506f;
+    border-left: 3px solid var(--callout-accent);
+    border-radius: 0 18px 18px 0;
+    background: #09243e;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .callout p { margin: 0; }
+  .callout--tip { --callout-accent: #b9d4e9; border-color: #344b5d; border-left-color: var(--callout-accent); background: #112536; }
+  .callout--warning { --callout-accent: var(--yellow); border-color: #514d2c; border-left-color: var(--callout-accent); background: #242719; color: #e5e3cb; }
+  .summary > .callout--info {
+    margin-top: 0;
+    padding: 28px 30px;
+    border-left-width: 1px;
+    border-top: 3px solid var(--blue);
+    border-radius: 20px;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    margin: 28px 0;
+    overflow-x: auto;
+    border: 1px solid #34506b;
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th, td { padding: 17px 18px; text-align: left; vertical-align: top; }
+  th { border-bottom: 1px solid #3b5a77; background: #103351; color: #eef6ff; font-weight: 800; }
+  td { border-bottom: 1px solid #294158; }
+  th + th, td + td { border-left: 1px solid #294158; }
+  tbody tr:nth-child(even) { background: #0a2136; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { color: #eef5ff; font-weight: 600; }
+  td .tc { margin-top: 4px; }
+  #pain-sources td:nth-child(2), #pain-criteria td:nth-child(2) { min-width: 145px; }
+  #radar td:first-child, #scoring td:first-child { min-width: 145px; }
+
+  .summary > .homework {
+    margin-top: 64px;
+    padding: 32px;
+    border: 1px solid #365b7d;
+    border-top: 3px solid var(--light-blue);
+    border-radius: 24px;
+    background: #00203f;
+  }
+  .homework ol { margin: 0; padding-left: 24px; }
+  .homework li { margin: 0; padding: 18px 0 18px 8px; border-bottom: 1px dashed #3a5470; font-size: 16px; }
+  .homework li:first-child { padding-top: 0; }
+  .homework li:last-child { border: 0; padding-bottom: 0; }
+  .homework li::marker { color: var(--yellow); }
+  .summary > .checklist { margin-top: 40px; padding-top: 36px; border-top-style: dashed; }
+  .checklist ol { list-style: none; padding: 0; margin-bottom: 0; }
+  .checklist li { position: relative; margin: 0; padding: 15px 0 15px 32px; border-bottom: 1px solid #1e354b; font-size: 16px; }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 4px;
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid var(--light-blue);
+    border-bottom: 2px solid var(--light-blue);
+    transform: rotate(-45deg);
+  }
+  .page-footer {
+    width: 70ch;
+    max-width: 100%;
+    margin: 64px auto 0;
+    padding: 32px 0 40px;
+    border-top: 1px dashed #3a5470;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .page-footer p { margin: 0 0 14px; font-size: 12px; line-height: 1.8; }
+  .page-footer p:last-child { margin-top: 28px; margin-bottom: 0; color: #cedcea; }
+
+  @media (min-width: 1050px) {
+    .lesson-media { grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr); align-items: stretch; }
+    .chapters { position: relative; min-height: 0; }
+    .chapters ol { position: absolute; inset: 65px 12px 14px 24px; max-height: none; }
+  }
+  @media (min-width: 700px) and (max-width: 1049px) {
+    .chapters ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  }
+  @media (max-width: 599px) {
+    body { width: calc(100% - 32px); font-size: 16px; }
+    .concept-note { padding-top: 17px; padding-bottom: 17px; font-size: 11px; }
+    .concept-note::before { top: 23px; }
+    .lesson-hero { --inset: 22px; border-radius: 24px; }
+    .eyebrow { gap: 9px; font-size: 11px; letter-spacing: 0; margin-bottom: 20px; }
+    .eyebrow::before { flex-basis: 16px; }
+    .lesson-hero h1 { font-size: clamp(25px, 6.9vw, 39px); line-height: 1.3; letter-spacing: -.035em; }
+    .lead { font-size: 14px; }
+    .lesson-meta { gap: 8px; margin-top: 24px; padding-top: 18px; padding-bottom: 20px; }
+    .lesson-meta li { padding: 5px 10px; font-size: 11px; }
+    .lesson-media { gap: 16px; margin-top: 16px; }
+    .player { border-radius: 16px; scroll-margin-top: 16px; }
+    .chapters { padding-left: 18px; border-radius: 20px; }
+    .chapters ol { max-height: 340px; }
+    .summary { margin-top: 44px; }
+    .summary > section { margin-top: 40px; padding-top: 26px; }
+    .summary h2 { font-size: 20px; line-height: 1.5; }
+    .summary > .callout--info, .callout { padding: 19px 20px; font-size: 14px; }
+    .quote { margin: 26px 0; padding-left: 19px; font-size: 19px; }
+    .summary > .homework { padding: 24px 20px; border-radius: 20px; }
+    .homework li, .checklist li { font-size: 15px; }
+    .page-footer { margin-top: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('player');
+    let player;
+    let ready = false;
+
+    // Native links remain usable while the API loads, or if embedding fails.
+    document.querySelectorAll('a.tc').forEach(link => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+    document.querySelectorAll('.table-scroll').forEach(wrapper => {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', wrapper.closest('section').querySelector('h2').textContent.trim());
+    });
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a.tc');
+      if (!link || !ready || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const seconds = Number(link.dataset.t);
+      if (!Number.isFinite(seconds)) return;
+      try {
+        player.seekTo(seconds, true);
+        player.playVideo();
+      } catch {
+        ready = false;
+        return;
+      }
+      event.preventDefault();
+      container.scrollIntoView({
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+
+    window.onYouTubeIframeAPIReady = () => {
+      // Keep #player intact: YouTube replaces only this inner mount.
+      const mount = document.createElement('div');
+      container.append(mount);
+      player = new YT.Player(mount, {
+        videoId: container.dataset.videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: { playsinline: 1, rel: 0 },
+        events: {
+          onReady: event => {
+            ready = true;
+            event.target.getIframe().title = document.querySelector('h1').textContent;
+          },
+          onError: () => { ready = false; }
+        }
+      });
+    };
+    const api = document.createElement('script');
+    api.src = 'https://www.youtube.com/iframe_api';
+    api.async = true;
+    api.onerror = () => { ready = false; };
+    document.head.append(api);
+  });
+</script>
+</head>
+<body>
+
+<aside class="concept-note">Неофіційний концепт: так могла б виглядати сторінка уроку Startup Terminal. Це не сторінка Superteam Ukraine — її зробив Alex, учасник програми.</aside>
+
+<nav class="lesson-nav" aria-label="Уроки">
+  <a href="2026-08-26-idea-gen-nick.html">Idea Gen, Нік · 26.08</a>
+  <a href="index.html">Idea Generation, Діма · 27.08</a>
+  <a href="2026-09-08-validation-idea.html">Validation · 08.09</a>
+  <a href="2026-09-15-value-proposition.html">Value proposition · 15.09</a>
+  <a href="2026-09-22-gtm-nick.html">GTM · 22.09</a>
+  <a href="2026-09-24-marketing.html">Marketing · 24.09</a>
+  <a href="2026-09-29-ai-in-project-building.html">AI у побудові проєкту · 29.09</a>
+  <a href="2026-03-18-idea-generation-nick.html">Весна: Idea Generation</a>
+  <a href="2026-03-25-market-research.html" aria-current="page">Весна: Market Research</a>
+  <a href="2026-04-08-gtm-structuring-dima.html">Весна: GTM Structuring</a>
+  <a href="2026-04-09-development-team-management.html">Весна: Development і команда</a>
+  <a href="2026-04-15-marketing-team-management.html">Весна: Marketing team</a>
+  <a href="2026-04-17-vc-fundraising.html">Весна: VC і Fundraising</a>
+</nav>
+
+<header class="lesson-hero">
+  <p class="eyebrow">Solana Startup Terminal · весняний потік 2026</p>
+  <h1>Market research і аналіз конкурентів: сайти, SWOT, Jobs to be done і CustDev</h1>
+  <p class="lead">Лекція про те, як стартапу зрозуміти свій ринок, своє місце на ньому і свого користувача. Спочатку лектор показує крипто-сайти для ресерчу, потім розбирає чотири «старі» фреймворки — SWOT, Jobs to be done, Customer Journey Map і CustDev, — додає п'ять інструментів для будь-якого стартапу і закінчує трьома питаннями, які ставлять інвестори. Головна ідея: найцінніше дослідження — розмова з реальними людьми про їхній досвід.</p>
+  <ul class="lesson-meta">
+    <li>Лектор: Діма</li>
+    <li>опубліковано 25.03.2026</li>
+    <li>97 хв</li>
+  </ul>
+</header>
+
+<div class="lesson-media"><div class="player" id="player" data-video-id="GKFq4pxd6qE"></div>
+
+<nav class="chapters" aria-label="Розділи відео">
+  <h2>Розділи відео</h2>
+  <ol>
+    <li><a class="tc" data-t="0" href="https://youtu.be/GKFq4pxd6qE?t=0s">0:00</a> <span>Початок: реєстрація на Colosseum</span></li>
+    <li><a class="tc" data-t="35" href="https://youtu.be/GKFq4pxd6qE?t=35s">0:35</a> <span>DefiLlama: метрики по блокчейнах і протоколах</span></li>
+    <li><a class="tc" data-t="157" href="https://youtu.be/GKFq4pxd6qE?t=157s">2:37</a> <span>CryptoRank: раунди й інвестори конкурентів</span></li>
+    <li><a class="tc" data-t="305" href="https://youtu.be/GKFq4pxd6qE?t=305s">5:05</a> <span>CoinMarketCap: ринок усіх монет</span></li>
+    <li><a class="tc" data-t="421" href="https://youtu.be/GKFq4pxd6qE?t=421s">7:01</a> <span>Dune і DappRadar</span></li>
+    <li><a class="tc" data-t="610" href="https://youtu.be/GKFq4pxd6qE?t=610s">10:10</a> <span>Питання: чому інвестори питають про DefiLlama</span></li>
+    <li><a class="tc" data-t="691" href="https://youtu.be/GKFq4pxd6qE?t=691s">11:31</a> <span>Про лекцію і лектора</span></li>
+    <li><a class="tc" data-t="810" href="https://youtu.be/GKFq4pxd6qE?t=810s">13:30</a> <span>SWOT: що це</span></li>
+    <li><a class="tc" data-t="895" href="https://youtu.be/GKFq4pxd6qE?t=895s">14:55</a> <span>Як провести SWOT командою</span></li>
+    <li><a class="tc" data-t="1013" href="https://youtu.be/GKFq4pxd6qE?t=1013s">16:53</a> <span>Навіщо SWOT: синхронізація команди</span></li>
+    <li><a class="tc" data-t="1083" href="https://youtu.be/GKFq4pxd6qE?t=1083s">18:03</a> <span>SWOT і півоти</span></li>
+    <li><a class="tc" data-t="1381" href="https://youtu.be/GKFq4pxd6qE?t=1381s">23:01</a> <span>Питання: відповідальність перед інвесторами</span></li>
+    <li><a class="tc" data-t="1594" href="https://youtu.be/GKFq4pxd6qE?t=1594s">26:34</a> <span>Домашка: власний SWOT</span></li>
+    <li><a class="tc" data-t="1634" href="https://youtu.be/GKFq4pxd6qE?t=1634s">27:14</a> <span>Jobs to be done</span></li>
+    <li><a class="tc" data-t="1749" href="https://youtu.be/GKFq4pxd6qE?t=1749s">29:09</a> <span>JTBD і позиціонування серед конкурентів</span></li>
+    <li><a class="tc" data-t="2105" href="https://youtu.be/GKFq4pxd6qE?t=2105s">35:05</a> <span>Customer Journey Map і точки тертя</span></li>
+    <li><a class="tc" data-t="2266" href="https://youtu.be/GKFq4pxd6qE?t=2266s">37:46</a> <span>CJM: обізнаність і перший досвід</span></li>
+    <li><a class="tc" data-t="2529" href="https://youtu.be/GKFq4pxd6qE?t=2529s">42:09</a> <span>CJM: виконання, утримання, адвокати</span></li>
+    <li><a class="tc" data-t="2780" href="https://youtu.be/GKFq4pxd6qE?t=2780s">46:20</a> <span>Google Trends</span></li>
+    <li><a class="tc" data-t="3062" href="https://youtu.be/GKFq4pxd6qE?t=3062s">51:02</a> <span>Parallel: AI-ресерч за кілька центів</span></li>
+    <li><a class="tc" data-t="3209" href="https://youtu.be/GKFq4pxd6qE?t=3209s">53:29</a> <span>Statista</span></li>
+    <li><a class="tc" data-t="3337" href="https://youtu.be/GKFq4pxd6qE?t=3337s">55:37</a> <span>Product Hunt</span></li>
+    <li><a class="tc" data-t="3511" href="https://youtu.be/GKFq4pxd6qE?t=3511s">58:31</a> <span>Answer the Public</span></li>
+    <li><a class="tc" data-t="3642" href="https://youtu.be/GKFq4pxd6qE?t=3642s">1:00:42</a> <span>CustDev: найцінніше дослідження</span></li>
+    <li><a class="tc" data-t="3794" href="https://youtu.be/GKFq4pxd6qE?t=3794s">1:03:14</a> <span>Як знайти респондентів</span></li>
+    <li><a class="tc" data-t="3923" href="https://youtu.be/GKFq4pxd6qE?t=3923s">1:05:23</a> <span>Підготовка до інтерв'ю</span></li>
+    <li><a class="tc" data-t="4049" href="https://youtu.be/GKFq4pxd6qE?t=4049s">1:07:29</a> <span>Під час інтерв'ю</span></li>
+    <li><a class="tc" data-t="4124" href="https://youtu.be/GKFq4pxd6qE?t=4124s">1:08:44</a> <span>Аналіз відповідей</span></li>
+    <li><a class="tc" data-t="4298" href="https://youtu.be/GKFq4pxd6qE?t=4298s">1:11:38</a> <span>Питати про досвід, а не про бажання</span></li>
+    <li><a class="tc" data-t="4679" href="https://youtu.be/GKFq4pxd6qE?t=4679s">1:17:59</a> <span>Secret sauce: три питання інвесторів</span></li>
+    <li><a class="tc" data-t="4883" href="https://youtu.be/GKFq4pxd6qE?t=4883s">1:21:23</a> <span>Питання: критерії аналізу інструментів</span></li>
+    <li><a class="tc" data-t="4995" href="https://youtu.be/GKFq4pxd6qE?t=4995s">1:23:15</a> <span>Питання: звички для входу в Web3</span></li>
+    <li><a class="tc" data-t="5371" href="https://youtu.be/GKFq4pxd6qE?t=5371s">1:29:31</a> <span>Colosseum: дати й кроки</span></li>
+  </ol>
+</nav></div>
+
+<main class="summary">
+
+  <aside class="callout callout--info"><p><strong>Що в цьому уроці:</strong> DefiLlama, CryptoRank, CoinMarketCap і Dune як щоденні інструменти крипто-ресерчу; SWOT-аналіз командою і чому він працює як синхронізація; Jobs to be done для позиціонування серед конкурентів; Customer Journey Map і точки тертя; Google Trends, Parallel, Statista, Product Hunt і Answer the Public; CustDev: як знайти респондентів, які питання ставити і чого не питати; три питання інвесторів; дати реєстрації на Colosseum.</p></aside>
+
+  <section id="defillama">
+    <h2>DefiLlama: цифри, яким вірять інвестори <a class="tc" data-t="35" href="https://youtu.be/GKFq4pxd6qE?t=35s">0:35</a></h2>
+    <p>Лектор починає не з теми лекції, а з сайтів, які радить відкрити в першу чергу. Перший — DefiLlama: старий і дуже великий ресурс, який з'явився приблизно у 2020–2021 році, у часи першого буму DeFi <a class="tc" data-t="35" href="https://youtu.be/GKFq4pxd6qE?t=35s">0:35</a>. Для ресерчу чи будь-якої розробки це майже обов'язковий сайт. Є платна версія, але вона не така важлива.</p>
+    <p>Зазвичай обирають свій блокчейн, наприклад Solana, і одразу бачать TVL, капіталізацію, кількість користувачів і всі токени мережі <a class="tc" data-t="65" href="https://youtu.be/GKFq4pxd6qE?t=65s">1:05</a>. Майже всі сайти з цього переліку працюють понад п'ять років і задумувалися як агрегатори інформації, тому лектор радить просто посидіти на них вечір і «потикати в усі сторони» <a class="tc" data-t="65" href="https://youtu.be/GKFq4pxd6qE?t=65s">1:05</a>.</p>
+    <p>Межа застосування: усе, що стосується DeFi, скоріш за все має метрику на DefiLlama. Обсяги торгів перпетуалами на Binance чи OKX там шукати не треба <a class="tc" data-t="134" href="https://youtu.be/GKFq4pxd6qE?t=134s">2:14</a>.</p>
+    <div class="callout callout--tip"><p>Протоколи там показані не всі, іноді трапляються баги. Але якщо сказати інвестору, що цифри з DefiLlama, це сприймається як «залізобетонний пруф» <a class="tc" data-t="495" href="https://youtu.be/GKFq4pxd6qE?t=495s">8:15</a>.</p></div>
+  </section>
+
+  <section id="cryptorank">
+    <h2>CryptoRank: що вже зібрали конкуренти <a class="tc" data-t="157" href="https://youtu.be/GKFq4pxd6qE?t=157s">2:37</a></h2>
+    <p>Раніше сайт був повністю безкоштовний. Тепер, щоб побачити більшість даних, треба зареєструватися, наприклад через Twitter, — це безкоштовно <a class="tc" data-t="157" href="https://youtu.be/GKFq4pxd6qE?t=157s">2:37</a>. Платна версія на ранніх етапах не потрібна. За лектором, це команда, яка постійно стежить за новинами, крипто-твітером і подіями.</p>
+    <p>Найцінніша частина — розділ fundraising <a class="tc" data-t="181" href="https://youtu.be/GKFq4pxd6qE?t=181s">3:01</a>. Там видно, чи залучав конкурент гроші, скільки, яка структура раунду і хто головні інвестори. Після MVP і під час роботи над пітчем сюди варто заходити часто й ставити собі точки на карті: «ось мій конкурент, ось його раунд, ось інвестори, які готові вкладати й у мене» <a class="tc" data-t="208" href="https://youtu.be/GKFq4pxd6qE?t=208s">3:28</a>.</p>
+    <p>Одна-дві години на конкурентів дадуть зрозуміти, хто, у кого і скільки зібрав і наскільки старий проєкт <a class="tc" data-t="265" href="https://youtu.be/GKFq4pxd6qE?t=265s">4:25</a>. Коли ви самі залучите інвестиції, ви теж з'явитеся на CryptoRank. Лектор радить поставити це собі за віху на рік.</p>
+  </section>
+
+  <section id="cmc">
+    <h2>CoinMarketCap, Dune і DappRadar <a class="tc" data-t="305" href="https://youtu.be/GKFq4pxd6qE?t=305s">5:05</a></h2>
+    <p><strong>CoinMarketCap.</strong> Запущений у 2017 році, згодом його купив Binance. Сайт і застосунок безкоштовні, лектор радить поставити застосунок на телефон <a class="tc" data-t="305" href="https://youtu.be/GKFq4pxd6qE?t=305s">5:05</a>. Це ринкова аналітика всіх монет, крім мемтокенів: їх запускається надто багато і вони надто швидко помирають. Індекс страху й жадібності, оцінка всього ринку, показник сезону альткоїнів — усе це беруть звідси <a class="tc" data-t="338" href="https://youtu.be/GKFq4pxd6qE?t=338s">5:38</a>.</p>
+    <p>Можна відкрити екосистему Solana, обрати токен і побачити пари, біржі, обсяги й ціни <a class="tc" data-t="366" href="https://youtu.be/GKFq4pxd6qE?t=366s">6:06</a>. Коли треба порівняти конкурентів, підготуватися до роботи з маркетмейкером або просто стежити за ринком, потрібен саме CoinMarketCap. Різниця з DefiLlama проста: та спеціалізується лише на DeFi, а тут є все.</p>
+    <p><strong>Dune.</strong> Новіший проєкт; сильна сторона в тому, що незалежні білдери, дослідники й самі проєкти роблять там власні дашборди <a class="tc" data-t="421" href="https://youtu.be/GKFq4pxd6qE?t=421s">7:01</a>. У розділі Discover є категорія dashboards, наприклад дашборд про prediction markets з обсягами й open interest <a class="tc" data-t="446" href="https://youtu.be/GKFq4pxd6qE?t=446s">7:26</a>. Такі дашборди гуглляться: головне знайти правильне слово, а краще кілька, і скоріш за все безкоштовний дашборд уже існує. З нього можна робити скріншоти для презентації <a class="tc" data-t="495" href="https://youtu.be/GKFq4pxd6qE?t=495s">8:15</a>.</p>
+    <p><strong>DappRadar.</strong> Виник, коли у 2022–2023 роках модним було слово «dapp». Лектор його додасть до переліку, але не бачить, у чому його перевага після чотирьох попередніх, і вважає не дуже актуальним <a class="tc" data-t="528" href="https://youtu.be/GKFq4pxd6qE?t=528s">8:48</a>. Якщо ви знаєте перші чотири сайти, ви вже не просто людина, а людина, яка розбирається в крипті <a class="tc" data-t="576" href="https://youtu.be/GKFq4pxd6qE?t=576s">9:36</a>.</p>
+  </section>
+
+  <section id="investors">
+    <h2>Чому інвестори питають, звідки цифри <a class="tc" data-t="618" href="https://youtu.be/GKFq4pxd6qE?t=618s">10:18</a></h2>
+    <p>Слухач питає, як це виглядає на практиці. Відповідь: інвестори зазвичай не кажуть «покажіть DefiLlama». Але коли ви називаєте обсяг ринку, наприклад, перпетуалів на Solana, і цифри здаються дивними, вони питають, звідки ви це взяли <a class="tc" data-t="618" href="https://youtu.be/GKFq4pxd6qE?t=618s">10:18</a>.</p>
+    <div class="callout callout--tip"><p>Залежить від продукту. Якщо ви будуєте щось у DeFi, варто подивитися цифри, конкурентів і обсяги ринку. Для централізованого рішення чи звичайного сервісу це не обов'язково <a class="tc" data-t="641" href="https://youtu.be/GKFq4pxd6qE?t=641s">10:41</a>.</p></div>
+  </section>
+
+  <section id="swot">
+    <h2>SWOT: робиться руками, командою <a class="tc" data-t="810" href="https://youtu.be/GKFq4pxd6qE?t=810s">13:30</a></h2>
+    <p>Про лектора: Діма Діменко, 13 років у стратегічному маркетингу, зокрема у Web3, будував кілька стартапів, останній мав п'ять мільйонів користувачів <a class="tc" data-t="751" href="https://youtu.be/GKFq4pxd6qE?t=751s">12:31</a>. Підхід у нього, за його словами, «старовірський», з класичного маркетингу: інструменти, які допомагають зрозуміти частку ринку, своє місце на ньому і свого користувача <a class="tc" data-t="709" href="https://youtu.be/GKFq4pxd6qE?t=709s">11:49</a>. Нік уже розглядав цю тему з погляду пітчу.</p>
+    <p>SWOT майже ніхто не робить, його намагаються віддати AI. А робити треба командою і руками, приблизно за годину. Приємно не завжди: починаєш бачити, хто ти на ринку, що тобі загрожує і які сильні сторони є <a class="tc" data-t="810" href="https://youtu.be/GKFq4pxd6qE?t=810s">13:30</a>.</p>
+    <p>Strengths і weaknesses — внутрішні показники. Opportunities і threats — вплив середовища <a class="tc" data-t="867" href="https://youtu.be/GKFq4pxd6qE?t=867s">14:27</a>. Це текстова вправа, а не декартова площина, на якій «наш стартап найкращий» <a class="tc" data-t="846" href="https://youtu.be/GKFq4pxd6qE?t=846s">14:06</a>.</p>
+  </section>
+
+  <section id="swot-how">
+    <h2>Як провести SWOT і навіщо <a class="tc" data-t="895" href="https://youtu.be/GKFq4pxd6qE?t=895s">14:55</a></h2>
+    <ul>
+      <li>Команда з 3–5 людей. Великі стартапи беруть C-level і ключових людей; коли ви маленькі, ви самі й є ці люди <a class="tc" data-t="913" href="https://youtu.be/GKFq4pxd6qE?t=913s">15:13</a>.</li>
+      <li>Брейншторм до півтори години: на кожен із чотирьох квадратів по 10–15 хвилин <a class="tc" data-t="943" href="https://youtu.be/GKFq4pxd6qE?t=943s">15:43</a>.</li>
+      <li>Далі разом обираєте, що в списку топове, тобто що найбільше впливає на вас: головна можливість і головна загроза <a class="tc" data-t="973" href="https://youtu.be/GKFq4pxd6qE?t=973s">16:13</a>.</li>
+    </ul>
+    <div class="callout callout--warning"><p>Під час заповнення не можна критикувати. Якщо розробник каже «у нас слабка інфраструктура», а маркетолог відповідає «ну і що?», методологія не працює. У кожного в команді є право голосу, фіксуйте все як є <a class="tc" data-t="943" href="https://youtu.be/GKFq4pxd6qE?t=943s">15:43</a>.</p></div>
+    <p>Головна цінність — синхронізація. Розробники дивляться на розробку, маркетологи на маркетинг, бізнес-девелопери на ринок, і з часом команда розсинхронізується. SWOT дає змогу зібрати продукт цілісно: наприклад, дізнатися, що з погляду розробки ви щось не встигаєте, потрібна ліцензія або занадто високий CAC <a class="tc" data-t="1013" href="https://youtu.be/GKFq4pxd6qE?t=1013s">16:53</a>. Лектор проводить його у своїх проєктах раз на пів року <a class="tc" data-t="1083" href="https://youtu.be/GKFq4pxd6qE?t=1083s">18:03</a>.</p>
+    <p>У відповідь на запитання слухача лектор додає: навіть залучені люди мають свій фокус. Розробник рідко питає маркетолога, чи влаштовує користувачів швидкість сторінки, а маркетолог згадує про розробника, коли горить анонс <a class="tc" data-t="1280" href="https://youtu.be/GKFq4pxd6qE?t=1280s">21:20</a>. Тому SWOT ще й узагальнює знання: у команді завжди є хтось, хто знає свою частку ринку й може сказати, що це загроза або можливість <a class="tc" data-t="1311" href="https://youtu.be/GKFq4pxd6qE?t=1311s">21:51</a>.</p>
+  </section>
+
+  <section id="pivots">
+    <h2>SWOT і півоти <a class="tc" data-t="1083" href="https://youtu.be/GKFq4pxd6qE?t=1083s">18:03</a></h2>
+    <p>Півот — це коли ресурси вже є (люди, гроші, користувачі), ви існуєте хоча б три місяці, а продукт не народжується або не заходить користувачам. З SWOT у компаніях часто й починаються півоти: аналізуючи загрози й можливості, розумієш, що або не дійдеш до мети, або дійдеш легше, трохи перебудувавши продукт <a class="tc" data-t="1083" href="https://youtu.be/GKFq4pxd6qE?t=1083s">18:03</a>.</p>
+    <p>Досвід лектора: його стартап запустився у 2023 році і до 2025-го тричі змінював напрям. Він почався як AI-аналізатор криптопортфеля, потім став dev-рішеннями для великих блокчейнів. Кожен півот починався зі SWOT. У двох випадках із трьох це допомогло, один раз, за його словами, просто пощастило <a class="tc" data-t="1127" href="https://youtu.be/GKFq4pxd6qE?t=1127s">18:47</a>.</p>
+    <p>Слухач питає, чи не мають інвестори претензій до проєкту, який змінює напрям. Відповідь: відповідальність є, але зазвичай півот відбувається, коли команда дивиться на свій трекшн, а трекшн важливий і інвесторові. «Ви завжди інвестуєте в людей», а мета команди — не спалити ресурси, а дійти до виходу, токена, трекшну чи прибутку <a class="tc" data-t="1489" href="https://youtu.be/GKFq4pxd6qE?t=1489s">24:49</a>.</p>
+    <div class="callout callout--info"><p>На ранніх стадіях півот не червоний прапор. Тривожний сигнал — велика компанія (понад 40 людей), у якої вже рік триває «реструктуризація»: так великі бізнеси називають півоти <a class="tc" data-t="1554" href="https://youtu.be/GKFq4pxd6qE?t=1554s">25:54</a>.</p></div>
+  </section>
+
+  <section id="jtbd">
+    <h2>Jobs to be done: люди наймають продукти на роботу <a class="tc" data-t="1634" href="https://youtu.be/GKFq4pxd6qE?t=1634s">27:14</a></h2>
+    <p>Про цю методологію написано понад десяток книг, є різні школи. Суть коротко: люди не купують продукти, а наймають їх виконати якусь роботу. Лектор жартує, що купує не дошку, гайки й колеса, а скейт, щоб показати, що ще не з'їхав від батьків <a class="tc" data-t="1661" href="https://youtu.be/GKFq4pxd6qE?t=1661s">27:41</a>.</p>
+    <p>Формула проста: коли я в певній ситуації, у мене виникає мотивація, і я хочу отримати певний результат <a class="tc" data-t="1687" href="https://youtu.be/GKFq4pxd6qE?t=1687s">28:07</a>. Приклад: накопичилася тисяча доларів USDC на гаманці, хочу, щоб їх не з'їдала інфляція, і стейкаю. Я «наймаю» протокол стейкінгу на цю роботу <a class="tc" data-t="1717" href="https://youtu.be/GKFq4pxd6qE?t=1717s">28:37</a>.</p>
+    <p>Для ресерчу формула корисна тим, що показує, як вона працює у ваших конкурентів і як має працювати у вас. Вона може бути ідентичною: ви робите для тієї самої людини те саме, що й усі, і в цьому немає нічого поганого, це і є ваше місце на ринку <a class="tc" data-t="1749" href="https://youtu.be/GKFq4pxd6qE?t=1749s">29:09</a>. Від формули вже будуєте позиціонування і пріоритет фіч <a class="tc" data-t="1784" href="https://youtu.be/GKFq4pxd6qE?t=1784s">29:44</a>.</p>
+    <p>Приклад зі стейкінгом: протоколів багато, одні роблять ставку на системність, безпеку й ліцензії, інші на азарт. Лектор розповідає про нещодавній проєкт зі стейкінгу на Solana, де винагорода за епоху розігрується як лотерея: середній APY може бути 3%, а може 17–20%. За півтора місяці після запуску там уже TVL 17 мільйонів. Робота та сама, ринок переповнений, але власне позиціонування знаходить аудиторію <a class="tc" data-t="1868" href="https://youtu.be/GKFq4pxd6qE?t=1868s">31:08</a>.</p>
+    <p>Для слухачів, яким було складно, є ще пояснення: людина, яка купує газонокосарку, насправді хоче гарний газон зручним способом <a class="tc" data-t="1955" href="https://youtu.be/GKFq4pxd6qE?t=1955s">32:35</a>. Підписки теж виросли з цієї ідеї: ви «наймаєте» Netflix розважати вас, а коли не хочеться, скасовуєте підписку <a class="tc" data-t="2059" href="https://youtu.be/GKFq4pxd6qE?t=2059s">34:19</a>. Лектор пропонує окремий воркшоп по JTBD, якщо буде цікаво.</p>
+  </section>
+
+  <section id="cjm">
+    <h2>Customer Journey Map: де користувачі зникають <a class="tc" data-t="2105" href="https://youtu.be/GKFq4pxd6qE?t=2105s">35:05</a></h2>
+    <p>Крипто-користувач робить свій DYOR: чи купувати токен, чи йти фармити поінти, чи стейкати тисячі доларів у новому протоколі. Customer Journey Map — це той самий шлях з погляду проєкту: саме на проєкті лежить відповідальність за те, яке рішення ухвалить користувач <a class="tc" data-t="2139" href="https://youtu.be/GKFq4pxd6qE?t=2139s">35:39</a>. Малим проєктам найкраще вчитися на чужих успішних кейсах.</p>
+    <p>Мета — знайти точки тертя: моменти, коли користувач настільки незадоволений, що зникає <a class="tc" data-t="2188" href="https://youtu.be/GKFq4pxd6qE?t=2188s">36:28</a>. Типові причини низької конверсії: не працює реєстрація, а ви не помітили; про вас уже є негативні відгуки; людина бачить рекламу й не може знайти про вас жодної іншої інформації. Останнє дуже поширено в малих проєктів <a class="tc" data-t="2208" href="https://youtu.be/GKFq4pxd6qE?t=2208s">36:48</a>.</p>
+    <div class="callout callout--tip"><p>Якщо ви йдете на Colosseum і в когось уже є MVP чи концепт, а в когось пітч, саме час починати проєктувати цю карту <a class="tc" data-t="2231" href="https://youtu.be/GKFq4pxd6qE?t=2231s">37:11</a>.</p></div>
+  </section>
+
+  <section id="cjm-stages">
+    <h2>Етапи Customer Journey Map <a class="tc" data-t="2266" href="https://youtu.be/GKFq4pxd6qE?t=2266s">37:46</a></h2>
+    <p><strong>Обізнаність.</strong> Найважливіший і найлегший для впливу етап: як ви про себе говорите і як про вас говорять. Опис проєкту у формі на Colosseum чи хакатоні здається дрібницею, яку можна згенерувати в чаті GPT, але саме це люди знайдуть про вас <a class="tc" data-t="2266" href="https://youtu.be/GKFq4pxd6qE?t=2266s">37:46</a>. Напишете «ще один Solana-протокол для стейкінгу» — так вас і сприйматимуть; напишете про унікальні фічі — запам'ятають їх <a class="tc" data-t="2312" href="https://youtu.be/GKFq4pxd6qE?t=2312s">38:32</a>.</p>
+    <p><strong>Розгляд.</strong> Людина хоче знати більше: туторіали, гайди, спільноти в Telegram чи Discord, публічна документація й анонси. Вона шукає whitepaper чи документацію, партнерства, ліцензії <a class="tc" data-t="2348" href="https://youtu.be/GKFq4pxd6qE?t=2348s">39:08</a>.</p>
+    <p><strong>Перший досвід.</strong> Навіть якщо є лише ідея, можна купити домен, текстом описати, що ви будуєте, і додати форму для whitelist <a class="tc" data-t="2406" href="https://youtu.be/GKFq4pxd6qE?t=2406s">40:06</a>. Для тих, хто йде на Colosseum, це ідеальне рішення: там дивляться GitHub, соцмережі й бажано сайт, а послідовний опис ідеї з формою зворотного зв'язку краще за криво зібраний вайбкодом сайт. Whitelist стане першим трекшном <a class="tc" data-t="2483" href="https://youtu.be/GKFq4pxd6qE?t=2483s">41:23</a>.</p>
+    <p><strong>Виконання, утримання, адвокати.</strong> Далі етапи для продуктів у проді: UX, підтримка, комʼюніті, щоб обіцяне працювало. Це момент, який перетворює стартап на бізнес <a class="tc" data-t="2529" href="https://youtu.be/GKFq4pxd6qE?t=2529s">42:09</a>. Карта не закінчується, поки існує компанія: потрібно показувати, що ви рухаєтесь, є новини, колаборації, плани <a class="tc" data-t="2599" href="https://youtu.be/GKFq4pxd6qE?t=2599s">43:19</a>. Це утримання: мало хто користується одним проєктом роками, і чим пізніше «фінал», тим краще утримання <a class="tc" data-t="2646" href="https://youtu.be/GKFq4pxd6qE?t=2646s">44:06</a>. Вищий пілотаж — коли у проєкту з'являються свої адвокати. За прикладом лектора, він сам як лектор Superteam Ukraine — адвокат Solana, яка пройшла всі етапи й зараз на стадії утримання <a class="tc" data-t="2708" href="https://youtu.be/GKFq4pxd6qE?t=2708s">45:08</a>.</p>
+  </section>
+
+  <section id="web-tools">
+    <h2>Google Trends, Parallel, Statista <a class="tc" data-t="2780" href="https://youtu.be/GKFq4pxd6qE?t=2780s">46:20</a></h2>
+    <p>Лектор нагадує, що не лише крипто потребує ресерчу, і дає п'ять інструментів для будь-якого стартапу. Більшість безкоштовні або дуже дешеві <a class="tc" data-t="2780" href="https://youtu.be/GKFq4pxd6qE?t=2780s">46:20</a>.</p>
+    <p><strong>Google Trends.</strong> Безкоштовний інструмент віком понад десять років. Показує динаміку пошукових запитів за країнами чи у світі <a class="tc" data-t="2856" href="https://youtu.be/GKFq4pxd6qE?t=2856s">47:36</a>, аж до 2004 року <a class="tc" data-t="2915" href="https://youtu.be/GKFq4pxd6qE?t=2915s">48:35</a>. Люди щось шукають, коли цікавляться темою, тож це швидкий спосіб побачити попит.</p>
+    <div class="callout callout--tip"><p>Вправа: за десять хвилин зробіть вибірку з 10–15 ключових слів (зручніше англійською), що описують ваш продукт, і подивіться графіки. Це не гарантує, що вас використовуватимуть, але показує, чи є шанс узагалі зібрати аудиторію <a class="tc" data-t="2965" href="https://youtu.be/GKFq4pxd6qE?t=2965s">49:25</a>. Приклад: сервіс бронювання на Solana підпадає під запити на кшталт «booking with crypto» <a class="tc" data-t="3028" href="https://youtu.be/GKFq4pxd6qE?t=3028s">50:28</a>.</p></div>
+    <p><strong>Parallel.</strong> AI для ресерчу, платний, але без щомісячної підписки: поповнюєте гаманець, а кожен ресерч, залежно від обсягу, коштує 20–30 центів. Перші один-два ресерчі безкоштовні <a class="tc" data-t="3062" href="https://youtu.be/GKFq4pxd6qE?t=3062s">51:02</a>. Він збудований на дуже великих обсягах пошуку і часто знаходить те, чого ви не питали й не нагуглили <a class="tc" data-t="3096" href="https://youtu.be/GKFq4pxd6qE?t=3096s">51:36</a>. Приклад лектора: ресерч про prediction markets в Азії виніс у джерелах регуляцію, якій уже понад два роки, хоча в запиті про регуляцію нічого не було. За 20 центів можна дізнатися конкурентів у ніші, хто півотиться, хто закривається і яке регулювання <a class="tc" data-t="3145" href="https://youtu.be/GKFq4pxd6qE?t=3145s">52:25</a>. П'яти доларів може вистачити на рік чи півтора <a class="tc" data-t="3189" href="https://youtu.be/GKFq4pxd6qE?t=3189s">53:09</a>.</p>
+    <p><strong>Statista.</strong> Стара база статистичних досліджень. Розширені звіти платні (лектор показує преміум-звіт про крипто за 2020–2024 роки за 300 доларів), але багато безкоштовних графіків після реєстрації <a class="tc" data-t="3262" href="https://youtu.be/GKFq4pxd6qE?t=3262s">54:22</a>. Це «DefiLlama для веб2»: статистику дають інститути й незалежні комітети з усього світу. Радить зареєструватися й пошукати за ключовими словами свою нішу <a class="tc" data-t="3288" href="https://youtu.be/GKFq4pxd6qE?t=3288s">54:48</a>.</p>
+  </section>
+
+  <section id="ph-atp">
+    <h2>Product Hunt і Answer the Public <a class="tc" data-t="3337" href="https://youtu.be/GKFq4pxd6qE?t=3337s">55:37</a></h2>
+    <p><strong>Product Hunt.</strong> Міжнародний майданчик, де безкоштовно можна запостити стартап, компанію чи ідею. Для цього потрібна підтримка людини, яка вже публікувалася там <a class="tc" data-t="3377" href="https://youtu.be/GKFq4pxd6qE?t=3377s">56:17</a>. Можна зробити це навіть без сайту: логотип, назва й ідея <a class="tc" data-t="3440" href="https://youtu.be/GKFq4pxd6qE?t=3440s">57:20</a>. Результат: гарна пошукова видача й перші adopters, люди, які приходять заради ідеї, — це ваш ранній трекшн <a class="tc" data-t="3461" href="https://youtu.be/GKFq4pxd6qE?t=3461s">57:41</a>. Лектор повернеться до цього в блоці про маркетинг.</p>
+    <p>Для ресерчу це безкоштовний структурований архів, за словами лектора, близько 70% стартапів світу, з категоріями. Можна подивитися, чи є конкуренти, як вони працюють і що про себе пишуть, навіть на стадії ідеї <a class="tc" data-t="3484" href="https://youtu.be/GKFq4pxd6qE?t=3484s">58:04</a>.</p>
+    <p><strong>Answer the Public.</strong> «Google Trends на максималках»: платна версія коштує близько 40 доларів на місяць за 100 пошуків, але безкоштовно доступно 3 пошуки на день <a class="tc" data-t="3555" href="https://youtu.be/GKFq4pxd6qE?t=3555s">59:15</a>. Ви вводите комбінацію слів і бачите, що люди мають на увазі, чи є статті, хто це вже використовує. Лектор не радить платити: спочатку Google Trends, щоб підібрати ключові слова, потім Answer the Public. Можливо, ви навіть перебудуєте пітч <a class="tc" data-t="3603" href="https://youtu.be/GKFq4pxd6qE?t=3603s">1:00:03</a>.</p>
+  </section>
+
+  <section id="custdev-prep">
+    <h2>CustDev: підготовка й респонденти <a class="tc" data-t="3642" href="https://youtu.be/GKFq4pxd6qE?t=3642s">1:00:42</a></h2>
+    <p>Це, за лектором, найцінніше й найскладніше дослідження, яке стартап може зробити. Типова помилка: подивилися Statista, Trends, Product Hunt, Dune, почитали новини про конкурентів — і відчули, що все розуміють. А на прожарці виявляється, що все не так просто <a class="tc" data-t="3705" href="https://youtu.be/GKFq4pxd6qE?t=3705s">1:01:45</a>. CustDev — інша логіка: ви не продаєте людині свій сервіс, а приходите й ставите питання <a class="tc" data-t="3756" href="https://youtu.be/GKFq4pxd6qE?t=3756s">1:02:36</a>.</p>
+    <p>Як зібрати людей: напишіть у соцмережах, чи є серед підписників і друзів ті, хто купував щось за Solana чи має гаманець <a class="tc" data-t="3822" href="https://youtu.be/GKFq4pxd6qE?t=3822s">1:03:42</a>. Лектор розповідає про стартап, якому для 15 респондентів вистачило однієї сторіз в Instagram: зібралася група в Telegram, і всі пройшли інтерв'ю <a class="tc" data-t="3871" href="https://youtu.be/GKFq4pxd6qE?t=3871s">1:04:31</a>. Скільки часу: 5 людей займе менше тижня, 15–20 — до двох тижнів <a class="tc" data-t="3903" href="https://youtu.be/GKFq4pxd6qE?t=3903s">1:05:03</a>.</p>
+    <ul>
+      <li>Спершу сформулюйте гіпотезу: ідея, фіча або опис продукту. Підійде й формула з Jobs to be done <a class="tc" data-t="3923" href="https://youtu.be/GKFq4pxd6qE?t=3923s">1:05:23</a>.</li>
+      <li>Складіть 5–7 питань: менше — щось упустите, понад 10 — перевантаження для вас і респондента <a class="tc" data-t="3952" href="https://youtu.be/GKFq4pxd6qE?t=3952s">1:05:52</a>.</li>
+      <li>Для старту достатньо 5–10 респондентів. Великі бізнеси платять за CustDev із 20–40 учасників <a class="tc" data-t="3997" href="https://youtu.be/GKFq4pxd6qE?t=3997s">1:06:37</a>.</li>
+      <li>Заохочення бажане, але необов'язкове: наприклад, 10 доларів за півгодини. Це плюс до карми, бо ви поважаєте чужий час <a class="tc" data-t="4028" href="https://youtu.be/GKFq4pxd6qE?t=4028s">1:07:08</a>. Це можуть бути й місце в Telegram-групі чи грошова винагорода <a class="tc" data-t="4226" href="https://youtu.be/GKFq4pxd6qE?t=4226s">1:10:26</a>.</li>
+      <li>Де шукати: Product Hunt, особисті соцмережі, Telegram-групи, Twitter, Discord; не ігноруйте власне оточення <a class="tc" data-t="4243" href="https://youtu.be/GKFq4pxd6qE?t=4243s">1:10:43</a>.</li>
+    </ul>
+  </section>
+
+  <section id="custdev-interview">
+    <h2>Як проводити інтерв'ю <a class="tc" data-t="4049" href="https://youtu.be/GKFq4pxd6qE?t=4049s">1:07:29</a></h2>
+    <p>Інтерв'ю треба записувати, відео чи на диктофон: ви точно будете його переслуховувати, мало хто втримає в голові вісім розмов по 30 хвилин <a class="tc" data-t="4072" href="https://youtu.be/GKFq4pxd6qE?t=4072s">1:07:52</a>. Ваша задача не продавати й не розповідати, а поставити питання й вислухати. Якщо продаєте, не почуєте відповідей. Просіть конкретні приклади <a class="tc" data-t="4101" href="https://youtu.be/GKFq4pxd6qE?t=4101s">1:08:21</a>.</p>
+    <div class="callout callout--warning"><p>Питайте про минулий досвід: які були ситуації, поведінка, знайдені рішення, що не сподобалось. Ніколи не питайте, чого людина хоче і що б вона використовувала. Як тільки ви переходите від досвіду до «а що б ви хотіли?», інтерв'ю можна закінчувати: люди годинами розповідатимуть, чого хочуть, а коли вони це отримують, не використовують <a class="tc" data-t="4298" href="https://youtu.be/GKFq4pxd6qE?t=4298s">1:11:38</a>, <a class="tc" data-t="4369" href="https://youtu.be/GKFq4pxd6qE?t=4369s">1:12:49</a>.</p></div>
+    <p>Структура розмови на 30 хвилин. Домовтеся в зручному для людини форматі: Google Meet, Zoom, WhatsApp <a class="tc" data-t="4428" href="https://youtu.be/GKFq4pxd6qE?t=4428s">1:13:48</a>. Познайомтеся, поговоріть про щось нейтральне, поясніть, навіщо ви це робите: контекст допомагає, а різкий початок із питань може збентежити. Основна частина — близько 20 хвилин, 5–7 питань про досвід <a class="tc" data-t="4454" href="https://youtu.be/GKFq4pxd6qE?t=4454s">1:14:14</a>. Лектор радить уникати слів «я щось будую»: люди з жалю кажуть «крута ідея», і користі від цього немає. А питання про досвід дадуть правду, навіть якщо людині вас шкода <a class="tc" data-t="4535" href="https://youtu.be/GKFq4pxd6qE?t=4535s">1:15:35</a>.</p>
+    <p>Не бійтеся пауз: незнайомі люди можуть мовчати й 15 секунд, бо щось згадують <a class="tc" data-t="4607" href="https://youtu.be/GKFq4pxd6qE?t=4607s">1:16:47</a>. Готові приклади питань лектор показав на слайді; їх можна адаптувати під свій проєкт <a class="tc" data-t="4404" href="https://youtu.be/GKFq4pxd6qE?t=4404s">1:13:24</a>.</p>
+    <p>Слухач питає, чи обов'язково інтерв'ю живе. Краще, коли ви бачите один одного. Форми на кшталт Google чи Typeform працюють, щоб профілювати користувача або дізнатися, чому він пішов. Але магія CustDev у відкритих питаннях: люди будують історії зі свого досвіду, і коли їх накладаєш одну на одну, десь на п'ятій-восьмій видно великий збіг <a class="tc" data-t="5302" href="https://youtu.be/GKFq4pxd6qE?t=5302s">1:28:22</a>.</p>
+  </section>
+
+  <section id="custdev-analysis">
+    <h2>Що робити з відповідями <a class="tc" data-t="4124" href="https://youtu.be/GKFq4pxd6qE?t=4124s">1:08:44</a></h2>
+    <p>Після 5–10 інтерв'ю їх переслуховують і складають таблицю: з кожного записують важливе. На третьому-четвертому респонденті з'являється те, що в CustDev називають патерном відповідей: багато людей кажуть одне й те саме, про що ви навіть не думали. Лектор жартує про «червону кнопку, яка погана» <a class="tc" data-t="4163" href="https://youtu.be/GKFq4pxd6qE?t=4163s">1:09:23</a>.</p>
+    <p>Далі узагальнені відповіді оцінюють за критеріями: що болить, чим незадоволені, що сподобалось, скільки вже заплатили. Вісім-десять інтерв'ю по MVP чи концепту дають реальну відповідь, чи потрібно це людям, і чи варто будувати <a class="tc" data-t="4193" href="https://youtu.be/GKFq4pxd6qE?t=4193s">1:09:53</a>.</p>
+  </section>
+
+  <section id="secret-sauce">
+    <h2>Secret sauce: три питання інвесторів <a class="tc" data-t="4679" href="https://youtu.be/GKFq4pxd6qE?t=4679s">1:17:59</a></h2>
+    <p>Останній «фреймворк» лектор вивчав на лекціях двох акселераторів. Це відповіді на три питання, які у 95% випадків ставлять інвестори — на дзвінку, у розмові чи на конференції <a class="tc" data-t="4696" href="https://youtu.be/GKFq4pxd6qE?t=4696s">1:18:16</a>. Після SWOT, JTBD, Customer Journey Map і CustDev відповіді на них у вас уже будуть <a class="tc" data-t="4728" href="https://youtu.be/GKFq4pxd6qE?t=4728s">1:18:48</a>.</p>
+    <ol>
+      <li><strong>Чому ви?</strong> Чому я маю дати вам гроші, що ви робите краще за інших <a class="tc" data-t="4728" href="https://youtu.be/GKFq4pxd6qE?t=4728s">1:18:48</a>.</li>
+      <li><strong>Чому зараз?</strong> Особливо важливо для крипти: на бичачому ринку питання чують рідко, на ведмежому з нього починається розмова <a class="tc" data-t="4756" href="https://youtu.be/GKFq4pxd6qE?t=4756s">1:19:16</a>.</li>
+      <li><strong>Чому ми переможемо?</strong> Зазвичай це про команду: хто звідки, де працював, який досвід, наскільки горять очі <a class="tc" data-t="4788" href="https://youtu.be/GKFq4pxd6qE?t=4788s">1:19:48</a>.</li>
+    </ol>
+    <div class="callout callout--tip"><p>Для Colosseum треба записати двохвилинне відео з презентацією. Добре, якщо в цих двох хвилинах ви розкажете про проєкт і відразу відповісте на всі три питання <a class="tc" data-t="4788" href="https://youtu.be/GKFq4pxd6qE?t=4788s">1:19:48</a>.</p></div>
+  </section>
+
+  <section id="habits">
+    <h2>Питання слухачів: з чого почати в Web3 <a class="tc" data-t="4883" href="https://youtu.be/GKFq4pxd6qE?t=4883s">1:21:23</a></h2>
+    <p>Слухач просить критерії, за якими лектор аналізує проєкти в Dune чи на CoinMarketCap. Лектор пообіцяв додати підказки, як користуватися кожним сайтом, у слайди, які надішле після лекції <a class="tc" data-t="4895" href="https://youtu.be/GKFq4pxd6qE?t=4895s">1:21:35</a>.</p>
+    <p>Інший слухач питає, які звички потрібні, щоб заходити у Web3. Відповідь: це не звичка, а навичка, як їзда на велосипеді. Чотири сайти з початку лекції варто відкривати хоча б раз на тиждень, і з'явиться відчуття ринку <a class="tc" data-t="5033" href="https://youtu.be/GKFq4pxd6qE?t=5033s">1:23:53</a>. А ще: створити один-два гаманці на централізованій біржі й один-два на DEX, взяти близько ста доларів, поперекидати, подивитися, як працюють комісії й купівля токенів <a class="tc" data-t="5097" href="https://youtu.be/GKFq4pxd6qE?t=5097s">1:24:57</a>. Так розумієш, що тобі більше до вподоби: стейкінг, торгівля на біржах чи зберігання на DEX.</p>
+    <p>Лектор радить також сходити на два-три івенти, зокрема Superteam, і поспілкуватися з людьми. Дати собі два тижні й щодня заходити на ці сайти <a class="tc" data-t="5162" href="https://youtu.be/GKFq4pxd6qE?t=5162s">1:26:02</a>. Коли на гаманці реальні 20 доларів, а не теорія, на seed-фразу й транзакції дивишся зовсім інакше <a class="tc" data-t="5239" href="https://youtu.be/GKFq4pxd6qE?t=5239s">1:27:19</a>.</p>
+  </section>
+
+  <section id="colosseum">
+    <h2>Colosseum: дати й кроки <a class="tc" data-t="5371" href="https://youtu.be/GKFq4pxd6qE?t=5371s">1:29:31</a></h2>
+    <p>На початку й в кінці лекції організатори просять усіх зареєструватися на Colosseum: українських реєстрацій поки що небагато <a class="tc" data-t="5371" href="https://youtu.be/GKFq4pxd6qE?t=5371s">1:29:31</a>. Кроки: спершу профіль, потім відкрилися заявки на хакатон, далі треба натиснути submit <a class="tc" data-t="5426" href="https://youtu.be/GKFq4pxd6qE?t=5426s">1:30:26</a>.</p>
+    <ul>
+      <li>Хакатон стартує 6 квітня. Тижневі апдейти у відео необов'язкові, але, за словами лектора, суттєво підвищують шанси бути поміченим <a class="tc" data-t="5465" href="https://youtu.be/GKFq4pxd6qE?t=5465s">1:31:05</a>.</li>
+      <li>Подання можна редагувати скільки завгодно, до дедлайну 11 травня; точний час лектор не пам'ятає <a class="tc" data-t="5489" href="https://youtu.be/GKFq4pxd6qE?t=5489s">1:31:29</a>.</li>
+      <li>Організатори згадують також прожарку ідей із призом, demo day, де можна показатися вже з демо, а не з ідеєю, і думають про bounty-формат для домашок бізнес-треку <a class="tc" data-t="5583" href="https://youtu.be/GKFq4pxd6qE?t=5583s">1:33:03</a>, <a class="tc" data-t="5712" href="https://youtu.be/GKFq4pxd6qE?t=5712s">1:35:12</a>.</li>
+    </ul>
+  </section>
+
+  <section id="tools">
+    <h2>Інструменти з лекції</h2>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Інструмент</th><th>Для чого радить лектор</th><th>Таймкод</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="https://defillama.com/" target="_blank" rel="noopener">DefiLlama</a></td><td>Метрики по блокчейнах і DeFi-протоколах: TVL, капіталізація, користувачі. Джерело цифр для інвестора.</td><td><a class="tc" data-t="35" href="https://youtu.be/GKFq4pxd6qE?t=35s">0:35</a></td></tr>
+        <tr><td><a href="https://cryptorank.io/" target="_blank" rel="noopener">CryptoRank</a></td><td>Розділ fundraising: чи залучав конкурент гроші, скільки, хто інвестори.</td><td><a class="tc" data-t="157" href="https://youtu.be/GKFq4pxd6qE?t=157s">2:37</a></td></tr>
+        <tr><td><a href="https://coinmarketcap.com/" target="_blank" rel="noopener">CoinMarketCap</a></td><td>Ринкова аналітика всіх монет, пари, біржі, обсяги, індекс страху й жадібності.</td><td><a class="tc" data-t="305" href="https://youtu.be/GKFq4pxd6qE?t=305s">5:05</a></td></tr>
+        <tr><td><a href="https://dune.com/" target="_blank" rel="noopener">Dune</a></td><td>Кастомні дашборди від білдерів і проєктів; їх можна гуглити й брати скріншоти.</td><td><a class="tc" data-t="421" href="https://youtu.be/GKFq4pxd6qE?t=421s">7:01</a></td></tr>
+        <tr><td><a href="https://dappradar.com/" target="_blank" rel="noopener">DappRadar</a></td><td>Каталог dapps; лектор вважає його не дуже актуальним.</td><td><a class="tc" data-t="528" href="https://youtu.be/GKFq4pxd6qE?t=528s">8:48</a></td></tr>
+        <tr><td><a href="https://trends.google.com/" target="_blank" rel="noopener">Google Trends</a></td><td>Динаміка пошукових запитів за країнами; перевірка попиту на ключові слова.</td><td><a class="tc" data-t="2829" href="https://youtu.be/GKFq4pxd6qE?t=2829s">47:09</a></td></tr>
+        <tr><td><a href="https://parallel.ai/" target="_blank" rel="noopener">Parallel</a></td><td>AI-ресерч конкурентів і регуляції; оплата за запит, 20–30 центів.</td><td><a class="tc" data-t="3062" href="https://youtu.be/GKFq4pxd6qE?t=3062s">51:02</a></td></tr>
+        <tr><td><a href="https://www.statista.com/" target="_blank" rel="noopener">Statista</a></td><td>Бази статистичних досліджень; безкоштовні графіки після реєстрації.</td><td><a class="tc" data-t="3209" href="https://youtu.be/GKFq4pxd6qE?t=3209s">53:29</a></td></tr>
+        <tr><td><a href="https://www.producthunt.com/" target="_blank" rel="noopener">Product Hunt</a></td><td>Архів стартапів для пошуку конкурентів, публікація ідеї, пошук респондентів.</td><td><a class="tc" data-t="3337" href="https://youtu.be/GKFq4pxd6qE?t=3337s">55:37</a></td></tr>
+        <tr><td><a href="https://answerthepublic.com/" target="_blank" rel="noopener">Answer the Public</a></td><td>Що люди шукають за комбінацією слів; 3 безкоштовні пошуки на день.</td><td><a class="tc" data-t="3511" href="https://youtu.be/GKFq4pxd6qE?t=3511s">58:31</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="homework" class="homework">
+    <h2>Повторити самостійно</h2>
+    <ol>
+      <li>Домашнє завдання було: зробити власний SWOT-аналіз і надіслати лектору в чат (нік Діменко), щоб отримати фідбек <a class="tc" data-t="1594" href="https://youtu.be/GKFq4pxd6qE?t=1594s">26:34</a>, <a class="tc" data-t="1613" href="https://youtu.be/GKFq4pxd6qE?t=1613s">26:53</a>. Другий пункт — підготувати відповіді на три питання інвесторів, «основна домашка, окрім SWOT» <a class="tc" data-t="4861" href="https://youtu.be/GKFq4pxd6qE?t=4861s">1:21:01</a>.</li>
+      <li>Проведіть SWOT командою з 3–5 людей: по 10–15 хвилин на квадрат, без критики <a class="tc" data-t="943" href="https://youtu.be/GKFq4pxd6qE?t=943s">15:43</a>.</li>
+      <li>Запишіть формулу Jobs to be done для себе й для конкурентів і порівняйте <a class="tc" data-t="1749" href="https://youtu.be/GKFq4pxd6qE?t=1749s">29:09</a>.</li>
+      <li>Перегляньте опис проєкту у формі на Colosseum очима нового користувача; за потреби зробіть простий лендінг із формою whitelist <a class="tc" data-t="2312" href="https://youtu.be/GKFq4pxd6qE?t=2312s">38:32</a>, <a class="tc" data-t="2406" href="https://youtu.be/GKFq4pxd6qE?t=2406s">40:06</a>.</li>
+      <li>Складіть 10–15 ключових слів англійською і перевірте їх у Google Trends <a class="tc" data-t="2965" href="https://youtu.be/GKFq4pxd6qE?t=2965s">49:25</a>.</li>
+      <li>Витратьте одну-дві години на конкурентів у CryptoRank: хто що залучив і від кого <a class="tc" data-t="265" href="https://youtu.be/GKFq4pxd6qE?t=265s">4:25</a>.</li>
+      <li>Проведіть 5–10 CustDev-інтерв'ю: 5–7 питань про минулий досвід, із записом, а потім таблиця патернів <a class="tc" data-t="3952" href="https://youtu.be/GKFq4pxd6qE?t=3952s">1:05:52</a>, <a class="tc" data-t="4124" href="https://youtu.be/GKFq4pxd6qE?t=4124s">1:08:44</a>.</li>
+      <li>Заходьте на чотири сайти з початку лекції раз на тиждень, щоб відчувати ринок <a class="tc" data-t="5033" href="https://youtu.be/GKFq4pxd6qE?t=5033s">1:23:53</a>.</li>
+    </ol>
+  </section>
+
+  <section id="checklist" class="checklist">
+    <h2>Коротко: чекліст</h2>
+    <ol>
+      <li>Для DeFi-цифр спершу DefiLlama: інвестори питають, звідки дані.</li>
+      <li>Конкурентів і їхні раунди дивіться на CryptoRank.</li>
+      <li>SWOT роблять руками й командою, за півтори години, без критики.</li>
+      <li>SWOT — це синхронізація команди і часто початок півоту.</li>
+      <li>Півот на ранній стадії не червоний прапор.</li>
+      <li>Люди наймають продукти на роботу: запишіть формулу Jobs to be done.</li>
+      <li>Опис проєкту у формі на хакатон — перша ланка Customer Journey Map.</li>
+      <li>Ще до продукту можна мати домен, лендінг і whitelist.</li>
+      <li>Google Trends дає швидку перевірку попиту за ключовими словами.</li>
+      <li>Parallel дає ресерч конкурентів за 20–30 центів.</li>
+      <li>Для CustDev достатньо 5–10 респондентів і 5–7 питань.</li>
+      <li>Питайте про минулий досвід, ніколи про те, що людина хоче.</li>
+      <li>Записуйте інтерв'ю і не продавайте під час розмови.</li>
+      <li>Після 3–4 розмов шукайте патерни у відповідях.</li>
+      <li>Готуйте відповіді: чому ви, чому зараз, чому ви переможете.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Джерело: <a href="https://youtu.be/GKFq4pxd6qE">запис лекції «Market Research and Competitor Landscape» на YouTube</a> — Solana Startup Terminal, весняний потік 2026, опубліковано 25.03.2026.</p>
+  <p>Конспект зроблено за записом лекції; формулювання лектора передано близько до сказаного.</p>
+  <p>Концепт сторінки — Alex, учасник програми.</p>
+</footer>
+
+</body>
+</html>

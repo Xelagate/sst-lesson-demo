@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>GTM: від прилончу до скейлу — конспект</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #001020;
+    --surface: #061b30;
+    --blue: #0367c8;
+    --light-blue: #8cc6ff;
+    --yellow: #ffea00;
+    --text: #d2dfec;
+    --muted: #a6bbcf;
+    --line: #274057;
+    font-family: "Manrope", sans-serif;
+    background: var(--page);
+    color: var(--text);
+    font-synthesis: none;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    width: min(1240px, calc(100% - 64px));
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+  }
+  ::selection { color: var(--page); background: var(--light-blue); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 5px; }
+  a { color: var(--light-blue); text-underline-offset: .22em; }
+  a:hover { color: #fff; }
+  h1, h2 { font-family: "Unbounded", sans-serif; color: #f6f9ff; font-weight: 600; }
+  p { margin: 0 0 1.25em; }
+  strong { color: #f3f7fc; font-weight: 800; }
+
+  .lesson-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 0 0 18px; font-size: 13px; }
+  .lesson-nav a { color: var(--light-blue); text-decoration: none; }
+  .lesson-nav a:hover { text-decoration: underline; }
+  .lesson-nav a[aria-current] { color: var(--muted); pointer-events: none; }
+  .concept-note {
+    position: relative;
+    padding: 22px 0 22px 22px;
+    color: #b9cadb;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .concept-note::before {
+    content: "";
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+
+  /* A perforated lesson ticket, with no invented ticket data. */
+  .lesson-hero {
+    --inset: clamp(24px, 4.2vw, 56px);
+    padding: var(--inset);
+    border: 1px solid #294967;
+    border-radius: 36px;
+    background: #00203f;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--light-blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .035em;
+  }
+  .eyebrow::before {
+    content: "";
+    flex: 0 0 24px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--yellow);
+  }
+  .lesson-hero h1 {
+    max-width: 1080px;
+    margin: 0 0 24px;
+    font-size: clamp(28px, 4.1vw, 54px);
+    line-height: 1.22;
+    letter-spacing: -.04em;
+    text-wrap: balance;
+  }
+  .lead { max-width: 80ch; margin: 0; color: #bdcfe1; font-size: 16px; line-height: 1.75; }
+  .lesson-meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 32px calc(-1 * var(--inset)) calc(-1 * var(--inset));
+    padding: 22px var(--inset) 26px;
+    border-top: 1px dashed #53718c;
+    list-style: none;
+  }
+  .lesson-meta::before, .lesson-meta::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #294967;
+    border-radius: 50%;
+    background: var(--page);
+  }
+  .lesson-meta::before { left: -11px; border-left-color: transparent; }
+  .lesson-meta::after { right: -11px; border-right-color: transparent; }
+  .lesson-meta li {
+    padding: 6px 14px;
+    border: 1px solid #36536d;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .lesson-meta li:first-child { background: #0b3155; color: #fff; }
+  .lesson-meta li:last-child { color: var(--yellow); }
+
+  .lesson-media { display: grid; gap: 24px; margin-top: 24px; }
+  .player {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    align-self: start;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #000c18;
+    scroll-margin-top: 24px;
+  }
+  .player > div, .player iframe {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .chapters {
+    min-width: 0;
+    padding: 24px 12px 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+  .chapters h2 { margin: 0 12px 17px 0; font-size: 15px; line-height: 1.5; }
+  .chapters ol {
+    max-height: 360px;
+    margin: 0;
+    padding: 0 10px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-gutter: stable;
+  }
+  .chapters li {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 10px 2px;
+    border-top: 1px solid #1e354b;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .chapters li:first-child { border-top: 0; padding-top: 4px; }
+  .chapters li span { padding-top: 5px; }
+  .chapters li:focus-within span, .chapters li:hover span { color: #fff; }
+  .chapters .tc { width: 70px; justify-content: center; min-height: 30px; font-size: 11px; }
+  .chapters ol, .table-scroll { scrollbar-width: thin; scrollbar-color: #587b9b #061b30; }
+
+  .tc {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 9px;
+    border: 1px solid #34546f;
+    border-radius: 100px;
+    background: #092741;
+    color: var(--light-blue);
+    font-family: "Manrope", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+    letter-spacing: .015em;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background-color .16s, color .16s, border-color .16s, box-shadow .16s;
+  }
+  .tc:hover, .tc:focus-visible {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    color: var(--page);
+    box-shadow: 0 4px 18px rgb(255 234 0 / 16%);
+  }
+
+  .summary { width: 70ch; max-width: 100%; margin: 72px auto 0; }
+  .summary > section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .summary h2 {
+    margin: 0 0 25px;
+    font-size: clamp(21px, 2.25vw, 27px);
+    line-height: 1.45;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+  .summary h2 .tc { margin: 0 0 3px 4px; }
+  .summary ul, .summary ol { margin: 20px 0 26px; padding-left: 26px; }
+  .summary li { padding-left: 6px; margin: 12px 0; }
+  .summary li::marker { color: var(--light-blue); font-weight: 700; }
+  .summary section > :last-child { margin-bottom: 0; }
+
+  .quote {
+    margin: 32px 0;
+    padding: 7px 0 7px 25px;
+    border-left: 3px solid var(--yellow);
+    color: #f1f6fc;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.65;
+  }
+  .quote p { margin: 0; }
+  .callout {
+    --callout-accent: var(--light-blue);
+    margin: 28px 0;
+    padding: 22px 24px;
+    border: 1px solid #2f506f;
+    border-left: 3px solid var(--callout-accent);
+    border-radius: 0 18px 18px 0;
+    background: #09243e;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .callout p { margin: 0; }
+  .callout--tip { --callout-accent: #b9d4e9; border-color: #344b5d; border-left-color: var(--callout-accent); background: #112536; }
+  .callout--warning { --callout-accent: var(--yellow); border-color: #514d2c; border-left-color: var(--callout-accent); background: #242719; color: #e5e3cb; }
+  .summary > .callout--info {
+    margin-top: 0;
+    padding: 28px 30px;
+    border-left-width: 1px;
+    border-top: 3px solid var(--blue);
+    border-radius: 20px;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    margin: 28px 0;
+    overflow-x: auto;
+    border: 1px solid #34506b;
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th, td { padding: 17px 18px; text-align: left; vertical-align: top; }
+  th { border-bottom: 1px solid #3b5a77; background: #103351; color: #eef6ff; font-weight: 800; }
+  td { border-bottom: 1px solid #294158; }
+  th + th, td + td { border-left: 1px solid #294158; }
+  tbody tr:nth-child(even) { background: #0a2136; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { color: #eef5ff; font-weight: 600; }
+  td .tc { margin-top: 4px; }
+  #pain-sources td:nth-child(2), #pain-criteria td:nth-child(2) { min-width: 145px; }
+  #radar td:first-child, #scoring td:first-child { min-width: 145px; }
+
+  .summary > .homework {
+    margin-top: 64px;
+    padding: 32px;
+    border: 1px solid #365b7d;
+    border-top: 3px solid var(--light-blue);
+    border-radius: 24px;
+    background: #00203f;
+  }
+  .homework ol { margin: 0; padding-left: 24px; }
+  .homework li { margin: 0; padding: 18px 0 18px 8px; border-bottom: 1px dashed #3a5470; font-size: 16px; }
+  .homework li:first-child { padding-top: 0; }
+  .homework li:last-child { border: 0; padding-bottom: 0; }
+  .homework li::marker { color: var(--yellow); }
+  .summary > .checklist { margin-top: 40px; padding-top: 36px; border-top-style: dashed; }
+  .checklist ol { list-style: none; padding: 0; margin-bottom: 0; }
+  .checklist li { position: relative; margin: 0; padding: 15px 0 15px 32px; border-bottom: 1px solid #1e354b; font-size: 16px; }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 4px;
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid var(--light-blue);
+    border-bottom: 2px solid var(--light-blue);
+    transform: rotate(-45deg);
+  }
+  .page-footer {
+    width: 70ch;
+    max-width: 100%;
+    margin: 64px auto 0;
+    padding: 32px 0 40px;
+    border-top: 1px dashed #3a5470;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .page-footer p { margin: 0 0 14px; font-size: 12px; line-height: 1.8; }
+  .page-footer p:last-child { margin-top: 28px; margin-bottom: 0; color: #cedcea; }
+
+  @media (min-width: 1050px) {
+    .lesson-media { grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr); align-items: stretch; }
+    .chapters { position: relative; min-height: 0; }
+    .chapters ol { position: absolute; inset: 65px 12px 14px 24px; max-height: none; }
+  }
+  @media (min-width: 700px) and (max-width: 1049px) {
+    .chapters ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  }
+  @media (max-width: 599px) {
+    body { width: calc(100% - 32px); font-size: 16px; }
+    .concept-note { padding-top: 17px; padding-bottom: 17px; font-size: 11px; }
+    .concept-note::before { top: 23px; }
+    .lesson-hero { --inset: 22px; border-radius: 24px; }
+    .eyebrow { gap: 9px; font-size: 11px; letter-spacing: 0; margin-bottom: 20px; }
+    .eyebrow::before { flex-basis: 16px; }
+    .lesson-hero h1 { font-size: clamp(25px, 6.9vw, 39px); line-height: 1.3; letter-spacing: -.035em; }
+    .lead { font-size: 14px; }
+    .lesson-meta { gap: 8px; margin-top: 24px; padding-top: 18px; padding-bottom: 20px; }
+    .lesson-meta li { padding: 5px 10px; font-size: 11px; }
+    .lesson-media { gap: 16px; margin-top: 16px; }
+    .player { border-radius: 16px; scroll-margin-top: 16px; }
+    .chapters { padding-left: 18px; border-radius: 20px; }
+    .chapters ol { max-height: 340px; }
+    .summary { margin-top: 44px; }
+    .summary > section { margin-top: 40px; padding-top: 26px; }
+    .summary h2 { font-size: 20px; line-height: 1.5; }
+    .summary > .callout--info, .callout { padding: 19px 20px; font-size: 14px; }
+    .quote { margin: 26px 0; padding-left: 19px; font-size: 19px; }
+    .summary > .homework { padding: 24px 20px; border-radius: 20px; }
+    .homework li, .checklist li { font-size: 15px; }
+    .page-footer { margin-top: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('player');
+    let player;
+    let ready = false;
+
+    // Native links remain usable while the API loads, or if embedding fails.
+    document.querySelectorAll('a.tc').forEach(link => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+    document.querySelectorAll('.table-scroll').forEach(wrapper => {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', wrapper.closest('section').querySelector('h2').textContent.trim());
+    });
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a.tc');
+      if (!link || !ready || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const seconds = Number(link.dataset.t);
+      if (!Number.isFinite(seconds)) return;
+      try {
+        player.seekTo(seconds, true);
+        player.playVideo();
+      } catch {
+        ready = false;
+        return;
+      }
+      event.preventDefault();
+      container.scrollIntoView({
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+
+    window.onYouTubeIframeAPIReady = () => {
+      // Keep #player intact: YouTube replaces only this inner mount.
+      const mount = document.createElement('div');
+      container.append(mount);
+      player = new YT.Player(mount, {
+        videoId: container.dataset.videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: { playsinline: 1, rel: 0 },
+        events: {
+          onReady: event => {
+            ready = true;
+            event.target.getIframe().title = document.querySelector('h1').textContent;
+          },
+          onError: () => { ready = false; }
+        }
+      });
+    };
+    const api = document.createElement('script');
+    api.src = 'https://www.youtube.com/iframe_api';
+    api.async = true;
+    api.onerror = () => { ready = false; };
+    document.head.append(api);
+  });
+</script>
+</head>
+<body>
+
+
+<aside class="concept-note">Неофіційний концепт: так могла б виглядати сторінка уроку Startup Terminal. Це не сторінка Superteam Ukraine — її зробив Alex, учасник програми.</aside>
+
+<nav class="lesson-nav" aria-label="Уроки">
+  <a href="2026-08-26-idea-gen-nick.html">Idea Gen, Нік · 26.08</a>
+  <a href="index.html">Idea Generation, Діма · 27.08</a>
+  <a href="2026-09-08-validation-idea.html">Validation · 08.09</a>
+  <a href="2026-09-15-value-proposition.html">Value proposition · 15.09</a>
+  <a href="2026-09-22-gtm-nick.html">GTM · 22.09</a>
+  <a href="2026-09-24-marketing.html">Marketing · 24.09</a>
+  <a href="2026-09-29-ai-in-project-building.html">AI у побудові проєкту · 29.09</a>
+  <a href="2026-03-18-idea-generation-nick.html">Весна: Idea Generation</a>
+  <a href="2026-03-25-market-research.html">Весна: Market Research</a>
+  <a href="2026-04-08-gtm-structuring-dima.html" aria-current="page">Весна: GTM Structuring</a>
+  <a href="2026-04-09-development-team-management.html">Весна: Development і команда</a>
+  <a href="2026-04-15-marketing-team-management.html">Весна: Marketing team</a>
+  <a href="2026-04-17-vc-fundraising.html">Весна: VC і Fundraising</a>
+</nav>
+
+<header class="lesson-hero">
+  <p class="eyebrow">Solana Startup Terminal · весняний потік 2026</p>
+  <h1>GTM: від прилончу до скейлу — практичні чеклісти для фаундерів</h1>
+  <p class="lead">Третя лекція циклу про GTM-структуру, прикладна. Лектор проводить стартап через чотири стадії (прилонч, лонч, ранній трекшн, скейлінг) і для кожної дає чекліст із прикладами зі своєї практики. Головна ідея: рамка з ICP і каналами не працює без простих речей, як лендінг, аналітика, контент і підготовка до дня запуску. Наприкінці короткий інструмент Radar Chart для пошуку ідеї продукту чи фічі.</p>
+  <ul class="lesson-meta">
+    <li>Лектор: Діма</li>
+    <li>опубліковано 08.04.2026</li>
+    <li>98 хв</li>
+  </ul>
+</header>
+
+<div class="lesson-media"><div class="player" id="player" data-video-id="cQRbw36pjGg"></div>
+
+<nav class="chapters" aria-label="Розділи відео">
+  <h2>Розділи відео</h2>
+  <ol>
+    <li><a class="tc" data-t="4" href="https://youtu.be/cQRbw36pjGg?t=4s">0:04</a> <span>Вступ: фреймворк є, а що далі</span></li>
+    <li><a class="tc" data-t="147" href="https://youtu.be/cQRbw36pjGg?t=147s">2:27</a> <span>Від прилончу до скейлу: карта лекції</span></li>
+    <li><a class="tc" data-t="225" href="https://youtu.be/cQRbw36pjGg?t=225s">3:45</a> <span>Прилонч: лендінг, value proposition, social proof</span></li>
+    <li><a class="tc" data-t="451" href="https://youtu.be/cQRbw36pjGg?t=451s">7:31</a> <span>Google Analytics 4 — з першого дня</span></li>
+    <li><a class="tc" data-t="512" href="https://youtu.be/cQRbw36pjGg?t=512s">8:32</a> <span>Вейтліст замість продукту</span></li>
+    <li><a class="tc" data-t="575" href="https://youtu.be/cQRbw36pjGg?t=575s">9:35</a> <span>Чим збирати емейли: форми</span></li>
+    <li><a class="tc" data-t="677" href="https://youtu.be/cQRbw36pjGg?t=677s">11:17</a> <span>Реферальна механіка з самого початку</span></li>
+    <li><a class="tc" data-t="782" href="https://youtu.be/cQRbw36pjGg?t=782s">13:02</a> <span>Кейс: 700 людей у вейтлісті</span></li>
+    <li><a class="tc" data-t="925" href="https://youtu.be/cQRbw36pjGg?t=925s">15:25</a> <span>Initial content: маніфест, візія, пости</span></li>
+    <li><a class="tc" data-t="1164" href="https://youtu.be/cQRbw36pjGg?t=1164s">19:24</a> <span>Історія фаундерів і FAQ</span></li>
+    <li><a class="tc" data-t="1321" href="https://youtu.be/cQRbw36pjGg?t=1321s">22:01</a> <span>Кейс: стартап без публічних відповідей</span></li>
+    <li><a class="tc" data-t="1455" href="https://youtu.be/cQRbw36pjGg?t=1455s">24:15</a> <span>Соцмережі, блог, емейл-ланцюжки</span></li>
+    <li><a class="tc" data-t="1702" href="https://youtu.be/cQRbw36pjGg?t=1702s">28:22</a> <span>Hero section проти hero piece</span></li>
+    <li><a class="tc" data-t="1916" href="https://youtu.be/cQRbw36pjGg?t=1916s">31:56</a> <span>Чому «філософські» лендінги — артефакт ринку</span></li>
+    <li><a class="tc" data-t="2036" href="https://youtu.be/cQRbw36pjGg?t=2036s">33:56</a> <span>Лонч: паніка й підготовка</span></li>
+    <li><a class="tc" data-t="2153" href="https://youtu.be/cQRbw36pjGg?t=2153s">35:53</a> <span>Перевірка продукту й онбордингу</span></li>
+    <li><a class="tc" data-t="2309" href="https://youtu.be/cQRbw36pjGg?t=2309s">38:29</a> <span>Документація й баг-репорти</span></li>
+    <li><a class="tc" data-t="2384" href="https://youtu.be/cQRbw36pjGg?t=2384s">39:44</a> <span>Маркетинг до лончу: анонси, пресскіт, ком’юніті</span></li>
+    <li><a class="tc" data-t="2603" href="https://youtu.be/cQRbw36pjGg?t=2603s">43:23</a> <span>Аналітика й UTM-мітки перед лончем</span></li>
+    <li><a class="tc" data-t="2795" href="https://youtu.be/cQRbw36pjGg?t=2795s">46:35</a> <span>Запитання: логи помилок і «не спати»</span></li>
+    <li><a class="tc" data-t="3002" href="https://youtu.be/cQRbw36pjGg?t=3002s">50:02</a> <span>Чому чекліст дає спокій</span></li>
+    <li><a class="tc" data-t="3205" href="https://youtu.be/cQRbw36pjGg?t=3205s">53:25</a> <span>Коли робити: за два тижні й три останні дні</span></li>
+    <li><a class="tc" data-t="3309" href="https://youtu.be/cQRbw36pjGg?t=3309s">55:09</a> <span>Ранній трекшн без маркетолога</span></li>
+    <li><a class="tc" data-t="3529" href="https://youtu.be/cQRbw36pjGg?t=3529s">58:49</a> <span>Пауза в постингу — не катастрофа</span></li>
+    <li><a class="tc" data-t="3869" href="https://youtu.be/cQRbw36pjGg?t=3869s">1:04:29</a> <span>Ретеншн і що буде на наступних лекціях</span></li>
+    <li><a class="tc" data-t="3993" href="https://youtu.be/cQRbw36pjGg?t=3993s">1:06:33</a> <span>Скейлінг: чекліст компанії</span></li>
+    <li><a class="tc" data-t="4279" href="https://youtu.be/cQRbw36pjGg?t=4279s">1:11:19</a> <span>Double down, партнерства, viral loop</span></li>
+    <li><a class="tc" data-t="4509" href="https://youtu.be/cQRbw36pjGg?t=4509s">1:15:09</a> <span>Канали за ICP: для малих і для великих</span></li>
+    <li><a class="tc" data-t="4721" href="https://youtu.be/cQRbw36pjGg?t=4721s">1:18:41</a> <span>Бюджет часу й грошей</span></li>
+    <li><a class="tc" data-t="4889" href="https://youtu.be/cQRbw36pjGg?t=4889s">1:21:29</a> <span>Помилки до й після лончу</span></li>
+    <li><a class="tc" data-t="5099" href="https://youtu.be/cQRbw36pjGg?t=5099s">1:24:59</a> <span>Помилки раннього трекшну й скейлу</span></li>
+    <li><a class="tc" data-t="5266" href="https://youtu.be/cQRbw36pjGg?t=5266s">1:27:46</a> <span>Radar Chart: ідея продукту чи фічі</span></li>
+    <li><a class="tc" data-t="5694" href="https://youtu.be/cQRbw36pjGg?t=5694s">1:34:54</a> <span>Підсумок і коментарі учасників</span></li>
+  </ol>
+</nav>
+</div>
+
+<main class="summary">
+  <aside class="callout callout--info"><p><strong>Що в цьому уроці:</strong> що треба зробити до публічного запуску (лендінг, аналітика, вейтліст, маніфест, FAQ); чекліст підготовки до дня лончу; що робити без маркетолога після запуску; як скейлитися й яких помилок уникати; методологія Radar Chart для ідей.</p></aside>
+
+  <section id="intro">
+    <h2>Про що лекція і для кого <a class="tc" data-t="41" href="https://youtu.be/cQRbw36pjGg?t=41s">0:41</a></h2>
+    <p>Це третя лекція циклу про GTM-структуру. Перші дві, від Ніка, дали рамку: ICP, позиціонування, меседжі, канали, воронку. Діма просить їх послухати й користуватися дошкою в Miro, яку Нік мав надіслати <a class="tc" data-t="72" href="https://youtu.be/cQRbw36pjGg?t=72s">1:12</a>.</p>
+    <p>Його задача інша: підготувати до того, як це відбувається насправді. Коли треба одночасно писати в Twitter, керувати командою й готуватися до Colosseum, будь-яка рамка починає розсипатися <a class="tc" data-t="114" href="https://youtu.be/cQRbw36pjGg?t=114s">1:54</a>. Тому лекція прикладна: від прилончу до повноцінного лончу й скейлінгу, з практичними речами, без яких методологія «може взагалі нічим не допомогти» <a class="tc" data-t="182" href="https://youtu.be/cQRbw36pjGg?t=182s">3:02</a>.</p>
+    <p>Лектор радить вести цю підготовку по порядку: прилонч, лонч, ранній трекшн, скейлінг. Зараз усі учасники на стадії прилончу: у когось концепт продукту вже затверджений, у когось ще ні <a class="tc" data-t="1422" href="https://youtu.be/cQRbw36pjGg?t=1422s">23:42</a>.</p>
+  </section>
+
+  <section id="landing">
+    <h2>Прилонч: лендінг, який пояснює, хто ви <a class="tc" data-t="225" href="https://youtu.be/cQRbw36pjGg?t=225s">3:45</a></h2>
+    <p>Прилонч — стадія публічного запуску без вливання коштів і без клієнтів. Ви вже компанія, яку можна загуглити. Перше, що має бути, — лендінг: купуєте домен, схожий на назву, і збираєте сайт через Claude Code, Google AI Studio, колегу по парті або самотужки. Як саме, неважливо <a class="tc" data-t="225" href="https://youtu.be/cQRbw36pjGg?t=225s">3:45</a> <a class="tc" data-t="276" href="https://youtu.be/cQRbw36pjGg?t=276s">4:36</a>.</p>
+    <p>На лендінгу мають бути:</p>
+    <ul>
+      <li>чітко сформульований <strong>value proposition</strong>: основна ідея, що ви пропонуєте й яку проблему вирішуєте, фактично один рядок. Його ж кажете інвестору й користувачу <a class="tc" data-t="316" href="https://youtu.be/cQRbw36pjGg?t=316s">5:16</a> <a class="tc" data-t="368" href="https://youtu.be/cQRbw36pjGg?t=368s">6:08</a>;</li>
+      <li>будь-яка форма взаємодії: реєстрація або вейтліст <a class="tc" data-t="368" href="https://youtu.be/cQRbw36pjGg?t=368s">6:08</a>;</li>
+      <li><strong>social proof</strong>: партнери, інвестори, згадки в медіа, перші користувачі. Навіть якщо трекшну ще мало, видно, що про вас хтось чув <a class="tc" data-t="368" href="https://youtu.be/cQRbw36pjGg?t=368s">6:08</a> <a class="tc" data-t="411" href="https://youtu.be/cQRbw36pjGg?t=411s">6:51</a>.</li>
+    </ul>
+    <p>Діма пообіцяв окремо дати методологію для value proposition, бо половина слухачів підняла руку «не знаю» <a class="tc" data-t="316" href="https://youtu.be/cQRbw36pjGg?t=316s">5:16</a>.</p>
+    <aside class="callout callout--tip"><p>Поставте <strong>Google Analytics 4</strong>. Це безкоштовно, потрібен лише акаунт Gmail <a class="tc" data-t="451" href="https://youtu.be/cQRbw36pjGg?t=451s">7:31</a>. Лектор розповів: коли його команда закривала другий раунд, раз на тиждень він робив скріни з унікальними користувачами з Google Analytics, і цього вистачало великим фондам, щоб повірити в реальність проєкту <a class="tc" data-t="479" href="https://youtu.be/cQRbw36pjGg?t=479s">7:59</a>.</p></aside>
+  </section>
+
+  <section id="waitlist">
+    <h2>Вейтліст, форми й реферальна механіка <a class="tc" data-t="512" href="https://youtu.be/cQRbw36pjGg?t=512s">8:32</a></h2>
+    <p>Якщо продукту ще немає або він сирий, пропонуйте не реєстрацію, а вейтліст: користувач стає в чергу на очікування. Якщо вже є що показати, нехай воно просто працює на сайті <a class="tc" data-t="555" href="https://youtu.be/cQRbw36pjGg?t=555s">9:15</a>.</p>
+    <p>Збирати емейли можна чим завгодно. Лектор називає Typeform (гарний, але дорогий), Tally і HubSpot (дешевші) та Google Forms (безкоштовні, звичні для всіх, відповіді одразу падають у таблицю) <a class="tc" data-t="575" href="https://youtu.be/cQRbw36pjGg?t=575s">9:35</a> <a class="tc" data-t="593" href="https://youtu.be/cQRbw36pjGg?t=593s">9:53</a> <a class="tc" data-t="617" href="https://youtu.be/cQRbw36pjGg?t=617s">10:17</a>. Красива форма не обов’язкова: Google-форма всім підходить.</p>
+    <p>Далі за можливістю: автоматичний лист-підтвердження на пошту <a class="tc" data-t="617" href="https://youtu.be/cQRbw36pjGg?t=617s">10:17</a> і базова реферальна механіка. Якщо в команді є розробник і Claude Code, це доступно: користувач залишив пошту й одразу отримав реферальне посилання. Для лектора це безкоштовний шанс отримати безкоштовного користувача <a class="tc" data-t="677" href="https://youtu.be/cQRbw36pjGg?t=677s">11:17</a>.</p>
+    <p>Найкорисніше, хоч і складніше: додати до форми ще два-три поля (хто ви, чим цікавий продукт, посилання на соцмережу) <a class="tc" data-t="730" href="https://youtu.be/cQRbw36pjGg?t=730s">12:10</a>.</p>
+    <aside class="callout callout--tip"><p>Кейс з Product Hunt <a class="tc" data-t="782" href="https://youtu.be/cQRbw36pjGg?t=782s">13:02</a>: у лендінг була вбудована форма, де просили емейл, Twitter, LinkedIn, ім’я й роль. Не всі заповнили все, але кампанія дала 700 людей у вейтлісті. Лектор два дні вручну профілював їх за Twitter і LinkedIn і побачив, що продукт найбільше подобається розробникам середнього рівня з Європи (близько 40%) <a class="tc" data-t="815" href="https://youtu.be/cQRbw36pjGg?t=815s">13:35</a> <a class="tc" data-t="858" href="https://youtu.be/cQRbw36pjGg?t=858s">14:18</a>. Він радить так само ловити цей шанс безкоштовно, і каже: якщо в вейтліст запишеться сотня, прийде десь 15–20 людей <a class="tc" data-t="858" href="https://youtu.be/cQRbw36pjGg?t=858s">14:18</a>.</p></aside>
+  </section>
+
+  <section id="content">
+    <h2>Initial content: що має бути крім сайту <a class="tc" data-t="900" href="https://youtu.be/cQRbw36pjGg?t=900s">15:00</a></h2>
+    <p>Форма реєстрації й один заголовок не пояснюють, що ви робите. Лектор називає ще чотири речі, які мають бути на сайті або в соцмережах <a class="tc" data-t="925" href="https://youtu.be/cQRbw36pjGg?t=925s">15:25</a>:</p>
+    <ul>
+      <li><strong>Маніфест або візія</strong> <a class="tc" data-t="960" href="https://youtu.be/cQRbw36pjGg?t=960s">16:00</a>. Текст, погоджений командою: хто ви й навіщо це робите. Якщо ви потиснули руки й упевнені, називайте маніфестом. Якщо розумієте напрямок, але не знаєте, як саме туди йти, називайте візією <a class="tc" data-t="991" href="https://youtu.be/cQRbw36pjGg?t=991s">16:31</a> <a class="tc" data-t="1015" href="https://youtu.be/cQRbw36pjGg?t=1015s">16:55</a>. Може бути й закріплений тред у Twitter.</li>
+      <li><strong>Освітні пости</strong>: яку проблему вирішує стартап і чим ви корисні. Мінімум три, краще вісім-десять, три-п’ять уже чудово <a class="tc" data-t="1069" href="https://youtu.be/cQRbw36pjGg?t=1069s">17:49</a>. Value proposition — одне речення, соціальний доказ глибини не дає, маніфест про намір, а освітні пости про проблему <a class="tc" data-t="1095" href="https://youtu.be/cQRbw36pjGg?t=1095s">18:15</a>.</li>
+      <li><strong>Історія фаундерів або знайомство з командою</strong> <a class="tc" data-t="1164" href="https://youtu.be/cQRbw36pjGg?t=1164s">19:24</a>. Часи, коли аноніми з одним Twitter збирали 5–7 мільйонів, минули. За продуктом має хтось стояти, і до цих людей можна достукатися через LinkedIn чи Twitter <a class="tc" data-t="1191" href="https://youtu.be/cQRbw36pjGg?t=1191s">19:51</a>.</li>
+      <li><strong>FAQ</strong>: окрема сторінка, блок на лендінгу чи пост у блозі. Базові відповіді потрібні навіть найменшому продукту <a class="tc" data-t="1233" href="https://youtu.be/cQRbw36pjGg?t=1233s">20:33</a>.</li>
+    </ul>
+    <p>Чому це робити заздалегідь: інакше після запуску вас почнуть питати «хто ви і що ви», і ви будете розсилати пояснення в Telegram і WhatsApp. Зроблений публічно текст закриває більшість запитань <a class="tc" data-t="1139" href="https://youtu.be/cQRbw36pjGg?t=1139s">18:59</a>.</p>
+    <aside class="callout callout--warning"><p>Лектор був адвайзером стартапу, схожого на Chainlink, із СНД: сильна технологія, співпраця з урядом, вісімдесят людей у команді, дек на 48 сторінок. Що саме вони роблять, він зрозумів лише на другому тижні роботи. Публічних відповідей не було, бізнес тримався на теплих контактах, і на холодний ринок вони масштабуватися не могли <a class="tc" data-t="1321" href="https://youtu.be/cQRbw36pjGg?t=1321s">22:01</a> <a class="tc" data-t="1373" href="https://youtu.be/cQRbw36pjGg?t=1373s">22:53</a>.</p></aside>
+    <p>Підсумок прилончу від лектора: лендінг із value proposition і social proof, маніфест чи візія, проблема, команда й FAQ дають «залізобетонну базу маркетингу». Навіть пошукові запити почнуть працювати безкоштовно. Вейтліст потрібен не всім <a class="tc" data-t="1373" href="https://youtu.be/cQRbw36pjGg?t=1373s">22:53</a>. Якщо зробити це зараз, потім не доведеться пояснювати все з нуля, навіть коли пивотнетеся <a class="tc" data-t="1422" href="https://youtu.be/cQRbw36pjGg?t=1422s">23:42</a>.</p>
+  </section>
+
+  <section id="socials">
+    <h2>Соцмережі, блог і емейл-ланцюжки <a class="tc" data-t="1455" href="https://youtu.be/cQRbw36pjGg?t=1455s">24:15</a></h2>
+    <p>Заведіть акаунти: Twitter з описом і посиланням, закріплений тред із маніфестом, банер. Те саме для Discord і Telegram <a class="tc" data-t="1455" href="https://youtu.be/cQRbw36pjGg?t=1455s">24:15</a>.</p>
+    <p>Подумайте одразу про місце для статей. Через місяць-два вам однаково доведеться писати апдейт чи новину, краще не вирішувати це в гарячому режимі. Лектор називає Mirror (крипто-середовище), Medium або власний блог на сайті <a class="tc" data-t="1455" href="https://youtu.be/cQRbw36pjGg?t=1455s">24:15</a> <a class="tc" data-t="1511" href="https://youtu.be/cQRbw36pjGg?t=1511s">25:11</a>.</p>
+    <p>Емейл-ланцюжки (відкрив/не відкрив, про що розповідаємо далі) — необов’язково, лише якщо є маркетолог із досвідом або багато вільного часу. Але на старті з малим трафіком вони працюють <a class="tc" data-t="1511" href="https://youtu.be/cQRbw36pjGg?t=1511s">25:11</a> <a class="tc" data-t="1554" href="https://youtu.be/cQRbw36pjGg?t=1554s">25:54</a>.</p>
+    <p>Лише з цього набору (сайт, value proposition, маніфест, проблема, FAQ, соцмережі) ви, за словами лектора, вже випереджаєте половину ринку <a class="tc" data-t="1554" href="https://youtu.be/cQRbw36pjGg?t=1554s">25:54</a>. Це «як чистити зуби зранку»: багато хто ігнорує, а потім стає боляче, і у великій компанії значно болісніше <a class="tc" data-t="1622" href="https://youtu.be/cQRbw36pjGg?t=1622s">27:02</a>.</p>
+  </section>
+
+  <section id="hero">
+    <h2>Hero section проти hero piece <a class="tc" data-t="1679" href="https://youtu.be/cQRbw36pjGg?t=1679s">27:59</a></h2>
+    <p>Учасник спитав, скільки місця на лендінгу віддавати маніфесту. Відповідь: hero section — це value proposition, а hero piece — кілька абзаців, які його розкривають <a class="tc" data-t="1702" href="https://youtu.be/cQRbw36pjGg?t=1702s">28:22</a>.</p>
+    <p>Як хороший приклад лектор показав Uniswap: компактне value proposition й одразу зрозуміло, що відбувається <a class="tc" data-t="1718" href="https://youtu.be/cQRbw36pjGg?t=1718s">28:38</a>. Приклад гіршого — Hedera: що вони роблять, написано в самому кінці абзацу <a class="tc" data-t="1734" href="https://youtu.be/cQRbw36pjGg?t=1734s">28:54</a>. Стартапу не можна продавати філософію. Якщо ідея ще не кристалізована, п’яти речень для опису напрямку не соромтеся: стартап — це пошук бізнес-моделі, і право на помилки є <a class="tc" data-t="1777" href="https://youtu.be/cQRbw36pjGg?t=1777s">29:37</a> <a class="tc" data-t="1799" href="https://youtu.be/cQRbw36pjGg?t=1799s">29:59</a>. Дайте людям побачити, що ви робите, і залишити відгук <a class="tc" data-t="1828" href="https://youtu.be/cQRbw36pjGg?t=1828s">30:28</a>.</p>
+    <aside class="callout callout--tip"><p>Красиві лендінги з анімацією, на яких не зрозуміло, що за продукт, лектор називає поганим value proposition. Дозволити собі таку «філософію» можна, коли заробляєш не на B2C чи в B2B, а в іншому місці. Часто це артефакт епох, коли проєкти будували заради токена. Сьогодні, коли щось будуєш, треба пояснювати, що це. Тому орієнтуйтеся на зрозуміле <a class="tc" data-t="1916" href="https://youtu.be/cQRbw36pjGg?t=1916s">31:56</a> <a class="tc" data-t="1988" href="https://youtu.be/cQRbw36pjGg?t=1988s">33:08</a> <a class="tc" data-t="2036" href="https://youtu.be/cQRbw36pjGg?t=2036s">33:56</a>.</p></aside>
+  </section>
+
+  <section id="launch-product">
+    <h2>Лонч: паніка, перевірка продукту й онбордингу <a class="tc" data-t="2036" href="https://youtu.be/cQRbw36pjGg?t=2036s">33:56</a></h2>
+    <p>Лонч — найкраща й найстресовіша стадія. Чим ближче до нього, тим більше паніки, і єдине, що рятує, — підготовка <a class="tc" data-t="2057" href="https://youtu.be/cQRbw36pjGg?t=2057s">34:17</a> <a class="tc" data-t="2078" href="https://youtu.be/cQRbw36pjGg?t=2078s">34:38</a>. Прилонч-чекліст можна закрити за тиждень, а коли продукт добудований і день запуску наближається, проходьте лонч-чекліст <a class="tc" data-t="2124" href="https://youtu.be/cQRbw36pjGg?t=2124s">35:24</a> <a class="tc" data-t="2153" href="https://youtu.be/cQRbw36pjGg?t=2153s">35:53</a>.</p>
+    <p>Перше — перевірити те, що ви продаєте: основні функції стабільно працюють, сервери витримують, тексти без помилок, вікна відкриваються. Лектор радить починати кожен день із того, щоб зайти на власний продукт і проклацати його <a class="tc" data-t="2176" href="https://youtu.be/cQRbw36pjGg?t=2176s">36:16</a> <a class="tc" data-t="2256" href="https://youtu.be/cQRbw36pjGg?t=2256s">37:36</a>. Так само онбординг <a class="tc" data-t="2287" href="https://youtu.be/cQRbw36pjGg?t=2287s">38:07</a>.</p>
+    <aside class="callout callout--warning"><p>Лектор прийшов в одну команду зі 180 людей, які кричали, що в них усе погано з маркетингом. Виявилося, що за півроку ніхто з них жодного разу не спробував зареєструватися на власному продукті <a class="tc" data-t="2233" href="https://youtu.be/cQRbw36pjGg?t=2233s">37:13</a>.</p></aside>
+    <p>В ідеалі до лончу вже є туторіали чи публічна документація. Також корисно дати користувачам «легітимне право» повідомляти про баги: кнопка чи плашка зворотного зв’язку, тег менеджера в Telegram, окрема гілка в Discord. Це безкоштовно й покращує продукт <a class="tc" data-t="2309" href="https://youtu.be/cQRbw36pjGg?t=2309s">38:29</a> <a class="tc" data-t="2347" href="https://youtu.be/cQRbw36pjGg?t=2347s">39:07</a>.</p>
+  </section>
+
+  <section id="launch-marketing">
+    <h2>Маркетинг до лончу: що підготувати заздалегідь <a class="tc" data-t="2384" href="https://youtu.be/cQRbw36pjGg?t=2384s">39:44</a></h2>
+    <p>Не вигадуйте це в день запуску. До лончу мають бути готові <a class="tc" data-t="2384" href="https://youtu.be/cQRbw36pjGg?t=2384s">39:44</a>:</p>
+    <ul>
+      <li>тексти анонсів для Twitter і Discord, можливо стаття на Mirror, емейл-розсилка, якщо вона є <a class="tc" data-t="2384" href="https://youtu.be/cQRbw36pjGg?t=2384s">39:44</a>;</li>
+      <li>запланований AMA чи демо-день, у Twitter це безкоштовно <a class="tc" data-t="2424" href="https://youtu.be/cQRbw36pjGg?t=2424s">40:24</a>;</li>
+      <li><strong>пресскіт</strong>: посилання на Google Drive із трьома-чотирма варіантами логотипа у векторі й фірмовими кольорами. Якщо про вас пишуть медіа, вони не візьмуть старий логотип <a class="tc" data-t="2424" href="https://youtu.be/cQRbw36pjGg?t=2424s">40:24</a> <a class="tc" data-t="2462" href="https://youtu.be/cQRbw36pjGg?t=2462s">41:02</a>;</li>
+      <li>активація ком’юніті: повідомте людей, куди писати відгуки, баги й побажання. Наприклад, закріплена Google-форма в окремій гілці <a class="tc" data-t="2462" href="https://youtu.be/cQRbw36pjGg?t=2462s">41:02</a> <a class="tc" data-t="2494" href="https://youtu.be/cQRbw36pjGg?t=2494s">41:34</a>.</li>
+    </ul>
+    <aside class="callout callout--warning"><p>Попередьте всю команду й ком’юніті-менеджерів про день лончу. Типова ситуація: готовий продукт, усе працює, і в понеділок менеджер питає «що відбувається», а засновник не заходив у Discord, де триста людей. Лектор сам забув попередити менеджера перед лончем, коли в Discord було близько 200 людей <a class="tc" data-t="2533" href="https://youtu.be/cQRbw36pjGg?t=2533s">42:13</a> <a class="tc" data-t="2603" href="https://youtu.be/cQRbw36pjGg?t=2603s">43:23</a>.</p></aside>
+  </section>
+
+  <section id="analytics-check">
+    <h2>Перевірте аналітику й UTM <a class="tc" data-t="2603" href="https://youtu.be/cQRbw36pjGg?t=2603s">43:23</a></h2>
+    <p>Перед лончем перевірте, що аналітика не відпала. Є безкоштовний Hotjar із тепловими мапами <a class="tc" data-t="2629" href="https://youtu.be/cQRbw36pjGg?t=2629s">43:49</a>. Якщо онбординг уже побудований, перевірте, як він трекається; real-time-дашборд у Google Analytics показує, що відбувається зараз <a class="tc" data-t="2705" href="https://youtu.be/cQRbw36pjGg?t=2705s">45:05</a> <a class="tc" data-t="2734" href="https://youtu.be/cQRbw36pjGg?t=2734s">45:34</a>.</p>
+    <p>Якщо є трафік, перевірте UTM-мітки. Лектор дав посилання, де українською пояснено, що це й як їх складати. Після цього Google Analytics «прокачується в п’ятдесят разів», бо розуміє, звідки й куди приходять люди <a class="tc" data-t="2734" href="https://youtu.be/cQRbw36pjGg?t=2734s">45:34</a> <a class="tc" data-t="2770" href="https://youtu.be/cQRbw36pjGg?t=2770s">46:10</a>.</p>
+    <aside class="callout callout--warning"><p>Історія з практики: стартап із 3 мільйонами залучених коштів не встигав доробити сайт до лончу, за тиждень до запуску відпала аналітика, сайт ліг, сервери не оновили. Один скрін із Google Analytics із «40 тисячами людей у момент лончу» міг би допомогти, але його не було, і наступного раунду теж <a class="tc" data-t="2629" href="https://youtu.be/cQRbw36pjGg?t=2629s">43:49</a> <a class="tc" data-t="2668" href="https://youtu.be/cQRbw36pjGg?t=2668s">44:28</a> <a class="tc" data-t="2705" href="https://youtu.be/cQRbw36pjGg?t=2705s">45:05</a>.</p></aside>
+  </section>
+
+  <section id="calm">
+    <h2>Коли робити й чому це дає спокій <a class="tc" data-t="2795" href="https://youtu.be/cQRbw36pjGg?t=2795s">46:35</a></h2>
+    <p>Учасник додав, що в продукті має бути розширена система логування помилок, щоб баги виловлювались ще до того, як про них напишуть користувачі. Лектор погодився й обіцяв додати це окремим пунктом, можливо слайдом з інструкцією <a class="tc" data-t="2795" href="https://youtu.be/cQRbw36pjGg?t=2795s">46:35</a> <a class="tc" data-t="2841" href="https://youtu.be/cQRbw36pjGg?t=2841s">47:21</a> <a class="tc" data-t="2883" href="https://youtu.be/cQRbw36pjGg?t=2883s">48:03</a>.</p>
+    <p>На думку «найкраще під лонч — не спати» лектор відповів, що іноді й не спав, але саме тому дає ці чекліст-методички. Рамка Ніка створює враження, що ви до всього готові, а чекліст допомагає не бігати у стані паніки, не писати статтю в останній момент і дихати легше <a class="tc" data-t="2935" href="https://youtu.be/cQRbw36pjGg?t=2935s">48:55</a> <a class="tc" data-t="3002" href="https://youtu.be/cQRbw36pjGg?t=3002s">50:02</a>.</p>
+    <aside class="callout callout--warning"><p>Лектор розповів про запуск у грудні: контент-плану на запуск не було, засновник від нервів не зміг написати навіть три речення для Twitter, і запуск зсунули на півтора місяця. Він також наголошує, що команда, яка вигоріла на старті, не витримує потоку баг-репортів через два-три дні <a class="tc" data-t="3035" href="https://youtu.be/cQRbw36pjGg?t=3035s">50:35</a> <a class="tc" data-t="3105" href="https://youtu.be/cQRbw36pjGg?t=3105s">51:45</a> <a class="tc" data-t="3183" href="https://youtu.be/cQRbw36pjGg?t=3183s">53:03</a>.</p></aside>
+    <aside class="callout callout--tip"><p>Прилонч-чекліст закрийте щонайпізніше за два тижні до лончу. А три останні дні проходьте по колу: welcome-sequence є, контент-план є, команду попередили, AMA налаштували, функціонал і онбординг перевірили, документація є, аналітика не відпала. Щось усе одно знайдеться <a class="tc" data-t="3233" href="https://youtu.be/cQRbw36pjGg?t=3233s">53:53</a> <a class="tc" data-t="3283" href="https://youtu.be/cQRbw36pjGg?t=3283s">54:43</a>.</p></aside>
+  </section>
+
+  <section id="traction">
+    <h2>Ранній трекшн без маркетолога <a class="tc" data-t="3309" href="https://youtu.be/cQRbw36pjGg?t=3309s">55:09</a></h2>
+    <p>Після лончу, коли баги виправлені, ранній трекшн — це чистий маркетинг. Цей розділ для засновників, які шукають маркетолога тиждень чи місяць <a class="tc" data-t="3334" href="https://youtu.be/cQRbw36pjGg?t=3334s">55:34</a> <a class="tc" data-t="3367" href="https://youtu.be/cQRbw36pjGg?t=3367s">56:07</a>. Лектор радить:</p>
+    <ul>
+      <li>тестувати канали залучення <strong>одночасно</strong>, розрізняючи їх UTM-мітками <a class="tc" data-t="3400" href="https://youtu.be/cQRbw36pjGg?t=3400s">56:40</a>;</li>
+      <li>тестувати різні повідомлення в онбордингу, на лендінгу, в соцмережах і гратися з назвами продукту, щоб знайти опис, який продає краще <a class="tc" data-t="3416" href="https://youtu.be/cQRbw36pjGg?t=3416s">56:56</a> <a class="tc" data-t="3444" href="https://youtu.be/cQRbw36pjGg?t=3444s">57:24</a>;</li>
+      <li>реферальна програма — must have, якщо немає інших каналів <a class="tc" data-t="3444" href="https://youtu.be/cQRbw36pjGg?t=3444s">57:24</a>;</li>
+      <li>за наявності грошей запускати перші платні кампанії, поки шукаєте маркетолога <a class="tc" data-t="3478" href="https://youtu.be/cQRbw36pjGg?t=3478s">57:58</a>;</li>
+      <li>писати тижневі апдейти, влаштовувати конкурси для ком’юніті, шукати партнерства з іншими учасниками хакатону, продовжувати освітні пости <a class="tc" data-t="3478" href="https://youtu.be/cQRbw36pjGg?t=3478s">57:58</a> <a class="tc" data-t="3495" href="https://youtu.be/cQRbw36pjGg?t=3495s">58:15</a>.</li>
+    </ul>
+    <p>Ретеншн-механіки потрібні, коли користувачі не лише приходять, а й відходять (churn): нотифікації, амбасадорка, емейл-сегменти. Вони важливі, коли ви вже ростете, але в ідеалі цим займеться маркетолог <a class="tc" data-t="3886" href="https://youtu.be/cQRbw36pjGg?t=3886s">1:04:46</a> <a class="tc" data-t="3954" href="https://youtu.be/cQRbw36pjGg?t=3954s">1:05:54</a>. Окремі лекції будуть про маркетинг без бюджету, менеджмент у маркетингу (агенції, KPI), метрики <a class="tc" data-t="3954" href="https://youtu.be/cQRbw36pjGg?t=3954s">1:05:54</a> <a class="tc" data-t="3993" href="https://youtu.be/cQRbw36pjGg?t=3993s">1:06:33</a>.</p>
+  </section>
+
+  <section id="gaps">
+    <h2>Пауза в постингу — не катастрофа <a class="tc" data-t="3529" href="https://youtu.be/cQRbw36pjGg?t=3529s">58:49</a></h2>
+    <p>Учасниця спитала, що робити, якщо кілька тижнів нічого не публікували. Лектор показав проєкт-учасник Colosseum, який він консультує: перший пост 20 жовтня 2025, потім репост у листопаді, і далі пост 24 березня. Розробників тоді призвали, команда перезбиралась <a class="tc" data-t="3529" href="https://youtu.be/cQRbw36pjGg?t=3529s">58:49</a> <a class="tc" data-t="3578" href="https://youtu.be/cQRbw36pjGg?t=3578s">59:38</a>. Після розмови в березні вони знову почали постити, і «нічого страшного» <a class="tc" data-t="3597" href="https://youtu.be/cQRbw36pjGg?t=3597s">59:57</a>.</p>
+    <p>Його порада: поки немає стотисячної аудиторії, відпустіть страх. Для social proof важливо, що акаунт існував торік і в минулому місяці, а не що постили щодня. Якщо хтось спитає, чому була пауза, зробіть про це пост. Але зазвичай не питають <a class="tc" data-t="3630" href="https://youtu.be/cQRbw36pjGg?t=3630s">1:00:30</a> <a class="tc" data-t="3669" href="https://youtu.be/cQRbw36pjGg?t=3669s">1:01:09</a>.</p>
+    <aside class="callout callout--tip"><p>Пост не мусить бути подією. Лектор називає проблемою, коли великі команди роблять до кожного поста картинку в брендовому стилі, і стрічка перетворюється на однорідну кашу, яку ніхто не читає. Прості текстові пости з жартами читають. Навіть «GM» нікому не шкодить <a class="tc" data-t="3717" href="https://youtu.be/cQRbw36pjGg?t=3717s">1:01:57</a> <a class="tc" data-t="3774" href="https://youtu.be/cQRbw36pjGg?t=3774s">1:02:54</a>. Він навів блогера, чий контент — це ASCII-малюнки та «GM» по 5–10 разів на день, і людям подобається <a class="tc" data-t="3801" href="https://youtu.be/cQRbw36pjGg?t=3801s">1:03:21</a> <a class="tc" data-t="3847" href="https://youtu.be/cQRbw36pjGg?t=3847s">1:04:07</a>.</p></aside>
+  </section>
+
+  <section id="scale">
+    <h2>Скейлінг: що робити, коли ви вже компанія <a class="tc" data-t="3993" href="https://youtu.be/cQRbw36pjGg?t=3993s">1:06:33</a></h2>
+    <p>Стартап стає компанією, коли побудував сталу бізнес-модель і навчився заробляти. Тоді треба скейлитися. Лектор вітає тих, хто дійде до цієї стадії, і радить звернути увагу, бо не всі найняті люди скажуть вам про ці речі <a class="tc" data-t="3993" href="https://youtu.be/cQRbw36pjGg?t=3993s">1:06:33</a> <a class="tc" data-t="4050" href="https://youtu.be/cQRbw36pjGg?t=4050s">1:07:30</a>. Чекліст <a class="tc" data-t="4029" href="https://youtu.be/cQRbw36pjGg?t=4029s">1:07:09</a>:</p>
+    <ul>
+      <li>автоматизація процесів і плейбуки (по постах, баг-репортах): через AI це легко, і йдеться не про заміну людини, а про документацію «що тобі на цій посаді робити» <a class="tc" data-t="4087" href="https://youtu.be/cQRbw36pjGg?t=4087s">1:08:07</a> <a class="tc" data-t="4103" href="https://youtu.be/cQRbw36pjGg?t=4103s">1:08:23</a>;</li>
+      <li>розширити базу знань: ютуб-канал із мануалами, у 2026 році ще й чатбот для саппорту <a class="tc" data-t="4145" href="https://youtu.be/cQRbw36pjGg?t=4145s">1:09:05</a> <a class="tc" data-t="4169" href="https://youtu.be/cQRbw36pjGg?t=4169s">1:09:29</a>;</li>
+      <li><strong>GTM hire</strong>: маркетолог і ком’юніті-менеджер, які вам просто звітують <a class="tc" data-t="4169" href="https://youtu.be/cQRbw36pjGg?t=4169s">1:09:29</a>;</li>
+      <li>зовнішні агенції для контент-фабрики, PR чи івентів: командою все закрити неможливо <a class="tc" data-t="4198" href="https://youtu.be/cQRbw36pjGg?t=4198s">1:09:58</a>;</li>
+      <li>внутрішні процеси: календар контенту, лонч-чекліст для фіч, OKR і KPI <a class="tc" data-t="4241" href="https://youtu.be/cQRbw36pjGg?t=4241s">1:10:41</a>.</li>
+    </ul>
+    <aside class="callout callout--tip"><p>Проста методологія для росту: подивіться на канал, який працює найкраще, і на той, що найгірше. Найгірший закрийте, гроші перекиньте в найкращий. Це називається <strong>double down</strong>, робіть так по двох топ-каналах. І постійно тестуйте нові джерела залучення, а не сидіть лише на одній Facebook-рекламі <a class="tc" data-t="4279" href="https://youtu.be/cQRbw36pjGg?t=4279s">1:11:19</a> <a class="tc" data-t="4309" href="https://youtu.be/cQRbw36pjGg?t=4309s">1:11:49</a>.</p></aside>
+    <p>Далі: партнерські програми, co-marketing, інтеграції, bounty- і bug-bounty програми <a class="tc" data-t="4343" href="https://youtu.be/cQRbw36pjGg?t=4343s">1:12:23</a>. Оптимізація залучення (SDK, API, самостійне ціноутворення) — це вже для продукту після скейлу, і про неї краще поговорити з маркетологом <a class="tc" data-t="4343" href="https://youtu.be/cQRbw36pjGg?t=4343s">1:12:23</a>.</p>
+    <p><strong>Viral loop</strong>: коли продукт уже потрібен людям (є product-market fit), ви будуєте систему реферальних винагород: знижка, безкоштовний місяць, спецумови, конкурс серед рефералів. Користувач розповідає наступному, той наступному, і це масштабує продукт за рахунок наявної аудиторії <a class="tc" data-t="4406" href="https://youtu.be/cQRbw36pjGg?t=4406s">1:13:26</a> <a class="tc" data-t="4449" href="https://youtu.be/cQRbw36pjGg?t=4449s">1:14:09</a>.</p>
+  </section>
+
+  <section id="channels">
+    <h2>Канали й бюджет: час чи гроші <a class="tc" data-t="4509" href="https://youtu.be/cQRbw36pjGg?t=4509s">1:15:09</a></h2>
+    <p>Канали залежать від вашого ICP. Розробники: ті місця, де вони бувають, наприклад коментарі на GitHub. Криптотрейдери: криптотвіттер, Discord, Telegram-групи <a class="tc" data-t="4509" href="https://youtu.be/cQRbw36pjGg?t=4509s">1:15:09</a>.</p>
+    <p>Для маленьких: пів години на день у Twitter чи Threads (підписуватися, лайкати, коментувати) дає безкоштовну аудиторію. Лектор порадив одному засновнику сидіти по годині на день у Twitter і тегати людей з екосистеми Base <a class="tc" data-t="4584" href="https://youtu.be/cQRbw36pjGg?t=4584s">1:16:24</a> <a class="tc" data-t="4615" href="https://youtu.be/cQRbw36pjGg?t=4615s">1:16:55</a>. Взаємний піар двох Twitter-акаунтів із чату Terminal займає п’ять хвилин <a class="tc" data-t="4652" href="https://youtu.be/cQRbw36pjGg?t=4652s">1:17:32</a>. Активність в існуючих спільнотах: чати за інтересами <a class="tc" data-t="4668" href="https://youtu.be/cQRbw36pjGg?t=4668s">1:17:48</a>.</p>
+    <p>Для тих, хто вже має команду й фінансування: SEO, відео на YouTube, подкасти й платна реклама <a class="tc" data-t="4668" href="https://youtu.be/cQRbw36pjGg?t=4668s">1:17:48</a>.</p>
+    <aside class="callout callout--tip"><p>Як розподіляти ресурс <a class="tc" data-t="4721" href="https://youtu.be/cQRbw36pjGg?t=4721s">1:18:41</a>: якщо немає бюджету, ваш ресурс — час засновників, і його треба розподіляти жорстко. На прилонч лектор радить віддати близько 20% часу. Якщо на прилончі є гроші, спрямувати їх (близько 60%) у контент. На лонч, коли грошей немає, віддайте на кампанію 20–30% часу, який виділяєте на проєкт <a class="tc" data-t="4759" href="https://youtu.be/cQRbw36pjGg?t=4759s">1:19:19</a> <a class="tc" data-t="4790" href="https://youtu.be/cQRbw36pjGg?t=4790s">1:19:50</a>. Якщо гроші є, це відсоток бюджету, якщо ні — відсоток часу <a class="tc" data-t="4838" href="https://youtu.be/cQRbw36pjGg?t=4838s">1:20:38</a>.</p></aside>
+  </section>
+
+  <section id="mistakes">
+    <h2>Популярні помилки на кожній стадії <a class="tc" data-t="4889" href="https://youtu.be/cQRbw36pjGg?t=4889s">1:21:29</a></h2>
+    <p>Лектор називає це улюбленим слайдом: майже кожну з цих помилок він колись робив сам <a class="tc" data-t="4889" href="https://youtu.be/cQRbw36pjGg?t=4889s">1:21:29</a>.</p>
+    <p><strong>До й під час лончу</strong>:</p>
+    <ul>
+      <li>будувати у вакуумі й не показувати продукт ринку: без пояснення, вейтлісту й розмов про вас лонч буде неефективним <a class="tc" data-t="4911" href="https://youtu.be/cQRbw36pjGg?t=4911s">1:21:51</a>;</li>
+      <li>чекати ідеального продукту. У його практиці команда три місяці боялася запускати готовий продукт, і він два тижні переконував, що бета — нормально <a class="tc" data-t="4944" href="https://youtu.be/cQRbw36pjGg?t=4944s">1:22:24</a>. «Все на старті лагає», навіть Monobank і Netflix <a class="tc" data-t="4981" href="https://youtu.be/cQRbw36pjGg?t=4981s">1:23:01</a>;</li>
+      <li>робити «для всіх»: якщо не можеш зрозуміти, кому це потрібно, то, скоріш за все, нікому <a class="tc" data-t="5002" href="https://youtu.be/cQRbw36pjGg?t=5002s">1:23:22</a>;</li>
+      <li>ігнорувати підготовку до прилончу, вейтліст і тест онбордингу <a class="tc" data-t="5021" href="https://youtu.be/cQRbw36pjGg?t=5021s">1:23:41</a> <a class="tc" data-t="5037" href="https://youtu.be/cQRbw36pjGg?t=5037s">1:23:57</a>;</li>
+      <li>не мати контент-плану чи демо після лончу: у продукті з бюджетом півтора мільйона доларів маркетинг закінчився в день лончу, і за тиждень користувачі впали до нуля <a class="tc" data-t="5037" href="https://youtu.be/cQRbw36pjGg?t=5037s">1:23:57</a> <a class="tc" data-t="5074" href="https://youtu.be/cQRbw36pjGg?t=5074s">1:24:34</a>;</li>
+      <li>не збирати зворотний зв’язок у реальному часі <a class="tc" data-t="5074" href="https://youtu.be/cQRbw36pjGg?t=5074s">1:24:34</a>.</li>
+    </ul>
+    <p><strong>На ранньому трекшні</strong>: розфокус, коли хочеться одночасно закрити раунд, допиляти продукт і зробити ребрендинг. Обирайте щось одне: або продукт, або маркетинг <a class="tc" data-t="5119" href="https://youtu.be/cQRbw36pjGg?t=5119s">1:25:19</a> <a class="tc" data-t="5140" href="https://youtu.be/cQRbw36pjGg?t=5140s">1:25:40</a>. Також не залишайте на продукті розділи й фічі, якими ніхто не користується: вони стають мертвим вантажем <a class="tc" data-t="5140" href="https://youtu.be/cQRbw36pjGg?t=5140s">1:25:40</a>. Не ігноруйте ретеншн заради залучення <a class="tc" data-t="5140" href="https://youtu.be/cQRbw36pjGg?t=5140s">1:25:40</a>.</p>
+    <p><strong>На скейлі</strong>: надто великий фандінг для стадії. Продукт не потрапляє в product-market fit, а ви «виходите на новий ринок» <a class="tc" data-t="5172" href="https://youtu.be/cQRbw36pjGg?t=5172s">1:26:12</a> <a class="tc" data-t="5202" href="https://youtu.be/cQRbw36pjGg?t=5202s">1:26:42</a>. Лектор бажає закрити раунд на стільки грошей, скільки треба, а не скільки хочеться <a class="tc" data-t="5202" href="https://youtu.be/cQRbw36pjGg?t=5202s">1:26:42</a>. Також автоматизація, яку не можна вимкнути чи змінити <a class="tc" data-t="5236" href="https://youtu.be/cQRbw36pjGg?t=5236s">1:27:16</a>, неправильний найм і втрата фокусу <a class="tc" data-t="5236" href="https://youtu.be/cQRbw36pjGg?t=5236s">1:27:16</a>.</p>
+  </section>
+
+  <section id="radar">
+    <h2>Radar Chart: як придумати продукт чи фічу <a class="tc" data-t="5266" href="https://youtu.be/cQRbw36pjGg?t=5266s">1:27:46</a></h2>
+    <p>Наприкінці лектор показав методологію Radar Chart Analysis, на якій, за його словами, «витримав» два власні стартапи й збирається використати у третьому <a class="tc" data-t="5278" href="https://youtu.be/cQRbw36pjGg?t=5278s">1:27:58</a> <a class="tc" data-t="5302" href="https://youtu.be/cQRbw36pjGg?t=5302s">1:28:22</a>. Вона допомагає придумати новий продукт або нову фічу, і лектор зробив про неї окремий PDF <a class="tc" data-t="5316" href="https://youtu.be/cQRbw36pjGg?t=5316s">1:28:36</a>. Треба заповнити чотири квадрати:</p>
+    <ul>
+      <li><strong>прямі конкуренти</strong>: хто робить те саме <a class="tc" data-t="5342" href="https://youtu.be/cQRbw36pjGg?t=5342s">1:29:02</a>;</li>
+      <li><strong>суміжні ринки</strong>: які фічі є в інших сервісах, якими користується та сама аудиторія (маркетплейси, доставка їжі: як вони тримають увагу й ретеншн) <a class="tc" data-t="5376" href="https://youtu.be/cQRbw36pjGg?t=5376s">1:29:36</a> <a class="tc" data-t="5415" href="https://youtu.be/cQRbw36pjGg?t=5415s">1:30:15</a>;</li>
+      <li><strong>аналогічний досвід</strong>: продукти, які дають користувачу схожий досвід, навіть з іншої галузі. Лектор порівняв Monobank і Binance: у обох люди відкривають застосунок по п’ять-десять разів на день, щоб перевірити баланс <a class="tc" data-t="5457" href="https://youtu.be/cQRbw36pjGg?t=5457s">1:30:57</a> <a class="tc" data-t="5503" href="https://youtu.be/cQRbw36pjGg?t=5503s">1:31:43</a>;</li>
+      <li><strong>глобальні тренди й гіганти</strong>: куди рухаються великі гравці. Це найскладніша вправа <a class="tc" data-t="5503" href="https://youtu.be/cQRbw36pjGg?t=5503s">1:31:43</a> <a class="tc" data-t="5533" href="https://youtu.be/cQRbw36pjGg?t=5533s">1:32:13</a>.</li>
+    </ul>
+    <p>Найцікавіше відбувається на кроках збоку, мапінгу й синтезі: пазл збирається, і видно, якої фічі бракує <a class="tc" data-t="5533" href="https://youtu.be/cQRbw36pjGg?t=5533s">1:32:13</a>. Учасник навів аналогію: коли Apple викотила Liquid Glass, майже всі застосунки, включно з Telegram, почали копіювати цей дизайн <a class="tc" data-t="5658" href="https://youtu.be/cQRbw36pjGg?t=5658s">1:34:18</a>. Лектор відповів, що магія в тому, що ви багато знаєте, але фрагментарно, а інструмент збирає це в одну картинку <a class="tc" data-t="5694" href="https://youtu.be/cQRbw36pjGg?t=5694s">1:34:54</a> <a class="tc" data-t="5727" href="https://youtu.be/cQRbw36pjGg?t=5727s">1:35:27</a>.</p>
+    <aside class="callout callout--tip"><p>Лектор обіцяв надіслати презентацію й PDF про Radar, шукав на YouTube докладний мануал і розглядав воркшоп про нього, але на 4–5 стартапів, бо за годину більше не встигнуть <a class="tc" data-t="5581" href="https://youtu.be/cQRbw36pjGg?t=5581s">1:33:01</a> <a class="tc" data-t="5635" href="https://youtu.be/cQRbw36pjGg?t=5635s">1:33:55</a>.</p></aside>
+  </section>
+
+  <section id="zombie">
+    <h2>Підсумок і коментар про «зомбі-стартапи» <a class="tc" data-t="5750" href="https://youtu.be/cQRbw36pjGg?t=5750s">1:35:50</a></h2>
+    <p>Один із учасників згадав відео Y Combinator про «зомбі-стартапи»: гроші в інвесторів є, а росту немає <a class="tc" data-t="5764" href="https://youtu.be/cQRbw36pjGg?t=5764s">1:36:04</a>. Лектор зазначив, що слайди про провали на скейлі — це якраз те, що перетворює стартап на такого зомбі: надмірний фандінг, не ті працівники <a class="tc" data-t="5787" href="https://youtu.be/cQRbw36pjGg?t=5787s">1:36:27</a> <a class="tc" data-t="5813" href="https://youtu.be/cQRbw36pjGg?t=5813s">1:36:53</a>. Він закликає закрити прилонч і лонч за методичками, а проблеми скейлу залишити на майбутнє <a class="tc" data-t="5813" href="https://youtu.be/cQRbw36pjGg?t=5813s">1:36:53</a>.</p>
+  </section>
+
+  <section id="tools">
+    <h2>Інструменти з лекції</h2>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Інструмент</th><th>Для чого радить лектор</th><th>Таймкод</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="https://miro.com/" target="_blank" rel="noopener">Miro</a></td><td>Дошка з GTM-фреймворком від Ніка, якою радить користуватися.</td><td><a class="tc" data-t="72" href="https://youtu.be/cQRbw36pjGg?t=72s">1:12</a></td></tr>
+        <tr><td><a href="https://marketingplatform.google.com/about/analytics/" target="_blank" rel="noopener">Google Analytics 4</a></td><td>Безкоштовна аналітика з першого дня; скріни унікальних користувачів як доказ трекшну; real-time-дашборд.</td><td><a class="tc" data-t="451" href="https://youtu.be/cQRbw36pjGg?t=451s">7:31</a></td></tr>
+        <tr><td><a href="https://workspace.google.com/products/forms/" target="_blank" rel="noopener">Google Forms</a></td><td>Безкоштовна форма вейтлісту, відповіді одразу в таблиці; також форма для баг-репортів і фічі-реквестів.</td><td><a class="tc" data-t="593" href="https://youtu.be/cQRbw36pjGg?t=593s">9:53</a></td></tr>
+        <tr><td><a href="https://www.typeform.com/" target="_blank" rel="noopener">Typeform</a></td><td>Гарна, але дорога форма для збору емейлів.</td><td><a class="tc" data-t="575" href="https://youtu.be/cQRbw36pjGg?t=575s">9:35</a></td></tr>
+        <tr><td><a href="https://tally.so/" target="_blank" rel="noopener">Tally</a></td><td>Дешевша альтернатива для форми вейтлісту.</td><td><a class="tc" data-t="593" href="https://youtu.be/cQRbw36pjGg?t=593s">9:53</a></td></tr>
+        <tr><td><a href="https://www.hubspot.com/" target="_blank" rel="noopener">HubSpot</a></td><td>Дешевша альтернатива для форми вейтлісту.</td><td><a class="tc" data-t="593" href="https://youtu.be/cQRbw36pjGg?t=593s">9:53</a></td></tr>
+        <tr><td><a href="https://www.producthunt.com/" target="_blank" rel="noopener">Product Hunt</a></td><td>Майданчик для лончу; кейс кампанії з 700 людьми у вейтлісті.</td><td><a class="tc" data-t="782" href="https://youtu.be/cQRbw36pjGg?t=782s">13:02</a></td></tr>
+        <tr><td><a href="https://mirror.xyz/" target="_blank" rel="noopener">Mirror</a> і <a href="https://medium.com/" target="_blank" rel="noopener">Medium</a></td><td>Місце для статей, апдейтів і новин проєкту.</td><td><a class="tc" data-t="1455" href="https://youtu.be/cQRbw36pjGg?t=1455s">24:15</a></td></tr>
+        <tr><td><a href="https://www.google.com/drive/" target="_blank" rel="noopener">Google Drive</a></td><td>Публічна папка пресскіта: 3–4 варіанти логотипа у векторі й фірмовий колір.</td><td><a class="tc" data-t="2462" href="https://youtu.be/cQRbw36pjGg?t=2462s">41:02</a></td></tr>
+        <tr><td><a href="https://www.hotjar.com/" target="_blank" rel="noopener">Hotjar</a></td><td>Безкоштовні теплові мапи: як люди користуються продуктом.</td><td><a class="tc" data-t="2629" href="https://youtu.be/cQRbw36pjGg?t=2629s">43:49</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="homework" class="homework">
+    <h2>Повторити самостійно</h2>
+    <ol>
+      <li>Формального домашнього завдання на лекції не було. Лектор обіцяв надіслати презентацію, PDF про Radar і окремий фреймворк value proposition, а Radar запропонував як необов’язкову домашку для тих, у кого ідея чи фіча ще не сформована <a class="tc" data-t="316" href="https://youtu.be/cQRbw36pjGg?t=316s">5:16</a> <a class="tc" data-t="5581" href="https://youtu.be/cQRbw36pjGg?t=5581s">1:33:01</a> <a class="tc" data-t="5635" href="https://youtu.be/cQRbw36pjGg?t=5635s">1:33:55</a>.</li>
+      <li>Зберіть лендінг: value proposition, форма вейтлісту, social proof <a class="tc" data-t="225" href="https://youtu.be/cQRbw36pjGg?t=225s">3:45</a> <a class="tc" data-t="368" href="https://youtu.be/cQRbw36pjGg?t=368s">6:08</a>.</li>
+      <li>Поставте Google Analytics 4 <a class="tc" data-t="451" href="https://youtu.be/cQRbw36pjGg?t=451s">7:31</a>.</li>
+      <li>Напишіть маніфест або візію, 3–5 освітніх постів і FAQ <a class="tc" data-t="925" href="https://youtu.be/cQRbw36pjGg?t=925s">15:25</a> <a class="tc" data-t="1069" href="https://youtu.be/cQRbw36pjGg?t=1069s">17:49</a> <a class="tc" data-t="1233" href="https://youtu.be/cQRbw36pjGg?t=1233s">20:33</a>.</li>
+      <li>Заведіть соцмережі й закріпіть тред із маніфестом <a class="tc" data-t="1455" href="https://youtu.be/cQRbw36pjGg?t=1455s">24:15</a>.</li>
+      <li>За два тижні до лончу закрийте прилонч, а до того підготуйте анонси, пресскіт і повідомте ком’юніті-менеджера <a class="tc" data-t="2384" href="https://youtu.be/cQRbw36pjGg?t=2384s">39:44</a> <a class="tc" data-t="3233" href="https://youtu.be/cQRbw36pjGg?t=3233s">53:53</a>.</li>
+      <li>Кожного ранку заходьте на власний продукт і проклацуйте його; перевірте онбординг, аналітику й UTM <a class="tc" data-t="2256" href="https://youtu.be/cQRbw36pjGg?t=2256s">37:36</a> <a class="tc" data-t="2603" href="https://youtu.be/cQRbw36pjGg?t=2603s">43:23</a>.</li>
+      <li>Три останні дні перед лончем проходьте чекліст по колу <a class="tc" data-t="3233" href="https://youtu.be/cQRbw36pjGg?t=3233s">53:53</a> <a class="tc" data-t="3283" href="https://youtu.be/cQRbw36pjGg?t=3283s">54:43</a>.</li>
+      <li>Спробуйте Radar Chart на своїй ідеї чи фічі <a class="tc" data-t="5581" href="https://youtu.be/cQRbw36pjGg?t=5581s">1:33:01</a>.</li>
+    </ol>
+  </section>
+
+  <section id="checklist" class="checklist">
+    <h2>Коротко: чекліст</h2>
+    <ol>
+      <li>Лендінг із value proposition, формою й social proof має бути до лончу.</li>
+      <li>Google Analytics 4 ставимо одразу, це безкоштовно <a class="tc" data-t="451" href="https://youtu.be/cQRbw36pjGg?t=451s">7:31</a>.</li>
+      <li>Вейтліст краще за порожній сайт, коли продукту ще немає <a class="tc" data-t="555" href="https://youtu.be/cQRbw36pjGg?t=555s">9:15</a>.</li>
+      <li>Реферальна механіка з першого дня дає безкоштовних користувачів <a class="tc" data-t="677" href="https://youtu.be/cQRbw36pjGg?t=677s">11:17</a>.</li>
+      <li>Маніфест чи візія, освітні пости, команда й FAQ пояснюють проєкт без вас <a class="tc" data-t="925" href="https://youtu.be/cQRbw36pjGg?t=925s">15:25</a>.</li>
+      <li>Hero section — value proposition, hero piece — його розкриття <a class="tc" data-t="1702" href="https://youtu.be/cQRbw36pjGg?t=1702s">28:22</a>.</li>
+      <li>Кожного ранку проклацуйте власний продукт <a class="tc" data-t="2256" href="https://youtu.be/cQRbw36pjGg?t=2256s">37:36</a>.</li>
+      <li>Дайте користувачам канал для баг-репортів і попередьте ком’юніті-менеджера <a class="tc" data-t="2347" href="https://youtu.be/cQRbw36pjGg?t=2347s">39:07</a> <a class="tc" data-t="2533" href="https://youtu.be/cQRbw36pjGg?t=2533s">42:13</a>.</li>
+      <li>Анонси, пресскіт і AMA готуйте до лончу, не в його день <a class="tc" data-t="2384" href="https://youtu.be/cQRbw36pjGg?t=2384s">39:44</a>.</li>
+      <li>Перед лончем перевірте, що аналітика й UTM працюють <a class="tc" data-t="2603" href="https://youtu.be/cQRbw36pjGg?t=2603s">43:23</a>.</li>
+      <li>Три останні дні перед запуском проходьте чекліст по колу <a class="tc" data-t="3283" href="https://youtu.be/cQRbw36pjGg?t=3283s">54:43</a>.</li>
+      <li>Після лончу тестуйте канали одночасно й не забувайте про маркетинг <a class="tc" data-t="3400" href="https://youtu.be/cQRbw36pjGg?t=3400s">56:40</a> <a class="tc" data-t="5037" href="https://youtu.be/cQRbw36pjGg?t=5037s">1:23:57</a>.</li>
+      <li>Пауза в постингу не катастрофа, пости не мусять бути подією <a class="tc" data-t="3630" href="https://youtu.be/cQRbw36pjGg?t=3630s">1:00:30</a> <a class="tc" data-t="3717" href="https://youtu.be/cQRbw36pjGg?t=3717s">1:01:57</a>.</li>
+      <li>На скейлі закривайте найгірший канал і подвоюйте найкращий <a class="tc" data-t="4309" href="https://youtu.be/cQRbw36pjGg?t=4309s">1:11:49</a>.</li>
+      <li>Рахуйте ресурс часом, коли немає бюджету <a class="tc" data-t="4838" href="https://youtu.be/cQRbw36pjGg?t=4838s">1:20:38</a>.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Джерело: <a href="https://youtu.be/cQRbw36pjGg">запис лекції «SST - GTM Structuring - Dima» на YouTube</a> — Solana Startup Terminal, весняний потік 2026, опубліковано 08.04.2026.</p>
+  <p>Конспект зроблено на основі машинної розшифровки запису; формулювання лектора передано близько до сказаного. Назви інструментів у розшифровці часто спотворені — їх відновлено за контекстом.</p>
+  <p>Концепт сторінки — Alex, учасник програми.</p>
+</footer>
+
+</body>
+</html>

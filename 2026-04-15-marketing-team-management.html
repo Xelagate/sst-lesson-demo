@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Маркетинг-команда — конспект</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #001020;
+    --surface: #061b30;
+    --blue: #0367c8;
+    --light-blue: #8cc6ff;
+    --yellow: #ffea00;
+    --text: #d2dfec;
+    --muted: #a6bbcf;
+    --line: #274057;
+    font-family: "Manrope", sans-serif;
+    background: var(--page);
+    color: var(--text);
+    font-synthesis: none;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    width: min(1240px, calc(100% - 64px));
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+  }
+  ::selection { color: var(--page); background: var(--light-blue); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 5px; }
+  a { color: var(--light-blue); text-underline-offset: .22em; }
+  a:hover { color: #fff; }
+  h1, h2 { font-family: "Unbounded", sans-serif; color: #f6f9ff; font-weight: 600; }
+  p { margin: 0 0 1.25em; }
+  strong { color: #f3f7fc; font-weight: 800; }
+
+  .lesson-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 0 0 18px; font-size: 13px; }
+  .lesson-nav a { color: var(--light-blue); text-decoration: none; }
+  .lesson-nav a:hover { text-decoration: underline; }
+  .lesson-nav a[aria-current] { color: var(--muted); pointer-events: none; }
+  .concept-note {
+    position: relative;
+    padding: 22px 0 22px 22px;
+    color: #b9cadb;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .concept-note::before {
+    content: "";
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+
+  /* A perforated lesson ticket, with no invented ticket data. */
+  .lesson-hero {
+    --inset: clamp(24px, 4.2vw, 56px);
+    padding: var(--inset);
+    border: 1px solid #294967;
+    border-radius: 36px;
+    background: #00203f;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--light-blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .035em;
+  }
+  .eyebrow::before {
+    content: "";
+    flex: 0 0 24px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--yellow);
+  }
+  .lesson-hero h1 {
+    max-width: 1080px;
+    margin: 0 0 24px;
+    font-size: clamp(28px, 4.1vw, 54px);
+    line-height: 1.22;
+    letter-spacing: -.04em;
+    text-wrap: balance;
+  }
+  .lead { max-width: 80ch; margin: 0; color: #bdcfe1; font-size: 16px; line-height: 1.75; }
+  .lesson-meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 32px calc(-1 * var(--inset)) calc(-1 * var(--inset));
+    padding: 22px var(--inset) 26px;
+    border-top: 1px dashed #53718c;
+    list-style: none;
+  }
+  .lesson-meta::before, .lesson-meta::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #294967;
+    border-radius: 50%;
+    background: var(--page);
+  }
+  .lesson-meta::before { left: -11px; border-left-color: transparent; }
+  .lesson-meta::after { right: -11px; border-right-color: transparent; }
+  .lesson-meta li {
+    padding: 6px 14px;
+    border: 1px solid #36536d;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .lesson-meta li:first-child { background: #0b3155; color: #fff; }
+  .lesson-meta li:last-child { color: var(--yellow); }
+
+  .lesson-media { display: grid; gap: 24px; margin-top: 24px; }
+  .player {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    align-self: start;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #000c18;
+    scroll-margin-top: 24px;
+  }
+  .player > div, .player iframe {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .chapters {
+    min-width: 0;
+    padding: 24px 12px 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+  .chapters h2 { margin: 0 12px 17px 0; font-size: 15px; line-height: 1.5; }
+  .chapters ol {
+    max-height: 360px;
+    margin: 0;
+    padding: 0 10px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-gutter: stable;
+  }
+  .chapters li {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 10px 2px;
+    border-top: 1px solid #1e354b;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .chapters li:first-child { border-top: 0; padding-top: 4px; }
+  .chapters li span { padding-top: 5px; }
+  .chapters li:focus-within span, .chapters li:hover span { color: #fff; }
+  .chapters .tc { width: 70px; justify-content: center; min-height: 30px; font-size: 11px; }
+  .chapters ol, .table-scroll { scrollbar-width: thin; scrollbar-color: #587b9b #061b30; }
+
+  .tc {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 9px;
+    border: 1px solid #34546f;
+    border-radius: 100px;
+    background: #092741;
+    color: var(--light-blue);
+    font-family: "Manrope", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+    letter-spacing: .015em;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background-color .16s, color .16s, border-color .16s, box-shadow .16s;
+  }
+  .tc:hover, .tc:focus-visible {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    color: var(--page);
+    box-shadow: 0 4px 18px rgb(255 234 0 / 16%);
+  }
+
+  .summary { width: 70ch; max-width: 100%; margin: 72px auto 0; }
+  .summary > section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .summary h2 {
+    margin: 0 0 25px;
+    font-size: clamp(21px, 2.25vw, 27px);
+    line-height: 1.45;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+  .summary h2 .tc { margin: 0 0 3px 4px; }
+  .summary ul, .summary ol { margin: 20px 0 26px; padding-left: 26px; }
+  .summary li { padding-left: 6px; margin: 12px 0; }
+  .summary li::marker { color: var(--light-blue); font-weight: 700; }
+  .summary section > :last-child { margin-bottom: 0; }
+
+  .quote {
+    margin: 32px 0;
+    padding: 7px 0 7px 25px;
+    border-left: 3px solid var(--yellow);
+    color: #f1f6fc;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.65;
+  }
+  .quote p { margin: 0; }
+  .callout {
+    --callout-accent: var(--light-blue);
+    margin: 28px 0;
+    padding: 22px 24px;
+    border: 1px solid #2f506f;
+    border-left: 3px solid var(--callout-accent);
+    border-radius: 0 18px 18px 0;
+    background: #09243e;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .callout p { margin: 0; }
+  .callout--tip { --callout-accent: #b9d4e9; border-color: #344b5d; border-left-color: var(--callout-accent); background: #112536; }
+  .callout--warning { --callout-accent: var(--yellow); border-color: #514d2c; border-left-color: var(--callout-accent); background: #242719; color: #e5e3cb; }
+  .summary > .callout--info {
+    margin-top: 0;
+    padding: 28px 30px;
+    border-left-width: 1px;
+    border-top: 3px solid var(--blue);
+    border-radius: 20px;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    margin: 28px 0;
+    overflow-x: auto;
+    border: 1px solid #34506b;
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th, td { padding: 17px 18px; text-align: left; vertical-align: top; }
+  th { border-bottom: 1px solid #3b5a77; background: #103351; color: #eef6ff; font-weight: 800; }
+  td { border-bottom: 1px solid #294158; }
+  th + th, td + td { border-left: 1px solid #294158; }
+  tbody tr:nth-child(even) { background: #0a2136; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { color: #eef5ff; font-weight: 600; }
+  td .tc { margin-top: 4px; }
+  #pain-sources td:nth-child(2), #pain-criteria td:nth-child(2) { min-width: 145px; }
+  #radar td:first-child, #scoring td:first-child { min-width: 145px; }
+
+  .summary > .homework {
+    margin-top: 64px;
+    padding: 32px;
+    border: 1px solid #365b7d;
+    border-top: 3px solid var(--light-blue);
+    border-radius: 24px;
+    background: #00203f;
+  }
+  .homework ol { margin: 0; padding-left: 24px; }
+  .homework li { margin: 0; padding: 18px 0 18px 8px; border-bottom: 1px dashed #3a5470; font-size: 16px; }
+  .homework li:first-child { padding-top: 0; }
+  .homework li:last-child { border: 0; padding-bottom: 0; }
+  .homework li::marker { color: var(--yellow); }
+  .summary > .checklist { margin-top: 40px; padding-top: 36px; border-top-style: dashed; }
+  .checklist ol { list-style: none; padding: 0; margin-bottom: 0; }
+  .checklist li { position: relative; margin: 0; padding: 15px 0 15px 32px; border-bottom: 1px solid #1e354b; font-size: 16px; }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 4px;
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid var(--light-blue);
+    border-bottom: 2px solid var(--light-blue);
+    transform: rotate(-45deg);
+  }
+  .page-footer {
+    width: 70ch;
+    max-width: 100%;
+    margin: 64px auto 0;
+    padding: 32px 0 40px;
+    border-top: 1px dashed #3a5470;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .page-footer p { margin: 0 0 14px; font-size: 12px; line-height: 1.8; }
+  .page-footer p:last-child { margin-top: 28px; margin-bottom: 0; color: #cedcea; }
+
+  @media (min-width: 1050px) {
+    .lesson-media { grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr); align-items: stretch; }
+    .chapters { position: relative; min-height: 0; }
+    .chapters ol { position: absolute; inset: 65px 12px 14px 24px; max-height: none; }
+  }
+  @media (min-width: 700px) and (max-width: 1049px) {
+    .chapters ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  }
+  @media (max-width: 599px) {
+    body { width: calc(100% - 32px); font-size: 16px; }
+    .concept-note { padding-top: 17px; padding-bottom: 17px; font-size: 11px; }
+    .concept-note::before { top: 23px; }
+    .lesson-hero { --inset: 22px; border-radius: 24px; }
+    .eyebrow { gap: 9px; font-size: 11px; letter-spacing: 0; margin-bottom: 20px; }
+    .eyebrow::before { flex-basis: 16px; }
+    .lesson-hero h1 { font-size: clamp(25px, 6.9vw, 39px); line-height: 1.3; letter-spacing: -.035em; }
+    .lead { font-size: 14px; }
+    .lesson-meta { gap: 8px; margin-top: 24px; padding-top: 18px; padding-bottom: 20px; }
+    .lesson-meta li { padding: 5px 10px; font-size: 11px; }
+    .lesson-media { gap: 16px; margin-top: 16px; }
+    .player { border-radius: 16px; scroll-margin-top: 16px; }
+    .chapters { padding-left: 18px; border-radius: 20px; }
+    .chapters ol { max-height: 340px; }
+    .summary { margin-top: 44px; }
+    .summary > section { margin-top: 40px; padding-top: 26px; }
+    .summary h2 { font-size: 20px; line-height: 1.5; }
+    .summary > .callout--info, .callout { padding: 19px 20px; font-size: 14px; }
+    .quote { margin: 26px 0; padding-left: 19px; font-size: 19px; }
+    .summary > .homework { padding: 24px 20px; border-radius: 20px; }
+    .homework li, .checklist li { font-size: 15px; }
+    .page-footer { margin-top: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('player');
+    let player;
+    let ready = false;
+
+    // Native links remain usable while the API loads, or if embedding fails.
+    document.querySelectorAll('a.tc').forEach(link => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+    document.querySelectorAll('.table-scroll').forEach(wrapper => {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', wrapper.closest('section').querySelector('h2').textContent.trim());
+    });
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a.tc');
+      if (!link || !ready || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const seconds = Number(link.dataset.t);
+      if (!Number.isFinite(seconds)) return;
+      try {
+        player.seekTo(seconds, true);
+        player.playVideo();
+      } catch {
+        ready = false;
+        return;
+      }
+      event.preventDefault();
+      container.scrollIntoView({
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+
+    window.onYouTubeIframeAPIReady = () => {
+      // Keep #player intact: YouTube replaces only this inner mount.
+      const mount = document.createElement('div');
+      container.append(mount);
+      player = new YT.Player(mount, {
+        videoId: container.dataset.videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: { playsinline: 1, rel: 0 },
+        events: {
+          onReady: event => {
+            ready = true;
+            event.target.getIframe().title = document.querySelector('h1').textContent;
+          },
+          onError: () => { ready = false; }
+        }
+      });
+    };
+    const api = document.createElement('script');
+    api.src = 'https://www.youtube.com/iframe_api';
+    api.async = true;
+    api.onerror = () => { ready = false; };
+    document.head.append(api);
+  });
+</script>
+</head>
+<body>
+
+
+<aside class="concept-note">Неофіційний концепт: так могла б виглядати сторінка уроку Startup Terminal. Це не сторінка Superteam Ukraine — її зробив Alex, учасник програми.</aside>
+
+<nav class="lesson-nav" aria-label="Уроки">
+  <a href="2026-08-26-idea-gen-nick.html">Idea Gen, Нік · 26.08</a>
+  <a href="index.html">Idea Generation, Діма · 27.08</a>
+  <a href="2026-09-08-validation-idea.html">Validation · 08.09</a>
+  <a href="2026-09-15-value-proposition.html">Value proposition · 15.09</a>
+  <a href="2026-09-22-gtm-nick.html">GTM · 22.09</a>
+  <a href="2026-09-24-marketing.html">Marketing · 24.09</a>
+  <a href="2026-09-29-ai-in-project-building.html">AI у побудові проєкту · 29.09</a>
+  <a href="2026-03-18-idea-generation-nick.html">Весна: Idea Generation</a>
+  <a href="2026-03-25-market-research.html">Весна: Market Research</a>
+  <a href="2026-04-08-gtm-structuring-dima.html">Весна: GTM Structuring</a>
+  <a href="2026-04-09-development-team-management.html">Весна: Development і команда</a>
+  <a href="2026-04-15-marketing-team-management.html" aria-current="page">Весна: Marketing team</a>
+  <a href="2026-04-17-vc-fundraising.html">Весна: VC і Fundraising</a>
+</nav>
+
+<header class="lesson-hero">
+  <p class="eyebrow">Solana Startup Terminal · весняний потік 2026</p>
+  <h1>Маркетинг-команда: що робити фаундеру самому, кого наймати і як делегувати</h1>
+  <p class="lead">Лекція про те, як влаштований маркетинг у стартапі на ранній стадії. Спершу — що робити самому, коли ви і є вся маркетинг-команда: головний канал Twitter, бюджет і час. Потім — кого наймати першими, коли потрібні агенції і фрактальний CMO. У кінці — делегування: коли не віддавати, а коли віддавати, і п'ять кроків, як це зробити. Головна ідея: на старті найкраще працює проста щоденна активність фаундерів, а не гроші й агенції.</p>
+  <ul class="lesson-meta">
+    <li>Лектор: Діма</li>
+    <li>опубліковано 15.04.2026</li>
+    <li>96 хв</li>
+  </ul>
+</header>
+
+<div class="lesson-media"><div class="player" id="player" data-video-id="CTqgcB7JQe8"></div>
+
+<nav class="chapters" aria-label="Розділи відео">
+  <h2>Розділи відео</h2>
+  <ol>
+    <li><a class="tc" data-t="0" href="https://youtu.be/CTqgcB7JQe8?t=0s">0:00</a> <span>Вступ: тема лекції</span></li>
+    <li><a class="tc" data-t="134" href="https://youtu.be/CTqgcB7JQe8?t=134s">2:14</a> <span>Мета: кого наймати і як делегувати</span></li>
+    <li><a class="tc" data-t="178" href="https://youtu.be/CTqgcB7JQe8?t=178s">2:58</a> <span>Фаундер як вся маркетинг-команда</span></li>
+    <li><a class="tc" data-t="271" href="https://youtu.be/CTqgcB7JQe8?t=271s">4:31</a> <span>Безкоштовні інструменти: лендінг, форми, аналітика</span></li>
+    <li><a class="tc" data-t="431" href="https://youtu.be/CTqgcB7JQe8?t=431s">7:11</a> <span>Figma Community: готові шаблони</span></li>
+    <li><a class="tc" data-t="644" href="https://youtu.be/CTqgcB7JQe8?t=644s">10:44</a> <span>Червоні прапорці: перфекціонізм і ігнор метрик</span></li>
+    <li><a class="tc" data-t="725" href="https://youtu.be/CTqgcB7JQe8?t=725s">12:05</a> <span>Брудний документ замість голови</span></li>
+    <li><a class="tc" data-t="848" href="https://youtu.be/CTqgcB7JQe8?t=848s">14:08</a> <span>Бюджет до 500 доларів і 30–70% часу</span></li>
+    <li><a class="tc" data-t="958" href="https://youtu.be/CTqgcB7JQe8?t=958s">15:58</a> <span>Twitter: головний канал для крипто-проєкту</span></li>
+    <li><a class="tc" data-t="999" href="https://youtu.be/CTqgcB7JQe8?t=999s">16:39</a> <span>Два-три пости на тиждень</span></li>
+    <li><a class="tc" data-t="1063" href="https://youtu.be/CTqgcB7JQe8?t=1063s">17:43</a> <span>30 хвилин на день у реплаях</span></li>
+    <li><a class="tc" data-t="1300" href="https://youtu.be/CTqgcB7JQe8?t=1300s">21:40</a> <span>Лонгріди й explainer-матеріали</span></li>
+    <li><a class="tc" data-t="1422" href="https://youtu.be/CTqgcB7JQe8?t=1422s">23:42</a> <span>Креативи, пітч, відповіді, амбасадори</span></li>
+    <li><a class="tc" data-t="1599" href="https://youtu.be/CTqgcB7JQe8?t=1599s">26:39</a> <span>Чого не купувати: реклама, колзи, агенції</span></li>
+    <li><a class="tc" data-t="1889" href="https://youtu.be/CTqgcB7JQe8?t=1889s">31:29</a> <span>Метрики на цій стадії</span></li>
+    <li><a class="tc" data-t="2032" href="https://youtu.be/CTqgcB7JQe8?t=2032s">33:52</a> <span>Щодня заходьте на свій сайт</span></li>
+    <li><a class="tc" data-t="2132" href="https://youtu.be/CTqgcB7JQe8?t=2132s">35:32</a> <span>Перший найм: кого і коли</span></li>
+    <li><a class="tc" data-t="2187" href="https://youtu.be/CTqgcB7JQe8?t=2187s">36:27</a> <span>Найм під навантаження і під бюджет</span></li>
+    <li><a class="tc" data-t="2278" href="https://youtu.be/CTqgcB7JQe8?t=2278s">37:58</a> <span>Ілюзія «дорогої команди»</span></li>
+    <li><a class="tc" data-t="2843" href="https://youtu.be/CTqgcB7JQe8?t=2843s">47:23</a> <span>Три перші ролі й онбординг на два місяці</span></li>
+    <li><a class="tc" data-t="3167" href="https://youtu.be/CTqgcB7JQe8?t=3167s">52:47</a> <span>Питання: фрактальний CMO чи найм під задачу</span></li>
+    <li><a class="tc" data-t="3302" href="https://youtu.be/CTqgcB7JQe8?t=3302s">55:02</a> <span>Чому краще людина в команді</span></li>
+    <li><a class="tc" data-t="3488" href="https://youtu.be/CTqgcB7JQe8?t=3488s">58:08</a> <span>Коли доречний фрактальний CMO</span></li>
+    <li><a class="tc" data-t="3730" href="https://youtu.be/CTqgcB7JQe8?t=3730s">1:02:10</a> <span>Коли потрібні агенції</span></li>
+    <li><a class="tc" data-t="3892" href="https://youtu.be/CTqgcB7JQe8?t=3892s">1:04:52</a> <span>Ризики роботи з агенціями</span></li>
+    <li><a class="tc" data-t="4072" href="https://youtu.be/CTqgcB7JQe8?t=4072s">1:07:52</a> <span>Колз-агенції</span></li>
+    <li><a class="tc" data-t="4137" href="https://youtu.be/CTqgcB7JQe8?t=4137s">1:08:57</a> <span>PR-агенції і ретейнер</span></li>
+    <li><a class="tc" data-t="4312" href="https://youtu.be/CTqgcB7JQe8?t=4312s">1:11:52</a> <span>PPC у крипті і Solscan</span></li>
+    <li><a class="tc" data-t="4685" href="https://youtu.be/CTqgcB7JQe8?t=4685s">1:18:05</a> <span>Делегування: коли так, коли ні</span></li>
+    <li><a class="tc" data-t="4990" href="https://youtu.be/CTqgcB7JQe8?t=4990s">1:23:10</a> <span>П'ять кроків делегування</span></li>
+    <li><a class="tc" data-t="5222" href="https://youtu.be/CTqgcB7JQe8?t=5222s">1:27:02</a> <span>Питання: планування і синхрон із кофаундерами</span></li>
+    <li><a class="tc" data-t="5439" href="https://youtu.be/CTqgcB7JQe8?t=5439s">1:30:39</a> <span>Питання: коли брати першу людину</span></li>
+    <li><a class="tc" data-t="5613" href="https://youtu.be/CTqgcB7JQe8?t=5613s">1:33:33</a> <span>Бізнес проти стартапу</span></li>
+  </ol>
+</nav></div>
+
+<main class="summary">
+
+  <aside class="callout callout--info"><p><strong>Що в цьому уроці:</strong> як розставити пріоритети, коли маркетингом займаєтесь ви самі; безкоштовні інструменти для лендінгу, форм, дизайну й аналітики; чому Twitter і пів години відповідей на день — найкращі вкладення часу; чого не купувати на старті; які метрики дивитися; коли й кого наймати; чому не варто одразу брати «дорогих сеньйорів»; коли потрібні агенції (колз, PR, PPC) і фрактальний CMO; що не можна делегувати і як делегувати решту.</p></aside>
+
+  <section id="intro">
+    <h2>Навіщо ця лекція <a class="tc" data-t="134" href="https://youtu.be/CTqgcB7JQe8?t=134s">2:14</a></h2>
+    <p>Лектор нагадує, що в учасників уже були три лекції про GTM з готовими фреймворками <a class="tc" data-t="134" href="https://youtu.be/CTqgcB7JQe8?t=134s">2:14</a>. Але незрозуміло, як їх виконувати соло. Не зовсім зрозуміло й що робити, коли команда з'явиться: після грантів, інвестицій і трекшну питання повернуться.</p>
+    <p>Мета лекції — зрозуміти, кого і коли наймати, як це делегувати і як у всьому цьому вижити <a class="tc" data-t="134" href="https://youtu.be/CTqgcB7JQe8?t=134s">2:14</a>. Основна відповідальність лежить на фаундерах, а коли її багато, не вистачає часу <a class="tc" data-t="178" href="https://youtu.be/CTqgcB7JQe8?t=178s">2:58</a>. Менеджмент великих команд і мікроменеджмент лектор свідомо не чіпає <a class="tc" data-t="73" href="https://youtu.be/CTqgcB7JQe8?t=73s">1:13</a>.</p>
+  </section>
+
+  <section id="founder">
+    <h2>Фаундер як вся маркетинг-команда <a class="tc" data-t="178" href="https://youtu.be/CTqgcB7JQe8?t=178s">2:58</a></h2>
+    <p>Зараз майже кожен учасник сам і контент-креатор, і комʼюніті-менеджер, і дизайнер, і аналітик <a class="tc" data-t="244" href="https://youtu.be/CTqgcB7JQe8?t=244s">4:04</a>. Єдиний ресурс, який у вас по-справжньому є, — час, а не гроші <a class="tc" data-t="206" href="https://youtu.be/CTqgcB7JQe8?t=206s">3:26</a>. Платні канали, колзи й PR на цьому етапі інвестувати не треба. Про маркетинг з нульовим бюджетом буде окрема лекція через тиждень <a class="tc" data-t="206" href="https://youtu.be/CTqgcB7JQe8?t=206s">3:26</a>.</p>
+    <p>Головна задача зараз — комʼюніті-білдинг. Це не сервер у Discord на кілька тисяч людей: він починається з активності самого проєкту <a class="tc" data-t="244" href="https://youtu.be/CTqgcB7JQe8?t=244s">4:04</a>, з того, що ви робите своїми руками <a class="tc" data-t="271" href="https://youtu.be/CTqgcB7JQe8?t=271s">4:31</a>.</p>
+  </section>
+
+  <section id="free-tools">
+    <h2>Безкоштовні інструменти для соло-фаундера <a class="tc" data-t="271" href="https://youtu.be/CTqgcB7JQe8?t=271s">4:31</a></h2>
+    <ul>
+      <li><strong>Лендінг:</strong> Framer, Webflow, Google AI Studio і Claude. У AI Studio багато безкоштовних кредитів, сайт можна майже одразу опублікувати <a class="tc" data-t="271" href="https://youtu.be/CTqgcB7JQe8?t=271s">4:31</a>. Лектор показує, як за вісім хвилин зробив там сайт з одного промпту <a class="tc" data-t="617" href="https://youtu.be/CTqgcB7JQe8?t=617s">10:17</a>.</li>
+      <li><strong>Збір контактів і whitelist:</strong> Framer, Typeform, Google Forms, Tally <a class="tc" data-t="347" href="https://youtu.be/CTqgcB7JQe8?t=347s">5:47</a>.</li>
+      <li><strong>Дизайн:</strong> якщо дизайнера немає, вистачить Canva. Накидайте структуру й дайте її Claude, Framer або AI Studio <a class="tc" data-t="347" href="https://youtu.be/CTqgcB7JQe8?t=347s">5:47</a>.</li>
+      <li><strong>Аналітика:</strong> Google Analytics 4 і Hotjar <a class="tc" data-t="381" href="https://youtu.be/CTqgcB7JQe8?t=381s">6:21</a>. Для Twitter — планувальник постів, найкращий, за словами лектора, Typefully <a class="tc" data-t="381" href="https://youtu.be/CTqgcB7JQe8?t=381s">6:21</a>.</li>
+    </ul>
+    <p>У Figma є розділ Community: пошуком (наприклад, «fintech») знаходите безкоштовні готові кіти й шаблони <a class="tc" data-t="448" href="https://youtu.be/CTqgcB7JQe8?t=448s">7:28</a>. Відкриваєте файл у своєму акаунті й змінюєте тексти. Є й шаблони на основі фронтенд-фреймворка shadcn, тож не треба будувати кожен компонент з нуля <a class="tc" data-t="476" href="https://youtu.be/CTqgcB7JQe8?t=476s">7:56</a>. Експортуєте макет як PDF, віддаєте Claude або AI Studio — і через п'ять-десять хвилин отримуєте зібраний сайт <a class="tc" data-t="525" href="https://youtu.be/CTqgcB7JQe8?t=525s">8:45</a>.</p>
+    <p>Лектор обіцяє зібрати всі ці інструменти в окремий слайд із посиланнями <a class="tc" data-t="5399" href="https://youtu.be/CTqgcB7JQe8?t=5399s">1:29:59</a>.</p>
+  </section>
+
+  <section id="red-flags">
+    <h2>Червоні прапорці: перфекціонізм і ігнор метрик <a class="tc" data-t="644" href="https://youtu.be/CTqgcB7JQe8?t=644s">10:44</a></h2>
+    <p>Перший прапорець — перфекціонізм. Ваша задача на ранній стадії — трекшн і динаміка: пост раз на тиждень чи раз на день <a class="tc" data-t="663" href="https://youtu.be/CTqgcB7JQe8?t=663s">11:03</a>. Ідеальних постів і ідеального налаштування аналітики не існує. Базово достатньо бачити, скільки у вас MAU і DAU, і не витрачати на це більше часу, ніж треба <a class="tc" data-t="689" href="https://youtu.be/CTqgcB7JQe8?t=689s">11:29</a>.</p>
+    <p>Другий — ігнорування метрик: «я роблю продукт, а що навколо — неважливо» <a class="tc" data-t="725" href="https://youtu.be/CTqgcB7JQe8?t=725s">12:05</a>. Так не працює, на метрики треба час від часу дивитися.</p>
+    <aside class="callout callout--tip"><p>Ведіть брудний документ у Google Docs чи таблиці, наприклад «Драфти по маркетингу» <a class="tc" data-t="748" href="https://youtu.be/CTqgcB7JQe8?t=748s">12:28</a>. Ідея поста, домовленість про партнерство — усе туди. Розуміти його має тільки ви. Якщо тримати все в голові, щось точно забудеться <a class="tc" data-t="764" href="https://youtu.be/CTqgcB7JQe8?t=764s">12:44</a>.</p></aside>
+    <p>Навіть із дуже маленьким сайтом варто дивитися Google Analytics: коли заходять перші три-чотири людини, це дає сили рухатися далі <a class="tc" data-t="796" href="https://youtu.be/CTqgcB7JQe8?t=796s">13:16</a>.</p>
+  </section>
+
+  <section id="budget">
+    <h2>Бюджет і час на маркетинг <a class="tc" data-t="848" href="https://youtu.be/CTqgcB7JQe8?t=848s">14:08</a></h2>
+    <p>Бюджет на маркетинг на цьому етапі — не більше 500 доларів, і в цю суму входять вже Claude, Hotjar і всі робочі інструменти, зокрема для розробки <a class="tc" data-t="848" href="https://youtu.be/CTqgcB7JQe8?t=848s">14:08</a>. В ідеалі — нуль <a class="tc" data-t="885" href="https://youtu.be/CTqgcB7JQe8?t=885s">14:45</a>.</p>
+    <p>Час на маркетинг — від 30 до 70%. Якщо в команді з трьох людей маркетингом займається один, це приблизно 30% часу команди <a class="tc" data-t="885" href="https://youtu.be/CTqgcB7JQe8?t=885s">14:45</a>. Якщо ви один, 70% на день — межа. Якщо один день пішов майже весь на маркетинг, наступного зробіть паузу, інакше буде гарна упаковка без продукту <a class="tc" data-t="918" href="https://youtu.be/CTqgcB7JQe8?t=918s">15:18</a>.</p>
+    <p>Мета цього етапу — довести за допомогою маркетингу, що концепт має право на життя, і почати збирати whitelist <a class="tc" data-t="918" href="https://youtu.be/CTqgcB7JQe8?t=918s">15:18</a>. Якщо ідея вже є, її треба нести на ринок: у соцмережі, до Colosseum, до Superteam — і збирати фідбек <a class="tc" data-t="958" href="https://youtu.be/CTqgcB7JQe8?t=958s">15:58</a>.</p>
+  </section>
+
+  <section id="twitter">
+    <h2>Twitter: чотири вправи, які працюють <a class="tc" data-t="958" href="https://youtu.be/CTqgcB7JQe8?t=958s">15:58</a></h2>
+    <p>Для крипто-проєкту найважливіше мати Twitter. Це універсальна порада, яку лектор кілька років дає ранньостадійним фаундерам <a class="tc" data-t="958" href="https://youtu.be/CTqgcB7JQe8?t=958s">15:58</a>. Достатньо чотирьох простих речей <a class="tc" data-t="999" href="https://youtu.be/CTqgcB7JQe8?t=999s">16:39</a>.</p>
+    <ol>
+      <li><strong>Два-три пости на тиждень</strong> <a class="tc" data-t="999" href="https://youtu.be/CTqgcB7JQe8?t=999s">16:39</a>. Цього вистачає, щоб показати, що сторінка жива. Це мають бути вікі-апдейти, трекшн, опис проєкту <a class="tc" data-t="1024" href="https://youtu.be/CTqgcB7JQe8?t=1024s">17:04</a>. Не рівняйтеся на команди, які пишуть по три пости на день <a class="tc" data-t="1024" href="https://youtu.be/CTqgcB7JQe8?t=1024s">17:04</a>.</li>
+      <li><strong>30 хвилин на день у реплаях</strong> <a class="tc" data-t="1063" href="https://youtu.be/CTqgcB7JQe8?t=1063s">17:43</a>. Ваша задача — не писати пост, а показати соціальну активність: знайти цікаві пости, інфлюенсерів, суддів Colosseum, людей з Solana й відповісти <a class="tc" data-t="1131" href="https://youtu.be/CTqgcB7JQe8?t=1131s">18:51</a>. Лектор показує приклад проєкту, який так і робить: пости два-три рази на тиждень і постійні відповіді в чужих постах <a class="tc" data-t="1104" href="https://youtu.be/CTqgcB7JQe8?t=1104s">18:24</a>.</li>
+      <li><strong>Один-два лонгріди на місяць</strong> <a class="tc" data-t="1300" href="https://youtu.be/CTqgcB7JQe8?t=1300s">21:40</a>. Це може бути блог на сайті або лонгрід у Twitter, який доступний за платною підпискою близько 5 доларів. Хоча б один текст про цінність проєкту до кінця хакатону — дуже добре <a class="tc" data-t="1300" href="https://youtu.be/CTqgcB7JQe8?t=1300s">21:40</a>.</li>
+      <li><strong>Explainer-матеріали</strong> <a class="tc" data-t="1342" href="https://youtu.be/CTqgcB7JQe8?t=1342s">22:22</a>: пости про те, що ви за проєкт, для кого й що робите. За словами лектора, це може бути половина контент-стратегії.</li>
+    </ol>
+    <p>Чому реплаї працюють: діє старий принцип маркетингу — частота показів. Чим частіше люди бачать вас, тим більше вам довіряють <a class="tc" data-t="1191" href="https://youtu.be/CTqgcB7JQe8?t=1191s">19:51</a>. Коли проєкт багато відповідає, він починає з'являтися саме в реплаях <a class="tc" data-t="1191" href="https://youtu.be/CTqgcB7JQe8?t=1191s">19:51</a>. Якщо стратегія — лише два-три пости на день без активності, сторінка не рухається <a class="tc" data-t="1222" href="https://youtu.be/CTqgcB7JQe8?t=1222s">20:22</a>. У чаті є підбірка приблизно сотні людей, повʼязаних з Colosseum — їхні сторінки й варто відкривати <a class="tc" data-t="1222" href="https://youtu.be/CTqgcB7JQe8?t=1222s">20:22</a>. Якщо у команді двоє-троє, кожен фаундер сидить у Twitter по 30 хвилин <a class="tc" data-t="1269" href="https://youtu.be/CTqgcB7JQe8?t=1269s">21:09</a>. Стратегія працює і для проєктів з 50–60 тисячами підписників <a class="tc" data-t="1269" href="https://youtu.be/CTqgcB7JQe8?t=1269s">21:09</a>.</p>
+    <aside class="callout callout--tip"><p>Це найчіткіша інструкція <a class="tc" data-t="1401" href="https://youtu.be/CTqgcB7JQe8?t=1401s">23:21</a>: не три-п'ять годин, а вибраний час уранці чи ввечері й п'ять-шість відповідей. За словами лектора, це дасть неймовірний вплив на розвиток проєкту <a class="tc" data-t="1422" href="https://youtu.be/CTqgcB7JQe8?t=1422s">23:42</a>.</p></aside>
+  </section>
+
+  <section id="side-work">
+    <h2>Що ще входить у роботу фаундера <a class="tc" data-t="1422" href="https://youtu.be/CTqgcB7JQe8?t=1422s">23:42</a></h2>
+    <ul>
+      <li><strong>Креативи для соцмереж:</strong> картинки з логотипом, меми. Це показує смак або гумор <a class="tc" data-t="1422" href="https://youtu.be/CTqgcB7JQe8?t=1422s">23:42</a>.</li>
+      <li><strong>Презентація й пітч:</strong> лектор і ментори готові допомогти, кидайте їм <a class="tc" data-t="1453" href="https://youtu.be/CTqgcB7JQe8?t=1453s">24:13</a>.</li>
+      <li><strong>Відповіді на питання в соцмережах.</strong> Коли на вас звернуть увагу й спитають про проєкт, не обмежуйтеся «good» — можна написати два абзаци <a class="tc" data-t="1474" href="https://youtu.be/CTqgcB7JQe8?t=1474s">24:34</a>.</li>
+      <li><strong>Зворотний зв'язок і ранній доступ.</strong> Перевіряйте особисті повідомлення: хтось захоче подивитися продукт <a class="tc" data-t="1510" href="https://youtu.be/CTqgcB7JQe8?t=1510s">25:10</a>.</li>
+      <li><strong>Амбасадори.</strong> На ранній стадії проєкт може сподобатися людині настільки, що вона захоче вести Telegram чи Discord. Це нормальна практика у крипто-ком'юніті, не бійтеся <a class="tc" data-t="1543" href="https://youtu.be/CTqgcB7JQe8?t=1543s">25:43</a>. Від молодих проєктів вони зазвичай хочуть токени або дуже невеликі гроші, 50–100 доларів на місяць <a class="tc" data-t="1571" href="https://youtu.be/CTqgcB7JQe8?t=1571s">26:11</a>.</li>
+    </ul>
+  </section>
+
+  <section id="dont-buy">
+    <h2>Чого не робити: платна реклама, колзи, агенції <a class="tc" data-t="1599" href="https://youtu.be/CTqgcB7JQe8?t=1599s">26:39</a></h2>
+    <aside class="callout callout--warning"><p>Поки ви стартап, у Colosseum і Terminal, не платіть за рекламу, колзів і агенцій, якщо є така можливість <a class="tc" data-t="1629" href="https://youtu.be/CTqgcB7JQe8?t=1629s">27:09</a>. Це не дасть імпульсу, на який ви розраховуєте.</p></aside>
+    <p>Досвід із Google Ads чи Facebook може бути не дуже релевантним для крипти <a class="tc" data-t="1599" href="https://youtu.be/CTqgcB7JQe8?t=1599s">26:39</a>. Колзи пишуть у реплаях і пропонують пост за 200 доларів, що «запустить до небес». Лектор радить не вірити <a class="tc" data-t="1629" href="https://youtu.be/CTqgcB7JQe8?t=1629s">27:09</a>. До агенцій теж іти рано: грошей на них у вас не буде <a class="tc" data-t="1659" href="https://youtu.be/CTqgcB7JQe8?t=1659s">27:39</a>.</p>
+    <p>Лектор дає два приклади. Перший: за його словами, один проєкт витратив на агенцію 115 тисяч доларів і отримав три статті на сумнівних сайтах. Судитися не вийшло, бо агенція виконала договір формально <a class="tc" data-t="1739" href="https://youtu.be/CTqgcB7JQe8?t=1739s">28:59</a>. Другий — власний: його GTM-стратегія для Matic (нині Polygon) програла, бо була чесною й показувала реальні цифри, а інша агенція обіцяла все й одразу <a class="tc" data-t="1809" href="https://youtu.be/CTqgcB7JQe8?t=1809s">30:09</a>.</p>
+    <p>Агенція бачить у вас клієнта, і не кожна скаже, що ще рано <a class="tc" data-t="1760" href="https://youtu.be/CTqgcB7JQe8?t=1760s">29:20</a>. Про окремі сильні українські агенції лектор говорить позитивно, але лише для етапу, коли вже є дохід чи фандинг <a class="tc" data-t="1681" href="https://youtu.be/CTqgcB7JQe8?t=1681s">28:01</a>.</p>
+  </section>
+
+  <section id="metrics">
+    <h2>Метрики, які варто дивитися зараз <a class="tc" data-t="1889" href="https://youtu.be/CTqgcB7JQe8?t=1889s">31:29</a></h2>
+    <p>У проєкту зараз важливі лише кілька речей <a class="tc" data-t="1889" href="https://youtu.be/CTqgcB7JQe8?t=1889s">31:29</a>:</p>
+    <ul>
+      <li>Кількість підписників і те, хто вони. Для цього є софт TwitterScore <a class="tc" data-t="1906" href="https://youtu.be/CTqgcB7JQe8?t=1906s">31:46</a>.</li>
+      <li>Охоплення постів. Реплаї набирають мало переглядів, а ось основні пости показують, що цікавить ринок: один має 4 тисячі переглядів, інший 238 <a class="tc" data-t="1937" href="https://youtu.be/CTqgcB7JQe8?t=1937s">32:17</a>. Це фідбек ринку <a class="tc" data-t="1963" href="https://youtu.be/CTqgcB7JQe8?t=1963s">32:43</a>.</li>
+      <li>Кількість реплаїв на день <a class="tc" data-t="1986" href="https://youtu.be/CTqgcB7JQe8?t=1986s">33:06</a>.</li>
+      <li>У продукті — юзербейс, whitelist, sign-up. Якщо підключено Google Analytics, MAU і DAU він видає одразу, без власної воронки <a class="tc" data-t="2008" href="https://youtu.be/CTqgcB7JQe8?t=2008s">33:28</a>.</li>
+    </ul>
+    <aside class="callout callout--tip"><p>Хоча б раз на день заходьте на власний сайт <a class="tc" data-t="2032" href="https://youtu.be/CTqgcB7JQe8?t=2032s">33:52</a>. Іноді ламається мобільна верстка або відпадає посилання на соцмережу. Одна людина, яка це робить, піймає першою 50–70% таких багів. І тратьте щодня хоча б 30–40 хвилин саме на Twitter <a class="tc" data-t="2081" href="https://youtu.be/CTqgcB7JQe8?t=2081s">34:41</a>.</p></aside>
+  </section>
+
+  <section id="first-hire">
+    <h2>Перший найм: кого і коли <a class="tc" data-t="2132" href="https://youtu.be/CTqgcB7JQe8?t=2132s">35:32</a></h2>
+    <p>Перші вакансії, які, скоріш за все, доведеться закрити: комʼюніті-менеджер, контент-креатор і growth-маркетолог <a class="tc" data-t="2132" href="https://youtu.be/CTqgcB7JQe8?t=2132s">35:32</a>. Починати думати про це можна, коли є продукт, трекшн, трохи грошей і маркетинг заважає займатися продуктом <a class="tc" data-t="2132" href="https://youtu.be/CTqgcB7JQe8?t=2132s">35:32</a>.</p>
+    <p>Є два підходи до найму: під навантаження і під бюджет <a class="tc" data-t="2187" href="https://youtu.be/CTqgcB7JQe8?t=2187s">36:27</a>. Для перших двох найманих, за словами лектора, може вистачити двох тисяч доларів: не треба сеньйорів, потрібні люди, яким цікава ця робота або які вірять у проєкт <a class="tc" data-t="2187" href="https://youtu.be/CTqgcB7JQe8?t=2187s">36:27</a>.</p>
+    <p><strong>Під навантаження</strong> — це коли ви розумієте, що фаундер або хтось із команди витрачає час на маркетинг, а не на продукт. Ви беретеся за цю область і кладете її на спеціаліста, а темп команди не падає <a class="tc" data-t="2350" href="https://youtu.be/CTqgcB7JQe8?t=2350s">39:10</a>.</p>
+    <p><strong>Під бюджет</strong> — це коли вже є стаття витрат. Наприклад, 5 тисяч доларів на канали залучення, які робить агенція: замість неї можна найняти людину в штат за півтори тисячі на пів ставки <a class="tc" data-t="2440" href="https://youtu.be/CTqgcB7JQe8?t=2440s">40:40</a>. А коли маркетинговий бюджет 80–120 тисяч на місяць, під нього збирають інхаус-команду з п'яти людей <a class="tc" data-t="2461" href="https://youtu.be/CTqgcB7JQe8?t=2461s">41:01</a>.</p>
+  </section>
+
+  <section id="high-quality">
+    <h2>Ілюзія «дорогої команди» <a class="tc" data-t="2278" href="https://youtu.be/CTqgcB7JQe8?t=2278s">37:58</a></h2>
+    <p>Лектор критикує ідею, що в команді мають бути лише дуже кваліфіковані люди. Для фаундерів-першовідкривачів це ілюзія: ви зібрали кілька сотень тисяч чи мільйон і найняли дорогих сеньйорів, які «все зроблять за вас» <a class="tc" data-t="2278" href="https://youtu.be/CTqgcB7JQe8?t=2278s">37:58</a>. Команда має рости органічно, і гроші не треба витрачати одразу <a class="tc" data-t="2328" href="https://youtu.be/CTqgcB7JQe8?t=2328s">38:48</a>.</p>
+    <p>Дорогих людей можна брати, коли ви вже відомий проєкт чи маєте сильний бекґраунд. Тоді вони знають, що ви сильні, й не будуть вами крутити <a class="tc" data-t="2506" href="https://youtu.be/CTqgcB7JQe8?t=2506s">41:46</a>. Інакше сильні фахівці не завжди прагнуть збудувати проєкт, часто вони хочуть заробити на ньому <a class="tc" data-t="2700" href="https://youtu.be/CTqgcB7JQe8?t=2700s">45:00</a>.</p>
+    <p>Приклад із практики <a class="tc" data-t="2700" href="https://youtu.be/CTqgcB7JQe8?t=2700s">45:00</a>: компанія шукала CMO, і прийшли кандидати від 5 тисяч доларів, які збиралися «стратегічно керувати». Але тут потрібна була людина, що працює руками. Вакансію переписали на маркетинг-лід, і прийшли ті, хто готовий працювати руками, розуміє ринок і коштує в півтора-два рази дешевше <a class="tc" data-t="2776" href="https://youtu.be/CTqgcB7JQe8?t=2776s">46:16</a>. Спеціаліст, який розуміє, що він єдиний у компанії, хто це вміє, може крутити вами як завгодно <a class="tc" data-t="2812" href="https://youtu.be/CTqgcB7JQe8?t=2812s">46:52</a>.</p>
+  </section>
+
+  <section id="onboarding">
+    <h2>Онбординг: два місяці — це нормально <a class="tc" data-t="2869" href="https://youtu.be/CTqgcB7JQe8?t=2869s">47:49</a></h2>
+    <p>Повний онбординг людини на будь-яку позицію, хоч студента, хоч сеньйора, займає приблизно два місяці <a class="tc" data-t="2869" href="https://youtu.be/CTqgcB7JQe8?t=2869s">47:49</a>. Навіть якщо готові ICP, позиціонування й документація, людина запам'ятає й зрозуміє, як усе працює, коли зіткнеться з цим у роботі разів п'ять-десять — і це лише впродовж першого місяця <a class="tc" data-t="2925" href="https://youtu.be/CTqgcB7JQe8?t=2925s">48:45</a>.</p>
+    <p>Це не те саме, що ви разом із партнером з нуля будуєте проєкт із спільним вайбом. Новій людині треба дати час зануритися, мінімум місяць <a class="tc" data-t="2968" href="https://youtu.be/CTqgcB7JQe8?t=2968s">49:28</a>. Лектор критикує «пострадянський» підхід «день — тиждень — місяць», коли людині дають задачі на день, потім на тиждень, потім на місяць без пояснень, і вона сама шукає документацію <a class="tc" data-t="2990" href="https://youtu.be/CTqgcB7JQe8?t=2990s">49:50</a>.</p>
+    <aside class="callout callout--tip"><p>Якщо у вас є всі матеріали й ви відповідаєте на питання, людина стане повноцінним членом команди за один-два місяці. Якщо за два місяці не стала, варто думати про заміну: ймовірно, немає інтересу або є ще чотири роботи <a class="tc" data-t="3061" href="https://youtu.be/CTqgcB7JQe8?t=3061s">51:01</a>.</p></aside>
+    <p>Учасник додає: показник здорової командної культури — спільні жарти, стікерпак, гіфки. Лектор погоджується: культура й складається з таких речей, і на неї потрібні місяці <a class="tc" data-t="3129" href="https://youtu.be/CTqgcB7JQe8?t=3129s">52:09</a>.</p>
+  </section>
+
+  <section id="fractional">
+    <h2>Фрактальний CMO чи найм під задачу <a class="tc" data-t="3167" href="https://youtu.be/CTqgcB7JQe8?t=3167s">52:47</a></h2>
+    <p>Один із учасників питає: можливо, дешевше брати людину під задачі чи фрактального CMO, ніж штатну, і прописати чіткі KPI <a class="tc" data-t="3167" href="https://youtu.be/CTqgcB7JQe8?t=3167s">52:47</a>. Про KPI лектор обіцяє розповісти на наступній лекції, про маркетинг без бюджету <a class="tc" data-t="3292" href="https://youtu.be/CTqgcB7JQe8?t=3292s">54:52</a>.</p>
+    <p><strong>Чому проти найму під задачу.</strong> Така людина має багато замовників, і ви не контролюєте її час. У розміреному стартапі це нормально, але в динамічному буде багато факапів: вона недоступна, не вкладається в терміни, а ви витрачаєте багато часу на постановку задачі <a class="tc" data-t="3302" href="https://youtu.be/CTqgcB7JQe8?t=3302s">55:02</a>. Краще взяти когось із невеликим досвідом, але готового бути частиною команди <a class="tc" data-t="3335" href="https://youtu.be/CTqgcB7JQe8?t=3335s">55:35</a>. Навіть першокурсник за пів року — рік стане кваліфікованим кадром, який розуміє ваш продукт <a class="tc" data-t="3418" href="https://youtu.be/CTqgcB7JQe8?t=3418s">56:58</a>. Мета найму не в економії, а в команді, на яку можна розраховувати, зокрема вночі чи на вихідних <a class="tc" data-t="3418" href="https://youtu.be/CTqgcB7JQe8?t=3418s">56:58</a>.</p>
+    <p><strong>Коли фрактальний CMO доречний</strong> <a class="tc" data-t="3488" href="https://youtu.be/CTqgcB7JQe8?t=3488s">58:08</a>:</p>
+    <ul>
+      <li>є маркетинговий бюджет, який треба реалізувати <a class="tc" data-t="3488" href="https://youtu.be/CTqgcB7JQe8?t=3488s">58:08</a>;</li>
+      <li>ви готуєтеся до фандрейзингу: інвесторам важливо побачити людину, яка професійно закриває маркетинг, будує GTM і може з кимось познайомити <a class="tc" data-t="3576" href="https://youtu.be/CTqgcB7JQe8?t=3576s">59:36</a>;</li>
+      <li>на етапі ітерацій фіч краще мати адвайзера чи ментора: двогодинна сесія раз на тиждень чи два <a class="tc" data-t="3576" href="https://youtu.be/CTqgcB7JQe8?t=3576s">59:36</a>.</li>
+    </ul>
+    <p>Повноцінний CMO потрібен, коли вже є ревеню, юзери чи фандинг і треба, щоб хтось за два місяці побудував маркетинг-команду <a class="tc" data-t="3652" href="https://youtu.be/CTqgcB7JQe8?t=3652s">1:00:52</a>. Якщо потрібен практичний маркетолог — це маркетинг-лід: він і керує командою, і працює руками <a class="tc" data-t="3652" href="https://youtu.be/CTqgcB7JQe8?t=3652s">1:00:52</a>.</p>
+  </section>
+
+  <section id="agencies">
+    <h2>Коли потрібні агенції <a class="tc" data-t="3730" href="https://youtu.be/CTqgcB7JQe8?t=3730s">1:02:10</a></h2>
+    <p>Агенцію варто брати для точкової задачі, якої немає в команді <a class="tc" data-t="3730" href="https://youtu.be/CTqgcB7JQe8?t=3730s">1:02:10</a>:</p>
+    <ul>
+      <li>запуск TGE чи мобільного застосунку в App Store <a class="tc" data-t="3730" href="https://youtu.be/CTqgcB7JQe8?t=3730s">1:02:10</a>;</li>
+      <li>вузькі навички: антикризовий PR, повноцінний відеопродакшн <a class="tc" data-t="3776" href="https://youtu.be/CTqgcB7JQe8?t=3776s">1:02:56</a>;</li>
+      <li>тест окремого каналу, наприклад Reddit, PPC у Bing чи азійські ринки: поки шукаєте спеціаліста, агенція допоможе перевірити канал і навчити когось зі штату <a class="tc" data-t="3842" href="https://youtu.be/CTqgcB7JQe8?t=3842s">1:04:02</a>;</li>
+      <li>масштабування каналів — це для дуже великих стартапів <a class="tc" data-t="3842" href="https://youtu.be/CTqgcB7JQe8?t=3842s">1:04:02</a>.</li>
+    </ul>
+    <p>Лектор підкреслює: агенції не погані, але ви для них дохід, і не всі вникають у ваш бізнес. Багато агенцій існують, бо хтось уміє запускати рекламу у Facebook, а поряд сидить продажник <a class="tc" data-t="3892" href="https://youtu.be/CTqgcB7JQe8?t=3892s">1:04:52</a>. Вони звикли до магазинів в Instagram, а не до DeFi-протоколу <a class="tc" data-t="3928" href="https://youtu.be/CTqgcB7JQe8?t=3928s">1:05:28</a>.</p>
+    <aside class="callout callout--warning"><p>Якщо ви можете віддати 2–5 тисяч доларів на тест з агенцією, значить, ви достатньо великі, щоб ставитися до цього як до тесту. Якщо ці гроші — вся ваша маркетингова ставка, агенції краще їх не віддавати: вона не несе відповідальності, а договір напише краще за вас <a class="tc" data-t="3928" href="https://youtu.be/CTqgcB7JQe8?t=3928s">1:05:28</a>.</p></aside>
+  </section>
+
+  <section id="call-pr">
+    <h2>Колз-агенції та PR <a class="tc" data-t="4072" href="https://youtu.be/CTqgcB7JQe8?t=4072s">1:07:52</a></h2>
+    <p><strong>Колз</strong> (Key Opinion Leader — по суті, інфлюенсери). Великі проєкти мають власних колз-менеджерів і навіть відділи, але вони велетенські, з сотнями мільйонів. Навіть у проєкту лектора з раундом 2,7 мільйона такого менеджера не було, бо експертиза потрібна раз на пів року <a class="tc" data-t="4072" href="https://youtu.be/CTqgcB7JQe8?t=4072s">1:07:52</a>. Як працювати з колз-агенціями, розписано в слайдах <a class="tc" data-t="4097" href="https://youtu.be/CTqgcB7JQe8?t=4097s">1:08:17</a>.</p>
+    <p><strong>PR.</strong> У команді рідко є PR-експертиза. Лектор вважає, що піарник має бути всередині, якщо є гроші: одна-три публікації на місяць від нього — це дуже добре <a class="tc" data-t="4137" href="https://youtu.be/CTqgcB7JQe8?t=4137s">1:08:57</a>. PR не дає прямих продажів, а працює на процес ухвалення рішення про покупку <a class="tc" data-t="4176" href="https://youtu.be/CTqgcB7JQe8?t=4176s">1:09:36</a>. Якщо команда вже укомплектована, PR-кампанію за 20 тисяч раз на рік можна замінити штатним піарником за 24 тисячі на рік <a class="tc" data-t="4199" href="https://youtu.be/CTqgcB7JQe8?t=4199s">1:09:59</a>.</p>
+    <aside class="callout callout--warning"><p>Найбільша помилка — підписати PR-агенцію на ретейнер, тобто фіксовану суму щомісяця <a class="tc" data-t="4238" href="https://youtu.be/CTqgcB7JQe8?t=4238s">1:10:38</a>. PR-агенція має працювати від результату: у договорі прописують перелік видань, 20 чи 80, і платите, якщо вийшло одну-дві публікації з цього списку. Невеликі медіа теж підходять — це недорого й дає результат <a class="tc" data-t="4276" href="https://youtu.be/CTqgcB7JQe8?t=4276s">1:11:16</a>.</p></aside>
+  </section>
+
+  <section id="ppc">
+    <h2>PPC у крипті <a class="tc" data-t="4312" href="https://youtu.be/CTqgcB7JQe8?t=4312s">1:11:52</a></h2>
+    <p>PPC (performance-маркетинг, закупівля реклами за CPA, CPC, CPM) — Facebook, Instagram, Twitter тощо <a class="tc" data-t="4312" href="https://youtu.be/CTqgcB7JQe8?t=4312s">1:11:52</a>. Найманого PPC-фахівця в штат мало сенсу брати, якщо немає конкретного товару, а в крипті його майже ніколи немає <a class="tc" data-t="4356" href="https://youtu.be/CTqgcB7JQe8?t=4356s">1:12:36</a>. Навіть великі гравці працюють із PPC-агенціями, а в штатного такого фахівця завжди є підробітки <a class="tc" data-t="4378" href="https://youtu.be/CTqgcB7JQe8?t=4378s">1:12:58</a>. Важливо, щоб агенція мала досвід у крипті чи фінтеху <a class="tc" data-t="4378" href="https://youtu.be/CTqgcB7JQe8?t=4378s">1:12:58</a>.</p>
+    <p>У крипті PPC працює погано, бо економіка продуктів незрозуміла: стейкінг, TVL, одноразова послуга чи токен <a class="tc" data-t="4410" href="https://youtu.be/CTqgcB7JQe8?t=4410s">1:13:30</a>. Сенс іти в PPC-агенцію є лише тоді, коли ви знаєте середню дохідність із клієнта й свій ICP: тоді питаєте, чи можна залучати клієнтів дешевше за певну суму <a class="tc" data-t="4410" href="https://youtu.be/CTqgcB7JQe8?t=4410s">1:13:30</a>. Для публічних благ чи соціальних продуктів PPC майже не підходить <a class="tc" data-t="4484" href="https://youtu.be/CTqgcB7JQe8?t=4484s">1:14:44</a>.</p>
+    <aside class="callout callout--tip"><p>Найпопулярніший спосіб PPC для крипти — реклама на Solscan. У нижній частині сайту є розділ Advertise з умовами, форматами й формою зворотного зв'язку <a class="tc" data-t="4510" href="https://youtu.be/CTqgcB7JQe8?t=4510s">1:15:10</a>. Купити рекламу можна самому, без маркетолога, і в 95% випадків так і роблять <a class="tc" data-t="4631" href="https://youtu.be/CTqgcB7JQe8?t=4631s">1:17:11</a>.</p></aside>
+  </section>
+
+  <section id="delegation-when">
+    <h2>Делегування: коли так, а коли ні <a class="tc" data-t="4685" href="https://youtu.be/CTqgcB7JQe8?t=4685s">1:18:05</a></h2>
+    <p>Лектор називає делегування найскладнішою темою: усі роблять не так, і здається, що сам зробиш краще <a class="tc" data-t="4719" href="https://youtu.be/CTqgcB7JQe8?t=4719s">1:18:39</a>. Це типова помилка підприємців малого й середнього бізнесу порівняно з великим <a class="tc" data-t="4719" href="https://youtu.be/CTqgcB7JQe8?t=4719s">1:18:39</a>.</p>
+    <aside class="callout callout--warning"><p>Не делегуйте три речі <a class="tc" data-t="4763" href="https://youtu.be/CTqgcB7JQe8?t=4763s">1:19:23</a>: стратегічні рішення, кризові ситуації й великі події, а також фандрейзинг. Навіть якщо у вас є інвест-ангел чи спеціалізована агенція, це не привід розслабитися <a class="tc" data-t="4794" href="https://youtu.be/CTqgcB7JQe8?t=4794s">1:19:54</a>.</p></aside>
+    <p>Делегувати варто, коли <a class="tc" data-t="4794" href="https://youtu.be/CTqgcB7JQe8?t=4794s">1:19:54</a>:</p>
+    <ul>
+      <li>багато операційних задач і ви самі стали вузьким місцем;</li>
+      <li>є постійно повторювані речі: календар контенту, щотижневі й щомісячні звіти, внутрішні аудити;</li>
+      <li>є категорії роботи, які роблять окремі спеціалісти: контент, дизайн, маркетинг <a class="tc" data-t="4857" href="https://youtu.be/CTqgcB7JQe8?t=4857s">1:20:57</a>.</li>
+    </ul>
+    <p>Якщо ви самі займалися і маркетингом, і дизайном, то коли станете більшими, їх треба віддати. Інакше ви зупиняєте ріст стартапу <a class="tc" data-t="4857" href="https://youtu.be/CTqgcB7JQe8?t=4857s">1:20:57</a>.</p>
+  </section>
+
+  <section id="delegation-formulas">
+    <h2>Три формули, які допомагають <a class="tc" data-t="4857" href="https://youtu.be/CTqgcB7JQe8?t=4857s">1:20:57</a></h2>
+    <ul>
+      <li><strong>Контроль не дорівнює якість</strong> <a class="tc" data-t="4857" href="https://youtu.be/CTqgcB7JQe8?t=4857s">1:20:57</a>. Автономія й право ухвалювати рішення дозволяють масштабувати компанію <a class="tc" data-t="4894" href="https://youtu.be/CTqgcB7JQe8?t=4894s">1:21:34</a>.</li>
+      <li><strong>Посада без повноважень — не делегування</strong>. Якщо ви призначили людину дизайнером, але постійно ріжете її роботу, вона може рік працювати в такому темпі, бо фаундер вважає, що він найкращий дизайнер у світі <a class="tc" data-t="4894" href="https://youtu.be/CTqgcB7JQe8?t=4894s">1:21:34</a>. Спеціалістові слід дати право відповідати за свою роботу <a class="tc" data-t="4927" href="https://youtu.be/CTqgcB7JQe8?t=4927s">1:22:07</a>.</li>
+      <li><strong>«Швидше сам зроблю».</strong> Так, швидше раз. Але у якийсь момент ви зрозумієте, що стратегічні речі деградують, бо ви застрягли в дрібницях <a class="tc" data-t="4960" href="https://youtu.be/CTqgcB7JQe8?t=4960s">1:22:40</a>.</li>
+    </ul>
+  </section>
+
+  <section id="delegation-framework">
+    <h2>П'ять кроків делегування <a class="tc" data-t="4990" href="https://youtu.be/CTqgcB7JQe8?t=4990s">1:23:10</a></h2>
+    <ol>
+      <li><strong>Контекст</strong> <a class="tc" data-t="4990" href="https://youtu.be/CTqgcB7JQe8?t=4990s">1:23:10</a>. Поясніть, чому робота важлива. Не кажіть дизайнеру, який має бути лендінг, а поясніть, які задачі він має виконувати. Рішення людини завжди відрізнятиметься від вашого, і це нормально <a class="tc" data-t="5023" href="https://youtu.be/CTqgcB7JQe8?t=5023s">1:23:43</a>.</li>
+      <li><strong>Досвід</strong> <a class="tc" data-t="5054" href="https://youtu.be/CTqgcB7JQe8?t=5054s">1:24:14</a>. Розкажіть і покажіть, як це робилося раніше й що вас влаштовувало. Нова людина може спитати «а чому не так?», і у вас може не бути відповіді <a class="tc" data-t="5093" href="https://youtu.be/CTqgcB7JQe8?t=5093s">1:24:53</a>.</li>
+      <li><strong>Приклади від людини</strong> <a class="tc" data-t="5093" href="https://youtu.be/CTqgcB7JQe8?t=5093s">1:24:53</a>. Не критикуйте перші результати одразу. Це приклад, на якому разом розбираєте, що працює, а що ні <a class="tc" data-t="5112" href="https://youtu.be/CTqgcB7JQe8?t=5112s">1:25:12</a>.</li>
+      <li><strong>Фідбек</strong> <a class="tc" data-t="5156" href="https://youtu.be/CTqgcB7JQe8?t=5156s">1:25:56</a>. Не «це фігня», а конкретно: покажіть вдалі кейси, ще раз дайте контекст.</li>
+      <li><strong>Ownership</strong> <a class="tc" data-t="5156" href="https://youtu.be/CTqgcB7JQe8?t=5156s">1:25:56</a>. Через два тижні, а скоріше через місяць-півтора поруч буде не просто виконавець, а власник експертизи, який приходить із роботою й не чекає на критику <a class="tc" data-t="5222" href="https://youtu.be/CTqgcB7JQe8?t=5222s">1:27:02</a>.</li>
+    </ol>
+  </section>
+
+  <section id="qa">
+    <h2>Питання наприкінці <a class="tc" data-t="5222" href="https://youtu.be/CTqgcB7JQe8?t=5222s">1:27:02</a></h2>
+    <p><strong>Планування.</strong> Коли складно планувати далі, ніж на день-два, лектор радить робити з командою 15-хвилинні синки на день і проговорювати плани <a class="tc" data-t="5297" href="https://youtu.be/CTqgcB7JQe8?t=5297s">1:28:17</a>. Задач стане більше, ніж встигаєте, і план почне будуватися органічно <a class="tc" data-t="5297" href="https://youtu.be/CTqgcB7JQe8?t=5297s">1:28:17</a>. Головне — не «ловити корону» і не вивозити все соло, а не втрачати синхрон із кофаундерами <a class="tc" data-t="5315" href="https://youtu.be/CTqgcB7JQe8?t=5315s">1:28:35</a>. З часом з'являться задачі на місяць, на пів року й рік <a class="tc" data-t="5349" href="https://youtu.be/CTqgcB7JQe8?t=5349s">1:29:09</a>.</p>
+    <p><strong>Коли брати першу людину</strong> <a class="tc" data-t="5439" href="https://youtu.be/CTqgcB7JQe8?t=5439s">1:30:39</a>. Коли є ресурс на її онбординг, а також бюджет чи навантаження: чи готові ви заплатити за людину й конвертувати звільнений час у стратегічні задачі <a class="tc" data-t="5486" href="https://youtu.be/CTqgcB7JQe8?t=5486s">1:31:26</a>. Універсальних порад більше немає, потрібна декомпозиція конкретної ситуації <a class="tc" data-t="5486" href="https://youtu.be/CTqgcB7JQe8?t=5486s">1:31:26</a>.</p>
+    <p><strong>Бізнес чи стартап</strong> <a class="tc" data-t="5613" href="https://youtu.be/CTqgcB7JQe8?t=5613s">1:33:33</a>. У бізнесі ви наймаєте лише того, хто приносить гроші. У стартапі логіка інша: стартап — це спроба побудувати нову бізнес-модель, і часто ця спроба забирає багато людського ресурсу. Нормально вирішити, що краще поспати вісім годин і переплатити за це, залежно від стадії й ресурсів <a class="tc" data-t="5666" href="https://youtu.be/CTqgcB7JQe8?t=5666s">1:34:26</a>.</p>
+  </section>
+
+  <section id="tools">
+    <h2>Інструменти з лекції</h2>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Інструмент</th><th>Для чого радить лектор</th><th>Таймкод</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="https://claude.com/" target="_blank" rel="noopener">Claude</a></td><td>Зібрати лендінг з промпту чи з PDF-макета з Figma</td><td><a class="tc" data-t="271" href="https://youtu.be/CTqgcB7JQe8?t=271s">4:31</a></td></tr>
+        <tr><td><a href="https://aistudio.google.com/" target="_blank" rel="noopener">Google AI Studio</a></td><td>Безкоштовний генератор сайту з промпту, багато кредитів; лендінг за вісім хвилин</td><td><a class="tc" data-t="271" href="https://youtu.be/CTqgcB7JQe8?t=271s">4:31</a></td></tr>
+        <tr><td><a href="https://www.framer.com/" target="_blank" rel="noopener">Framer</a></td><td>Лендінг і збір контактів / whitelist</td><td><a class="tc" data-t="271" href="https://youtu.be/CTqgcB7JQe8?t=271s">4:31</a></td></tr>
+        <tr><td><a href="https://webflow.com/" target="_blank" rel="noopener">Webflow</a></td><td>Лендінг</td><td><a class="tc" data-t="271" href="https://youtu.be/CTqgcB7JQe8?t=271s">4:31</a></td></tr>
+        <tr><td><a href="https://www.typeform.com/" target="_blank" rel="noopener">Typeform</a></td><td>Форма для whitelist і збору контактів</td><td><a class="tc" data-t="347" href="https://youtu.be/CTqgcB7JQe8?t=347s">5:47</a></td></tr>
+        <tr><td><a href="https://workspace.google.com/products/forms/" target="_blank" rel="noopener">Google Forms</a></td><td>Форма для whitelist і збору контактів</td><td><a class="tc" data-t="347" href="https://youtu.be/CTqgcB7JQe8?t=347s">5:47</a></td></tr>
+        <tr><td><a href="https://tally.so/" target="_blank" rel="noopener">Tally</a></td><td>Форма для whitelist і збору контактів</td><td><a class="tc" data-t="347" href="https://youtu.be/CTqgcB7JQe8?t=347s">5:47</a></td></tr>
+        <tr><td><a href="https://www.canva.com/" target="_blank" rel="noopener">Canva</a></td><td>Швидко накидати структуру дизайну, якщо немає дизайнера</td><td><a class="tc" data-t="347" href="https://youtu.be/CTqgcB7JQe8?t=347s">5:47</a></td></tr>
+        <tr><td><a href="https://www.figma.com/" target="_blank" rel="noopener">Figma Community</a></td><td>Безкоштовні кіти й шаблони; експорт у PDF для Claude чи AI Studio</td><td><a class="tc" data-t="448" href="https://youtu.be/CTqgcB7JQe8?t=448s">7:28</a></td></tr>
+        <tr><td><a href="https://ui.shadcn.com/" target="_blank" rel="noopener">shadcn</a></td><td>Фронтенд-фреймворк, під який у Figma Community багато готових шаблонів</td><td><a class="tc" data-t="476" href="https://youtu.be/CTqgcB7JQe8?t=476s">7:56</a></td></tr>
+        <tr><td><a href="https://marketingplatform.google.com/about/analytics/" target="_blank" rel="noopener">Google Analytics 4</a></td><td>Безкоштовна аналітика сайту, MAU і DAU без власної воронки</td><td><a class="tc" data-t="381" href="https://youtu.be/CTqgcB7JQe8?t=381s">6:21</a></td></tr>
+        <tr><td><a href="https://www.hotjar.com/" target="_blank" rel="noopener">Hotjar</a></td><td>Аналітика поведінки на сайті</td><td><a class="tc" data-t="381" href="https://youtu.be/CTqgcB7JQe8?t=381s">6:21</a></td></tr>
+        <tr><td><a href="https://typefully.com/" target="_blank" rel="noopener">Typefully</a></td><td>Планувальник постів у Twitter і контент-план</td><td><a class="tc" data-t="381" href="https://youtu.be/CTqgcB7JQe8?t=381s">6:21</a></td></tr>
+        <tr><td><a href="https://twitterscore.io/" target="_blank" rel="noopener">TwitterScore</a></td><td>Оцінка якості підписників</td><td><a class="tc" data-t="1906" href="https://youtu.be/CTqgcB7JQe8?t=1906s">31:46</a></td></tr>
+        <tr><td><a href="https://solscan.io/" target="_blank" rel="noopener">Solscan</a></td><td>Купити рекламу у крипті самостійно (розділ Advertise)</td><td><a class="tc" data-t="4510" href="https://youtu.be/CTqgcB7JQe8?t=4510s">1:15:10</a></td></tr>
+        <tr><td><a href="https://docs.google.com/" target="_blank" rel="noopener">Google Docs і Sheets</a></td><td>Брудний документ із маркетинговими нотатками</td><td><a class="tc" data-t="748" href="https://youtu.be/CTqgcB7JQe8?t=748s">12:28</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="homework" class="homework">
+    <h2>Повторити самостійно</h2>
+    <ol>
+      <li>Домашнього завдання на цій лекції не було. Лектор пообіцяв додати слайд з усіма інструментами та посиланнями <a class="tc" data-t="5399" href="https://youtu.be/CTqgcB7JQe8?t=5399s">1:29:59</a>, а наступна лекція — через тиждень, про маркетинг без бюджету й KPI <a class="tc" data-t="5731" href="https://youtu.be/CTqgcB7JQe8?t=5731s">1:35:31</a>.</li>
+      <li>Налаштуйте мінімальну аналітику: Google Analytics 4 і Hotjar <a class="tc" data-t="381" href="https://youtu.be/CTqgcB7JQe8?t=381s">6:21</a>. Не витрачайте більше часу, ніж треба: головне бачити MAU і DAU <a class="tc" data-t="689" href="https://youtu.be/CTqgcB7JQe8?t=689s">11:29</a>.</li>
+      <li>Створіть брудний документ «Драфти по маркетингу» й записуйте туди ідеї, контакти й домовленості <a class="tc" data-t="748" href="https://youtu.be/CTqgcB7JQe8?t=748s">12:28</a>.</li>
+      <li>Заплануйте два-три пости на тиждень <a class="tc" data-t="999" href="https://youtu.be/CTqgcB7JQe8?t=999s">16:39</a> і закладіть 30 хвилин на день на реплаї в Twitter <a class="tc" data-t="1063" href="https://youtu.be/CTqgcB7JQe8?t=1063s">17:43</a>.</li>
+      <li>Складіть список людей для реплаїв: судді Colosseum, інфлюенсери, команди з Solana <a class="tc" data-t="1131" href="https://youtu.be/CTqgcB7JQe8?t=1131s">18:51</a>.</li>
+      <li>Напишіть один лонгрід про цінність проєкту до кінця хакатону <a class="tc" data-t="1300" href="https://youtu.be/CTqgcB7JQe8?t=1300s">21:40</a>.</li>
+      <li>Щодня заходьте на власний сайт і перевіряйте мобільну версію й посилання <a class="tc" data-t="2032" href="https://youtu.be/CTqgcB7JQe8?t=2032s">33:52</a>.</li>
+      <li>Перед делегуванням підготуйте контекст і приклади для людини <a class="tc" data-t="4990" href="https://youtu.be/CTqgcB7JQe8?t=4990s">1:23:10</a> та вирішіть, що ніколи не віддасте: стратегію, кризи й фандрейзинг <a class="tc" data-t="4763" href="https://youtu.be/CTqgcB7JQe8?t=4763s">1:19:23</a>.</li>
+    </ol>
+  </section>
+
+  <section id="checklist" class="checklist">
+    <h2>Коротко: чекліст</h2>
+    <ol>
+      <li>Єдиний ресурс на старті — час, а не гроші.</li>
+      <li>Бюджет на маркетинг — не більше 500 доларів разом з усіма інструментами, в ідеалі нуль.</li>
+      <li>На маркетинг йде 30–70% часу, але поодинці не більше 70% на день.</li>
+      <li>Не чекайте ідеального поста чи ідеальної аналітики.</li>
+      <li>Для крипто-проєкту головне — Twitter: два-три пости на тиждень.</li>
+      <li>Пів години на день у реплаях — найефективніше, що ви можете зробити.</li>
+      <li>Один-два лонгріди на місяць і explainer-матеріали.</li>
+      <li>Не платіть за рекламу, колзів і агенції, поки ви стартап.</li>
+      <li>Дивіться на підписників, охоплення постів, реплаї й MAU/DAU.</li>
+      <li>Наймайте під навантаження чи під бюджет, а не «дорогу команду» заради статусу.</li>
+      <li>Повний онбординг займає два місяці.</li>
+      <li>Для першого практичного маркетолога шукайте маркетинг-ліда, а не CMO.</li>
+      <li>PR-агенції — не на ретейнер, а за результат за списком видань.</li>
+      <li>Не делегуйте стратегію, кризи й фандрейзинг.</li>
+      <li>Делегуйте через контекст, досвід, приклади, фідбек і ownership.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Джерело: <a href="https://youtu.be/CTqgcB7JQe8">запис лекції «Marketing team management» на YouTube</a> — Solana Startup Terminal, весняний потік 2026, опубліковано 15.04.2026.</p>
+  <p>Конспект зроблено на основі машинної розшифровки запису; формулювання лектора передано близько до сказаного. Назви інструментів у розшифровці часто спотворені — їх відновлено за контекстом.</p>
+  <p>Концепт сторінки — Alex, учасник програми.</p>
+</footer>
+
+</body>
+</html>

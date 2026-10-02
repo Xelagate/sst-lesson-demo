@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>GTM-стратегія — конспект</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #001020;
+    --surface: #061b30;
+    --blue: #0367c8;
+    --light-blue: #8cc6ff;
+    --yellow: #ffea00;
+    --text: #d2dfec;
+    --muted: #a6bbcf;
+    --line: #274057;
+    font-family: "Manrope", sans-serif;
+    background: var(--page);
+    color: var(--text);
+    font-synthesis: none;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    width: min(1240px, calc(100% - 64px));
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+  }
+  ::selection { color: var(--page); background: var(--light-blue); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 5px; }
+  a { color: var(--light-blue); text-underline-offset: .22em; }
+  a:hover { color: #fff; }
+  h1, h2 { font-family: "Unbounded", sans-serif; color: #f6f9ff; font-weight: 600; }
+  p { margin: 0 0 1.25em; }
+  strong { color: #f3f7fc; font-weight: 800; }
+
+  .lesson-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 0 0 18px; font-size: 13px; }
+  .lesson-nav a { color: var(--light-blue); text-decoration: none; }
+  .lesson-nav a:hover { text-decoration: underline; }
+  .lesson-nav a[aria-current] { color: var(--muted); pointer-events: none; }
+  .concept-note {
+    position: relative;
+    padding: 22px 0 22px 22px;
+    color: #b9cadb;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .concept-note::before {
+    content: "";
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+
+  /* A perforated lesson ticket, with no invented ticket data. */
+  .lesson-hero {
+    --inset: clamp(24px, 4.2vw, 56px);
+    padding: var(--inset);
+    border: 1px solid #294967;
+    border-radius: 36px;
+    background: #00203f;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--light-blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .035em;
+  }
+  .eyebrow::before {
+    content: "";
+    flex: 0 0 24px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--yellow);
+  }
+  .lesson-hero h1 {
+    max-width: 1080px;
+    margin: 0 0 24px;
+    font-size: clamp(28px, 4.1vw, 54px);
+    line-height: 1.22;
+    letter-spacing: -.04em;
+    text-wrap: balance;
+  }
+  .lead { max-width: 80ch; margin: 0; color: #bdcfe1; font-size: 16px; line-height: 1.75; }
+  .lesson-meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 32px calc(-1 * var(--inset)) calc(-1 * var(--inset));
+    padding: 22px var(--inset) 26px;
+    border-top: 1px dashed #53718c;
+    list-style: none;
+  }
+  .lesson-meta::before, .lesson-meta::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #294967;
+    border-radius: 50%;
+    background: var(--page);
+  }
+  .lesson-meta::before { left: -11px; border-left-color: transparent; }
+  .lesson-meta::after { right: -11px; border-right-color: transparent; }
+  .lesson-meta li {
+    padding: 6px 14px;
+    border: 1px solid #36536d;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .lesson-meta li:first-child { background: #0b3155; color: #fff; }
+  .lesson-meta li:last-child { color: var(--yellow); }
+
+  .lesson-media { display: grid; gap: 24px; margin-top: 24px; }
+  .player {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    align-self: start;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #000c18;
+    scroll-margin-top: 24px;
+  }
+  .player > div, .player iframe {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .chapters {
+    min-width: 0;
+    padding: 24px 12px 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+  .chapters h2 { margin: 0 12px 17px 0; font-size: 15px; line-height: 1.5; }
+  .chapters ol {
+    max-height: 360px;
+    margin: 0;
+    padding: 0 10px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-gutter: stable;
+  }
+  .chapters li {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 10px 2px;
+    border-top: 1px solid #1e354b;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .chapters li:first-child { border-top: 0; padding-top: 4px; }
+  .chapters li span { padding-top: 5px; }
+  .chapters li:focus-within span, .chapters li:hover span { color: #fff; }
+  .chapters .tc { width: 70px; justify-content: center; min-height: 30px; font-size: 11px; }
+  .chapters ol, .table-scroll { scrollbar-width: thin; scrollbar-color: #587b9b #061b30; }
+
+  .tc {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 9px;
+    border: 1px solid #34546f;
+    border-radius: 100px;
+    background: #092741;
+    color: var(--light-blue);
+    font-family: "Manrope", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+    letter-spacing: .015em;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background-color .16s, color .16s, border-color .16s, box-shadow .16s;
+  }
+  .tc:hover, .tc:focus-visible {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    color: var(--page);
+    box-shadow: 0 4px 18px rgb(255 234 0 / 16%);
+  }
+
+  .summary { width: 70ch; max-width: 100%; margin: 72px auto 0; }
+  .summary > section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .summary h2 {
+    margin: 0 0 25px;
+    font-size: clamp(21px, 2.25vw, 27px);
+    line-height: 1.45;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+  .summary h2 .tc { margin: 0 0 3px 4px; }
+  .summary ul, .summary ol { margin: 20px 0 26px; padding-left: 26px; }
+  .summary li { padding-left: 6px; margin: 12px 0; }
+  .summary li::marker { color: var(--light-blue); font-weight: 700; }
+  .summary section > :last-child { margin-bottom: 0; }
+
+  .quote {
+    margin: 32px 0;
+    padding: 7px 0 7px 25px;
+    border-left: 3px solid var(--yellow);
+    color: #f1f6fc;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.65;
+  }
+  .quote p { margin: 0; }
+  .callout {
+    --callout-accent: var(--light-blue);
+    margin: 28px 0;
+    padding: 22px 24px;
+    border: 1px solid #2f506f;
+    border-left: 3px solid var(--callout-accent);
+    border-radius: 0 18px 18px 0;
+    background: #09243e;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .callout p { margin: 0; }
+  .callout--tip { --callout-accent: #b9d4e9; border-color: #344b5d; border-left-color: var(--callout-accent); background: #112536; }
+  .callout--warning { --callout-accent: var(--yellow); border-color: #514d2c; border-left-color: var(--callout-accent); background: #242719; color: #e5e3cb; }
+  .summary > .callout--info {
+    margin-top: 0;
+    padding: 28px 30px;
+    border-left-width: 1px;
+    border-top: 3px solid var(--blue);
+    border-radius: 20px;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    margin: 28px 0;
+    overflow-x: auto;
+    border: 1px solid #34506b;
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th, td { padding: 17px 18px; text-align: left; vertical-align: top; }
+  th { border-bottom: 1px solid #3b5a77; background: #103351; color: #eef6ff; font-weight: 800; }
+  td { border-bottom: 1px solid #294158; }
+  th + th, td + td { border-left: 1px solid #294158; }
+  tbody tr:nth-child(even) { background: #0a2136; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { color: #eef5ff; font-weight: 600; }
+  td .tc { margin-top: 4px; }
+  #pain-sources td:nth-child(2), #pain-criteria td:nth-child(2) { min-width: 145px; }
+  #radar td:first-child, #scoring td:first-child { min-width: 145px; }
+
+  .summary > .homework {
+    margin-top: 64px;
+    padding: 32px;
+    border: 1px solid #365b7d;
+    border-top: 3px solid var(--light-blue);
+    border-radius: 24px;
+    background: #00203f;
+  }
+  .homework ol { margin: 0; padding-left: 24px; }
+  .homework li { margin: 0; padding: 18px 0 18px 8px; border-bottom: 1px dashed #3a5470; font-size: 16px; }
+  .homework li:first-child { padding-top: 0; }
+  .homework li:last-child { border: 0; padding-bottom: 0; }
+  .homework li::marker { color: var(--yellow); }
+  .summary > .checklist { margin-top: 40px; padding-top: 36px; border-top-style: dashed; }
+  .checklist ol { list-style: none; padding: 0; margin-bottom: 0; }
+  .checklist li { position: relative; margin: 0; padding: 15px 0 15px 32px; border-bottom: 1px solid #1e354b; font-size: 16px; }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 4px;
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid var(--light-blue);
+    border-bottom: 2px solid var(--light-blue);
+    transform: rotate(-45deg);
+  }
+  .page-footer {
+    width: 70ch;
+    max-width: 100%;
+    margin: 64px auto 0;
+    padding: 32px 0 40px;
+    border-top: 1px dashed #3a5470;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .page-footer p { margin: 0 0 14px; font-size: 12px; line-height: 1.8; }
+  .page-footer p:last-child { margin-top: 28px; margin-bottom: 0; color: #cedcea; }
+
+  @media (min-width: 1050px) {
+    .lesson-media { grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr); align-items: stretch; }
+    .chapters { position: relative; min-height: 0; }
+    .chapters ol { position: absolute; inset: 65px 12px 14px 24px; max-height: none; }
+  }
+  @media (min-width: 700px) and (max-width: 1049px) {
+    .chapters ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  }
+  @media (max-width: 599px) {
+    body { width: calc(100% - 32px); font-size: 16px; }
+    .concept-note { padding-top: 17px; padding-bottom: 17px; font-size: 11px; }
+    .concept-note::before { top: 23px; }
+    .lesson-hero { --inset: 22px; border-radius: 24px; }
+    .eyebrow { gap: 9px; font-size: 11px; letter-spacing: 0; margin-bottom: 20px; }
+    .eyebrow::before { flex-basis: 16px; }
+    .lesson-hero h1 { font-size: clamp(25px, 6.9vw, 39px); line-height: 1.3; letter-spacing: -.035em; }
+    .lead { font-size: 14px; }
+    .lesson-meta { gap: 8px; margin-top: 24px; padding-top: 18px; padding-bottom: 20px; }
+    .lesson-meta li { padding: 5px 10px; font-size: 11px; }
+    .lesson-media { gap: 16px; margin-top: 16px; }
+    .player { border-radius: 16px; scroll-margin-top: 16px; }
+    .chapters { padding-left: 18px; border-radius: 20px; }
+    .chapters ol { max-height: 340px; }
+    .summary { margin-top: 44px; }
+    .summary > section { margin-top: 40px; padding-top: 26px; }
+    .summary h2 { font-size: 20px; line-height: 1.5; }
+    .summary > .callout--info, .callout { padding: 19px 20px; font-size: 14px; }
+    .quote { margin: 26px 0; padding-left: 19px; font-size: 19px; }
+    .summary > .homework { padding: 24px 20px; border-radius: 20px; }
+    .homework li, .checklist li { font-size: 15px; }
+    .page-footer { margin-top: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('player');
+    let player;
+    let ready = false;
+
+    // Native links remain usable while the API loads, or if embedding fails.
+    document.querySelectorAll('a.tc').forEach(link => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+    document.querySelectorAll('.table-scroll').forEach(wrapper => {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', wrapper.closest('section').querySelector('h2').textContent.trim());
+    });
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a.tc');
+      if (!link || !ready || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const seconds = Number(link.dataset.t);
+      if (!Number.isFinite(seconds)) return;
+      try {
+        player.seekTo(seconds, true);
+        player.playVideo();
+      } catch {
+        ready = false;
+        return;
+      }
+      event.preventDefault();
+      container.scrollIntoView({
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+
+    window.onYouTubeIframeAPIReady = () => {
+      // Keep #player intact: YouTube replaces only this inner mount.
+      const mount = document.createElement('div');
+      container.append(mount);
+      player = new YT.Player(mount, {
+        videoId: container.dataset.videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: { playsinline: 1, rel: 0 },
+        events: {
+          onReady: event => {
+            ready = true;
+            event.target.getIframe().title = document.querySelector('h1').textContent;
+          },
+          onError: () => { ready = false; }
+        }
+      });
+    };
+    const api = document.createElement('script');
+    api.src = 'https://www.youtube.com/iframe_api';
+    api.async = true;
+    api.onerror = () => { ready = false; };
+    document.head.append(api);
+  });
+</script>
+</head>
+<body>
+
+<aside class="concept-note">Неофіційний концепт: так могла б виглядати сторінка уроку Startup Terminal. Це не сторінка Superteam Ukraine — її зробив Alex, учасник програми.</aside>
+
+<nav class="lesson-nav" aria-label="Уроки">
+  <a href="2026-08-26-idea-gen-nick.html">Idea Gen, Нік · 26.08</a>
+  <a href="index.html">Idea Generation, Діма · 27.08</a>
+  <a href="2026-09-08-validation-idea.html">Validation · 08.09</a>
+  <a href="2026-09-15-value-proposition.html">Value proposition · 15.09</a>
+  <a href="2026-09-22-gtm-nick.html" aria-current="page">GTM · 22.09</a>
+  <a href="2026-09-24-marketing.html">Marketing · 24.09</a>
+  <a href="2026-09-29-ai-in-project-building.html">AI у побудові проєкту · 29.09</a>
+  <a href="2026-03-18-idea-generation-nick.html">Весна: Idea Generation</a>
+  <a href="2026-03-25-market-research.html">Весна: Market Research</a>
+  <a href="2026-04-08-gtm-structuring-dima.html">Весна: GTM Structuring</a>
+  <a href="2026-04-09-development-team-management.html">Весна: Development і команда</a>
+  <a href="2026-04-15-marketing-team-management.html">Весна: Marketing team</a>
+  <a href="2026-04-17-vc-fundraising.html">Весна: VC і Fundraising</a>
+</nav>
+
+<header class="lesson-hero">
+  <p class="eyebrow">Solana Startup Terminal 2.0 · Business Track</p>
+  <h1>Go-to-market: від ідеального клієнта до позиціонування й воронки</h1>
+  <p class="lead">Лекція про те, як зібрати GTM-стратегію, з якою можна працювати постійно, а не написати раз і забути. Лектор іде по порядку: ідеальний клієнт, value proposition, конкуренти, цілі, воронка, позиціонування, трекінг. Головна ідея: GTM — це живий, адаптивний артефакт, а не слайд із переліком каналів.</p>
+  <ul class="lesson-meta">
+    <li>Лектор: Нік</li>
+    <li>22.09.2026</li>
+    <li>99 хв</li>
+  </ul>
+</header>
+
+<div class="lesson-media"><div class="player" id="player" data-video-id="9YBN42D-CN0"></div>
+
+<nav class="chapters" aria-label="Розділи відео">
+  <h2>Розділи відео</h2>
+  <ol>
+    <li><a class="tc" data-t="0" href="https://youtu.be/9YBN42D-CN0?t=0s">0:00</a> <span>Вступ: чому фонди питають про GTM</span></li>
+    <li><a class="tc" data-t="62" href="https://youtu.be/9YBN42D-CN0?t=62s">1:02</a> <span>Що змінилось у 2026 році</span></li>
+    <li><a class="tc" data-t="111" href="https://youtu.be/9YBN42D-CN0?t=111s">1:51</a> <span>Що таке GTM-стратегія</span></li>
+    <li><a class="tc" data-t="200" href="https://youtu.be/9YBN42D-CN0?t=200s">3:20</a> <span>Launch, sell, retain і кейс Tupperware</span></li>
+    <li><a class="tc" data-t="279" href="https://youtu.be/9YBN42D-CN0?t=279s">4:39</a> <span>П’ять кроків: від ідеї до execution</span></li>
+    <li><a class="tc" data-t="606" href="https://youtu.be/9YBN42D-CN0?t=606s">10:06</a> <span>Ideal customer profile: цілі, страхи, болі</span></li>
+    <li><a class="tc" data-t="898" href="https://youtu.be/9YBN42D-CN0?t=898s">14:58</a> <span>Сегменти й кілька профілів</span></li>
+    <li><a class="tc" data-t="987" href="https://youtu.be/9YBN42D-CN0?t=987s">16:27</a> <span>Value proposition з чотирьох елементів</span></li>
+    <li><a class="tc" data-t="1113" href="https://youtu.be/9YBN42D-CN0?t=1113s">18:33</a> <span>Конкуренти для кожного профілю</span></li>
+    <li><a class="tc" data-t="1348" href="https://youtu.be/9YBN42D-CN0?t=1348s">22:28</a> <span>Швидкий гайд: вирішуй проблеми — заробляй</span></li>
+    <li><a class="tc" data-t="1521" href="https://youtu.be/9YBN42D-CN0?t=1521s">25:21</a> <span>Відрізати ніші, де ваш value слабший</span></li>
+    <li><a class="tc" data-t="1606" href="https://youtu.be/9YBN42D-CN0?t=1606s">26:46</a> <span>SMART-цілі</span></li>
+    <li><a class="tc" data-t="1769" href="https://youtu.be/9YBN42D-CN0?t=1769s">29:29</a> <span>Воронка: від awareness до retention</span></li>
+    <li><a class="tc" data-t="2090" href="https://youtu.be/9YBN42D-CN0?t=2090s">34:50</a> <span>Три питання воронки</span></li>
+    <li><a class="tc" data-t="2309" href="https://youtu.be/9YBN42D-CN0?t=2309s">38:29</a> <span>Де шукати кейси під свою нішу</span></li>
+    <li><a class="tc" data-t="2413" href="https://youtu.be/9YBN42D-CN0?t=2413s">40:13</a> <span>Creative direction: емоції</span></li>
+    <li><a class="tc" data-t="2541" href="https://youtu.be/9YBN42D-CN0?t=2541s">42:21</a> <span>Martech tools — не стратегія</span></li>
+    <li><a class="tc" data-t="2717" href="https://youtu.be/9YBN42D-CN0?t=2717s">45:17</a> <span>AARRR: трекінг воронки</span></li>
+    <li><a class="tc" data-t="3179" href="https://youtu.be/9YBN42D-CN0?t=3179s">52:59</a> <span>Приклад GTM-слайду</span></li>
+    <li><a class="tc" data-t="3437" href="https://youtu.be/9YBN42D-CN0?t=3437s">57:17</a> <span>Позиціонування: чому воно важливе</span></li>
+    <li><a class="tc" data-t="3562" href="https://youtu.be/9YBN42D-CN0?t=3562s">59:22</a> <span>Візіонер у складному чи експерт у простому</span></li>
+    <li><a class="tc" data-t="3772" href="https://youtu.be/9YBN42D-CN0?t=3772s">1:02:52</a> <span>Базові слова й елеватор-пітч</span></li>
+    <li><a class="tc" data-t="3924" href="https://youtu.be/9YBN42D-CN0?t=3924s">1:05:24</a> <span>Кейс Karak: еволюція позиціонування</span></li>
+    <li><a class="tc" data-t="4010" href="https://youtu.be/9YBN42D-CN0?t=4010s">1:06:50</a> <span>Чого уникати в позиціонуванні</span></li>
+    <li><a class="tc" data-t="4172" href="https://youtu.be/9YBN42D-CN0?t=4172s">1:09:32</a> <span>Підсумок усього шляху з першого воркшопу</span></li>
+    <li><a class="tc" data-t="4393" href="https://youtu.be/9YBN42D-CN0?t=4393s">1:13:13</a> <span>Три рівні позиціонування і key messages</span></li>
+    <li><a class="tc" data-t="4531" href="https://youtu.be/9YBN42D-CN0?t=4531s">1:15:31</a> <span>Retention: підписки, реклама, довгі механіки</span></li>
+    <li><a class="tc" data-t="4719" href="https://youtu.be/9YBN42D-CN0?t=4719s">1:18:39</a> <span>GTM як живий артефакт і user journey</span></li>
+    <li><a class="tc" data-t="4931" href="https://youtu.be/9YBN42D-CN0?t=4931s">1:22:11</a> <span>Q&A і домашнє завдання</span></li>
+    <li><a class="tc" data-t="5129" href="https://youtu.be/9YBN42D-CN0?t=5129s">1:25:29</a> <span>Фреймворк: ICP, value proposition, конкуренти</span></li>
+    <li><a class="tc" data-t="5410" href="https://youtu.be/9YBN42D-CN0?t=5410s">1:30:10</a> <span>Creative direction, бренд і сторітелінг</span></li>
+    <li><a class="tc" data-t="5599" href="https://youtu.be/9YBN42D-CN0?t=5599s">1:33:19</a> <span>Martech, канали, AARRR і journey map</span></li>
+    <li><a class="tc" data-t="5766" href="https://youtu.be/9YBN42D-CN0?t=5766s">1:36:06</a> <span>Завершення</span></li>
+  </ol>
+</nav></div>
+
+<main class="summary">
+
+  <aside class="callout callout--info"><p><strong>Що в цьому уроці:</strong> навіщо фондам GTM-стратегія; формула launch, sell, retain; ідеальний клієнт і value proposition із чотирьох елементів; як порівняти себе з конкурентами й відрізати слабкі ніші; SMART-цілі; воронка і три питання, які треба закрити; creative direction; трекінг через AARRR; два підходи до позиціонування, три його рівні й key messages; приклад GTM-слайду й шаблон фреймворку.</p></aside>
+
+  <section id="why">
+    <h2>Навіщо GTM і що в ньому не так роблять <a class="tc" data-t="0" href="https://youtu.be/9YBN42D-CN0?t=0s">0:00</a></h2>
+    <p>Лектор нагадує свою закріплену статтю в Твіттері: всі венчурні фонди завжди ставлять стартапам одне питання — яка у вас go-to-market стратегія <a class="tc" data-t="28" href="https://youtu.be/9YBN42D-CN0?t=28s">0:28</a>.</p>
+    <p>До кінця 2026 року, за його словами, розумному розробнику вже не потрібні ще 25 розробників, щоб усе запустити самому. Тому акцент змістився на те, як ви онбордите аудиторію, працюєте з клієнтами, будуєте GTM і позиціонування <a class="tc" data-t="62" href="https://youtu.be/9YBN42D-CN0?t=62s">1:02</a>.</p>
+    <p>Типова помилка: хтось каже «ми онбордитимемо таку-то аудиторію» чи називає гео, і вважає це GTM. З усієї ширини очікуваного обирають щось одне й забувають слово «стратегія» <a class="tc" data-t="111" href="https://youtu.be/9YBN42D-CN0?t=111s">1:51</a>.</p>
+    <aside class="callout callout--tip"><p>GTM — активний інструмент, з яким працюють постійно, а не документ, який зробили один раз і забули <a class="tc" data-t="153" href="https://youtu.be/9YBN42D-CN0?t=153s">2:33</a>.</p></aside>
+  </section>
+
+  <section id="lsr">
+    <h2>Launch, sell, retain <a class="tc" data-t="200" href="https://youtu.be/9YBN42D-CN0?t=200s">3:20</a></h2>
+    <p>Весь довгий визначальний текст про GTM лектор зводить до трьох слів: запустити продукт, продати його і зробити так, щоб користувачі не пішли через місяць (підписка), через одну транзакцію (комісійна модель) чи після однієї покупки <a class="tc" data-t="200" href="https://youtu.be/9YBN42D-CN0?t=200s">3:20</a>.</p>
+    <p>Приклад — Tupperware, виробник пластикового посуду, який збанкрутував: люди не купували нових виробів, тобто бракувало retention <a class="tc" data-t="230" href="https://youtu.be/9YBN42D-CN0?t=230s">3:50</a>. Саме через такі кейси з’явилися підписочні моделі <a class="tc" data-t="279" href="https://youtu.be/9YBN42D-CN0?t=279s">4:39</a>.</p>
+  </section>
+
+  <section id="steps">
+    <h2>П’ять кроків: ідея, план, стратегія, позиціонування, execution <a class="tc" data-t="279" href="https://youtu.be/9YBN42D-CN0?t=279s">4:39</a></h2>
+    <p>Лектор підсумовує ланцюжок із попередніх воркшопів. Ідею генерують, дивляться на ринок і конкурентів, говорять із людьми. Коли стало зрозуміло, що продукт може працювати, треба планувати вихід на ринок <a class="tc" data-t="327" href="https://youtu.be/9YBN42D-CN0?t=327s">5:27</a>. План записують; сам лектор користується Miro <a class="tc" data-t="351" href="https://youtu.be/9YBN42D-CN0?t=351s">5:51</a>.</p>
+    <p>Різниця між планом і стратегією: план статичний, стратегія динамічна <a class="tc" data-t="397" href="https://youtu.be/9YBN42D-CN0?t=397s">6:37</a>. Вона адаптується до подій на ринку: побачили новину чи хвилю, на якій можна запустити щось класне, — змінюєте стратегію одразу, а не дописуєте пункт у кінець roadmap <a class="tc" data-t="420" href="https://youtu.be/9YBN42D-CN0?t=420s">7:00</a>. Тому стратегія має складатися з блоків, які можна дістати й замінити.</p>
+    <p>Далі — позиціонування: від нього залежить, що люди думають про ваш продукт. Один і той самий продукт можна подати як зрозумілий для B2C або так, що B2C-аудиторія вирішить «це дорого, це для бізнесу» <a class="tc" data-t="495" href="https://youtu.be/9YBN42D-CN0?t=495s">8:15</a>. Лектор наводить слоган Trezor «The Inventors of Hardware Wallets» <a class="tc" data-t="465" href="https://youtu.be/9YBN42D-CN0?t=465s">7:45</a>. Потім — execution з адаптацією: від дрібних правок до повернення на етап планування <a class="tc" data-t="558" href="https://youtu.be/9YBN42D-CN0?t=558s">9:18</a>.</p>
+    <aside class="callout callout--tip"><p>Перші три кроки (план, стратегія, позиціонування) не повинні займати більше дня, а в сучасних реаліях — близько півтори години <a class="tc" data-t="528" href="https://youtu.be/9YBN42D-CN0?t=528s">8:48</a>.</p></aside>
+  </section>
+
+  <section id="icp">
+    <h2>Ideal customer profile <a class="tc" data-t="606" href="https://youtu.be/9YBN42D-CN0?t=606s">10:06</a></h2>
+    <p>Спершу треба визначити, для кого будується стратегія. ICP — це хто ці люди, які в них цілі й цінності: продавати можна, відштовхуючись від цілей або від цінностей <a class="tc" data-t="657" href="https://youtu.be/9YBN42D-CN0?t=657s">10:57</a>. Окремо — страхи, через які люди відвалюються: реєстрація на п’ять екранів, нудно, складно. Страхи проявляються по-різному на кожному етапі user journey <a class="tc" data-t="680" href="https://youtu.be/9YBN42D-CN0?t=680s">11:20</a>.</p>
+    <p>Приклад: для вас кнопка Connect Wallet звична, але для людей, які ніколи не чіпали крипту, вона не означає нічого, і навіть багато користувачів бірж її не бачили <a class="tc" data-t="720" href="https://youtu.be/9YBN42D-CN0?t=720s">12:00</a>.</p>
+    <p>Далі — які болі ви закриваєте і який success отримає людина. Якщо ви закриваєте біль, вона дякує. Якщо допомагаєте досягти мети — дякує двічі, бо біль можна вирішити, створивши п’ять нових <a class="tc" data-t="752" href="https://youtu.be/9YBN42D-CN0?t=752s">12:32</a>. Для цього в лектора є структурований фреймворк, який має викласти Ксенія на платформі.</p>
+    <p>Навіщо проходити його кілька разів: щоб ментальна модель закріпилась, як множення в стовпчик, яке потім робиш в умі <a class="tc" data-t="855" href="https://youtu.be/9YBN42D-CN0?t=855s">14:15</a>.</p>
+    <p>Профілі ділять на сегменти (гео, вік, навички). Лектор вважає, що це радше для Web 2.5, але нині майже кожен застосунок такий, тож до ринків і віку треба прив’язуватись, а не казати «ми у веб3, тому доступні всім» <a class="tc" data-t="942" href="https://youtu.be/9YBN42D-CN0?t=942s">15:42</a>. Профілів буде більше одного, і для кожного треба розписати ті самі пункти, тому зусиль більше <a class="tc" data-t="942" href="https://youtu.be/9YBN42D-CN0?t=942s">15:42</a>. Сегментувати варто широко: 20–30 років, а не 24 і 25 окремо <a class="tc" data-t="1490" href="https://youtu.be/9YBN42D-CN0?t=1490s">24:50</a>.</p>
+  </section>
+
+  <section id="vp">
+    <h2>Value proposition з чотирьох елементів <a class="tc" data-t="987" href="https://youtu.be/9YBN42D-CN0?t=987s">16:27</a></h2>
+    <p>Лектор формулює його як чотири «пазли» <a class="tc" data-t="987" href="https://youtu.be/9YBN42D-CN0?t=987s">16:27</a>:</p>
+    <ul>
+      <li>релевантність — наскільки продукт доречний для користувача;</li>
+      <li>бенефіт — що людина отримує <a class="tc" data-t="1023" href="https://youtu.be/9YBN42D-CN0?t=1023s">17:03</a>;</li>
+      <li>energy, або effort — зусилля, які вона витратила, щоб отримати бенефіт <a class="tc" data-t="1046" href="https://youtu.be/9YBN42D-CN0?t=1046s">17:26</a>;</li>
+      <li>ризик — наприклад, наскільки ризиковано вкладати гроші в DeFi-протокол <a class="tc" data-t="1079" href="https://youtu.be/9YBN42D-CN0?t=1079s">17:59</a>.</li>
+    </ul>
+    <p>Баланс ризику й винагороди визначає тип аудиторії. Хеджфондам і пенсійним фондам не підійде DeFi-стратегія зі 350% доходності, їм потрібне стабільне <a class="tc" data-t="1079" href="https://youtu.be/9YBN42D-CN0?t=1079s">17:59</a>.</p>
+  </section>
+
+  <section id="competitors">
+    <h2>Конкуренти для кожного профілю <a class="tc" data-t="1113" href="https://youtu.be/9YBN42D-CN0?t=1113s">18:33</a></h2>
+    <p>Конкурентів ви вже аналізували, тепер їх категоризують: хто націлений на інституціоналів, хто на B2C, хто на бізнес-ангелів <a class="tc" data-t="1139" href="https://youtu.be/9YBN42D-CN0?t=1139s">18:59</a>. У кожного профілю свої конкуренти, бо в різних людей різні запити й різний підхід до рішення, нести гроші чи ні <a class="tc" data-t="1160" href="https://youtu.be/9YBN42D-CN0?t=1160s">19:20</a>. Навіть інституціонали різні: регуляторика в Сінгапурі й у Дубаї відрізняється <a class="tc" data-t="1188" href="https://youtu.be/9YBN42D-CN0?t=1188s">19:48</a>.</p>
+    <p>Якщо ви обрали кілька ніш, то в кожній ніші — свої конкуренти й свої профілі, і value proposition формується для кожного <a class="tc" data-t="1222" href="https://youtu.be/9YBN42D-CN0?t=1222s">20:22</a>. Тоді повертаєтесь і питаєте себе: чи даю я цій аудиторії value, якщо в мене такі конкуренти? Приклад лектора: у вас 6% річних, а конкуренти дають 6,5%, — у цій ніші для цього типу аудиторії value proposition у вас немає <a class="tc" data-t="1267" href="https://youtu.be/9YBN42D-CN0?t=1267s">21:07</a>, <a class="tc" data-t="1330" href="https://youtu.be/9YBN42D-CN0?t=1330s">22:10</a>.</p>
+    <aside class="callout callout--tip"><p>Замість того щоб вигадувати, як зробити 7%, часто простіше вирізати цей тип користувачів і цей тип конкурентів та сфокусуватись на конкретному напрямі <a class="tc" data-t="1521" href="https://youtu.be/9YBN42D-CN0?t=1521s">25:21</a>.</p></aside>
+    <p>Лектор зазначає, що так може відпасти половина початкових планів, і це нормально <a class="tc" data-t="1557" href="https://youtu.be/9YBN42D-CN0?t=1557s">25:57</a>. Якщо ж ринок малоконкурентний, питання в тому, як онбордити людей, які ніколи не користувались таким продуктом <a class="tc" data-t="1348" href="https://youtu.be/9YBN42D-CN0?t=1348s">22:28</a>.</p>
+    <p><strong>Швидкий гайд, як заробляти</strong> <a class="tc" data-t="1380" href="https://youtu.be/9YBN42D-CN0?t=1380s">23:00</a>: якщо ви вирішуєте проблеми користувачів, ви заробляєте з того, що вони отримують. Проблемою може бути і нудьга, і страх. Інколи люди самі не знають, що в них болить, і їм про це треба розповісти, але проблем, яких немає, вигадувати не можна <a class="tc" data-t="1401" href="https://youtu.be/9YBN42D-CN0?t=1401s">23:21</a>. А ще люди бояться переходити на нові рішення, бо звикли до незручного старого <a class="tc" data-t="1434" href="https://youtu.be/9YBN42D-CN0?t=1434s">23:54</a>.</p>
+  </section>
+
+  <section id="smart">
+    <h2>SMART-цілі <a class="tc" data-t="1606" href="https://youtu.be/9YBN42D-CN0?t=1606s">26:46</a></h2>
+    <p>Ціль має бути конкретною, вимірюваною, досяжною, релевантною й обмеженою в часі <a class="tc" data-t="1637" href="https://youtu.be/9YBN42D-CN0?t=1637s">27:17</a>. «Стану богом за три дні» не підходить; не варто сподіватись, що після одного відео прокинешся з мільйоном підписників <a class="tc" data-t="1676" href="https://youtu.be/9YBN42D-CN0?t=1676s">27:56</a>.</p>
+    <aside class="callout callout--tip"><p>Не став простих цілей. Ефективно, якщо ви виконуєте хоча б 60–70% дуже складних цілей: решта 30% на те й складні, їх можна догнати наступного місяця <a class="tc" data-t="1724" href="https://youtu.be/9YBN42D-CN0?t=1724s">28:44</a>.</p></aside>
+    <p>Навколо чого ставити цілі: майже завжди — наявність аудиторії, онбординг і retention. Нову фічу, яку ніхто не просив, будувати не треба, хоч усі її люблять; працюючий продукт масштабуйте за фідбеком, валідацією чи базовими метриками <a class="tc" data-t="1769" href="https://youtu.be/9YBN42D-CN0?t=1769s">29:29</a>.</p>
+  </section>
+
+  <section id="funnel">
+    <h2>Воронка: awareness, consideration, retention <a class="tc" data-t="1841" href="https://youtu.be/9YBN42D-CN0?t=1841s">30:41</a></h2>
+    <p>Лектор описує воронку як шлях від того, що люди дізналися про продукт, до того, що вони повзаємодіяли, вирішили, що він їм потрібен, купили, адаптували в життя і продовжують платити. Далі — retention і expansion, коли люди розповідають друзям <a class="tc" data-t="1841" href="https://youtu.be/9YBN42D-CN0?t=1841s">30:41</a>, <a class="tc" data-t="1888" href="https://youtu.be/9YBN42D-CN0?t=1888s">31:28</a>.</p>
+    <p>Для кожного ринку воронка працює по-різному. Приклад: людина півтора роки тримає в збережених костюм, який хотіла купити, і досі на етапі consideration. Тому у безкоштовних ігор, підписок і всього подібного головна проблема — перехід від consideration до purchase <a class="tc" data-t="1949" href="https://youtu.be/9YBN42D-CN0?t=1949s">32:29</a>. Тут і працює value proposition: бенефіт більший за зусилля, ризик прийнятний <a class="tc" data-t="2033" href="https://youtu.be/9YBN42D-CN0?t=2033s">33:53</a>.</p>
+    <aside class="callout callout--info"><p>Три питання воронки <a class="tc" data-t="2090" href="https://youtu.be/9YBN42D-CN0?t=2090s">34:50</a>: 1) awareness — як люди про вас дізнаються; 2) consideration to purchase — що змусить їх купити; 3) retention — як їх утримати. Рецепту лектор не дає: продукти унікальні, і придумати це — задача фаундерів <a class="tc" data-t="2070" href="https://youtu.be/9YBN42D-CN0?t=2070s">34:30</a>.</p></aside>
+    <p>Від ICP залежить довжина циклу угоди: інвесторам з мільярдами під управлінням потрібно довше й глибше пояснити value proposition, а за два ключі від скрині в мобільній грі за 30 гривень ніхто довго не думає. Вибір ваш: один продаж на мільйон доларів чи мільйон продажів по долару <a class="tc" data-t="2165" href="https://youtu.be/9YBN42D-CN0?t=2165s">36:05</a>. Про retention лектор додає з власного досвіду, що навіть після кількох покупок можна кинути гру, але утримання — окрема механіка <a class="tc" data-t="2207" href="https://youtu.be/9YBN42D-CN0?t=2207s">36:47</a>.</p>
+    <p>Де шукати кейси під свою нішу: попросити ChatGPT або Claude розповісти, що цікавого відбувалось у цій ніші раніше. Якщо це не підходить — піти в книгарню у відділ бізнес-літератури й прочитати п’ять сторінок про релевантну компанію <a class="tc" data-t="2309" href="https://youtu.be/9YBN42D-CN0?t=2309s">38:29</a>.</p>
+  </section>
+
+  <section id="creative">
+    <h2>Creative direction <a class="tc" data-t="2413" href="https://youtu.be/9YBN42D-CN0?t=2413s">40:13</a></h2>
+    <p>На кожному етапі воронки треба визначити creative direction. Просто пояснити його складно, але суть така: емоції розблокують лояльність до бренду, тож ваша задача викликати емоцію <a class="tc" data-t="2413" href="https://youtu.be/9YBN42D-CN0?t=2413s">40:13</a>. Вона може бути хорошою, поганою чи нейтральною; працюють і «що тут відбувається?», і «вау, хочу спробувати», конверсії можуть не сильно відрізнятися <a class="tc" data-t="2437" href="https://youtu.be/9YBN42D-CN0?t=2437s">40:37</a>, <a class="tc" data-t="2473" href="https://youtu.be/9YBN42D-CN0?t=2473s">41:13</a>.</p>
+    <p>Пізніше, на прикладі шаблону, лектор розкладає creative direction на частини: бренд (identity, tone of voice, місія, цінності) <a class="tc" data-t="5442" href="https://youtu.be/9YBN42D-CN0?t=5442s">1:30:42</a>, сторилайн (конфлікт або запит до людини) <a class="tc" data-t="5472" href="https://youtu.be/9YBN42D-CN0?t=5472s">1:31:12</a>, vision, або turning point, — підтвердження, що це працює <a class="tc" data-t="5493" href="https://youtu.be/9YBN42D-CN0?t=5493s">1:31:33</a>, і call to action <a class="tc" data-t="5518" href="https://youtu.be/9YBN42D-CN0?t=5518s">1:31:58</a>.</p>
+    <aside class="callout callout--warning"><p>«Thank you» наприкінці пітчдеку — не call to action. Якщо мені подякували, я подякував у відповідь і забув про проєкт; якщо сказали «іди спробуй на сайті», дія з’являється <a class="tc" data-t="5518" href="https://youtu.be/9YBN42D-CN0?t=5518s">1:31:58</a>. Для постів — hook, підтвердження сказаного в ньому і call to action в правильному тоні й на правильній платформі: на LinkedIn «дарова, братанчик» не підійде <a class="tc" data-t="5556" href="https://youtu.be/9YBN42D-CN0?t=5556s">1:32:36</a>.</p></aside>
+    <p>Про місію лектор уточнює: заробити гроші — прекрасна місія, але пам’ятайте й про public goods <a class="tc" data-t="5586" href="https://youtu.be/9YBN42D-CN0?t=5586s">1:33:06</a>.</p>
+  </section>
+
+  <section id="aarrr">
+    <h2>Martech і AARRR: як трекати воронку <a class="tc" data-t="2541" href="https://youtu.be/9YBN42D-CN0?t=2541s">42:21</a></h2>
+    <p>Після того як для себе все визначили, потрібно перевірити ще раз і обрати інструменти <a class="tc" data-t="2541" href="https://youtu.be/9YBN42D-CN0?t=2541s">42:21</a>. Лектор Galxe не використовував би: це платформа квестів, і, на його думку, цільової аудиторії там немає. Cookie3, за його словами, перепрофілювався, але лишається непоганою платформою <a class="tc" data-t="2608" href="https://youtu.be/9YBN42D-CN0?t=2608s">43:28</a>. Класичні соцмережі теж належать до martech tools <a class="tc" data-t="2638" href="https://youtu.be/9YBN42D-CN0?t=2638s">43:58</a>.</p>
+    <aside class="callout callout--warning"><p>Martech tools — це не стратегія. Не робіть слайдів на кшталт «онбордитимемо людей через квести на Galxe»: невідомо, скільки, як і з якою метою <a class="tc" data-t="2638" href="https://youtu.be/9YBN42D-CN0?t=2638s">43:58</a>, <a class="tc" data-t="2671" href="https://youtu.be/9YBN42D-CN0?t=2671s">44:31</a>.</p></aside>
+    <p>Для трекінгу лектор радить фреймворк AARRR («піратський»), який частково горизонтальний, на відміну від вертикальної воронки <a class="tc" data-t="2717" href="https://youtu.be/9YBN42D-CN0?t=2717s">45:17</a>. Усі вісім елементів можна спростити до шести: awareness, acquisition, activation, revenue, referral, retention <a class="tc" data-t="2817" href="https://youtu.be/9YBN42D-CN0?t=2817s">46:57</a>. Acquisition і activation часто об’єднують, бо купують уже користуючись. Referral і retention можуть мінятися місцями залежно від продукту: іноді люди спершу повертаються, іноді спершу запрошують друзів за бонуси <a class="tc" data-t="2864" href="https://youtu.be/9YBN42D-CN0?t=2864s">47:44</a>.</p>
+    <p>На кожному етапі потрібно визначити <a class="tc" data-t="2912" href="https://youtu.be/9YBN42D-CN0?t=2912s">48:32</a>:</p>
+    <ul>
+      <li>learning objectives — що людина має дізнатися, спробувати й побачити, щоб перейти далі;</li>
+      <li>traction tactics — як ви з нею взаємодієте і до якої дії підштовхуєте <a class="tc" data-t="2938" href="https://youtu.be/9YBN42D-CN0?t=2938s">48:58</a>; для натхнення лектор радить серіал «Менталіст» <a class="tc" data-t="3005" href="https://youtu.be/9YBN42D-CN0?t=3005s">50:05</a>;</li>
+      <li>метрики конверсії: наприклад, десять людей дізналися, п’ятеро повзаємодіяли, двоє перейшли далі, тобто 20% <a class="tc" data-t="3035" href="https://youtu.be/9YBN42D-CN0?t=3035s">50:35</a>.</li>
+    </ul>
+    <p>Метрики за етапами, які лектор наводить як приклад <a class="tc" data-t="3063" href="https://youtu.be/9YBN42D-CN0?t=3063s">51:03</a>: awareness — лайки й заходи в профіль; acquisition — візити на сайт і підключені гаманці; activation — скільки грошей закинули в протокол; revenue — скільки ви на цьому заробили; referral і retention — скільки людей лишається з вами, churn rate, lifetime value <a class="tc" data-t="3089" href="https://youtu.be/9YBN42D-CN0?t=3089s">51:29</a>. Гроші на майбутнє рахувати лектор не радить <a class="tc" data-t="3063" href="https://youtu.be/9YBN42D-CN0?t=3063s">51:03</a>.</p>
+    <p>Порада: згенерувати будь-яку випадкову ідею й пройти фреймворк кілька разів, щоб він осів у голові <a class="tc" data-t="3132" href="https://youtu.be/9YBN42D-CN0?t=3132s">52:12</a>.</p>
+  </section>
+
+  <section id="slide">
+    <h2>Приклад GTM-слайду <a class="tc" data-t="3179" href="https://youtu.be/9YBN42D-CN0?t=3179s">52:59</a></h2>
+    <p>Слайд, за словами лектора, трохи перевантажений, зате не згенерований AI <a class="tc" data-t="3179" href="https://youtu.be/9YBN42D-CN0?t=3179s">52:59</a>. Що в ньому є: він таймбаунд, з конкретними цілями на конкретні етапи <a class="tc" data-t="3179" href="https://youtu.be/9YBN42D-CN0?t=3179s">52:59</a>; показує етапи розвитку продукту <a class="tc" data-t="3197" href="https://youtu.be/9YBN42D-CN0?t=3197s">53:17</a>; для кожного етапу — як онбордяться користувачі (у прикладі через KOL і мережу селебрітіс, бо це робота з інтелектуальною власністю в кіно) і як онбордяться B2B-клієнти — медіакомпанії й стрімінгові платформи <a class="tc" data-t="3220" href="https://youtu.be/9YBN42D-CN0?t=3220s">53:40</a>. Окремо — таргети: скільки токенізованих об’єктів, скільки щомісячних активних користувачів, скільки зібрати під фонд <a class="tc" data-t="3267" href="https://youtu.be/9YBN42D-CN0?t=3267s">54:27</a>; що саме робитимете на кожній платформі <a class="tc" data-t="3297" href="https://youtu.be/9YBN42D-CN0?t=3297s">54:57</a>; і фінальний таргет з наступними кроками.</p>
+    <aside class="callout callout--warning"><p>Не розписуйте всю стратегію на одному слайді. Краще показати цілі, словами розповісти, що робитимете, і показати, що розумієте, як це виконати, ніж видати все так, щоб будь-хто міг це виконати замість вас <a class="tc" data-t="3327" href="https://youtu.be/9YBN42D-CN0?t=3327s">55:27</a>.</p></aside>
+    <p>Формат вільний: коло, воронка з діями на кожному етапі чи маркетинговий roadmap <a class="tc" data-t="3371" href="https://youtu.be/9YBN42D-CN0?t=3371s">56:11</a>. А от типове PowerPoint-коло з чотирма елементами, якщо його лише переоформити через AI, однаково виглядатиме погано. Не пишіть «онбордимо сто тисяч людей, вони заплатять по десять доларів» <a class="tc" data-t="3400" href="https://youtu.be/9YBN42D-CN0?t=3400s">56:40</a>.</p>
+  </section>
+
+  <section id="positioning">
+    <h2>Позиціонування <a class="tc" data-t="3437" href="https://youtu.be/9YBN42D-CN0?t=3437s">57:17</a></h2>
+    <p>Лектор наводить думку, що позиціонування буває важливішим за продукт: є кейси, коли продукт з правильним позиціонуванням перемагав сильніший технічно, бо його вдалося продати <a class="tc" data-t="3456" href="https://youtu.be/9YBN42D-CN0?t=3456s">57:36</a>. Місце позиціонування в плані <a class="tc" data-t="3494" href="https://youtu.be/9YBN42D-CN0?t=3494s">58:14</a>: коли є ніші, профілі, сегменти й value proposition і ви відсіяли конкурентів, треба вирішити, що ви кажете людям про себе.</p>
+    <p><strong>Два підходи</strong> <a class="tc" data-t="3562" href="https://youtu.be/9YBN42D-CN0?t=3562s">59:22</a>:</p>
+    <ul>
+      <li>візіонер у чомусь складному. Потрібен strategic foresight, увага до time-to-market і складності product-market fit, самостійне вивчення теми. Слово «redefining» використовувати не слід <a class="tc" data-t="3562" href="https://youtu.be/9YBN42D-CN0?t=3562s">59:22</a>, <a class="tc" data-t="3611" href="https://youtu.be/9YBN42D-CN0?t=3611s">1:00:11</a>;</li>
+      <li>експерт у чомусь простому. Приклад — Pump.fun: вони побудували складну інфраструктуру, у якій будь-хто кількома кліками купує й створює мемкоїн. Лектор каже, що вони генерували понад 125 мільйонів на місяць <a class="tc" data-t="3661" href="https://youtu.be/9YBN42D-CN0?t=3661s">1:01:01</a>, <a class="tc" data-t="3694" href="https://youtu.be/9YBN42D-CN0?t=3694s">1:01:34</a>.</li>
+    </ul>
+    <p><strong>Базові слова</strong> <a class="tc" data-t="3772" href="https://youtu.be/9YBN42D-CN0?t=3772s">1:02:52</a>. Це найпростіший спосіб пояснити, про що продукт, і фактично ваш елеватор-пітч. Приклад: «Airbnb у крипті, де можна платити криптою і дешевше». Альтернатива — назвати те, що робите, популярними словами: AI, робототехніка, «реп» замість «палиць, що розповсюджують електромагнітні хвилі» <a class="tc" data-t="3812" href="https://youtu.be/9YBN42D-CN0?t=3812s">1:03:32</a>, <a class="tc" data-t="3833" href="https://youtu.be/9YBN42D-CN0?t=3833s">1:03:53</a>. Ваша задача — баланс між частими й рідкісними словами та зрозумілий приклад кількома реченнями <a class="tc" data-t="3833" href="https://youtu.be/9YBN42D-CN0?t=3833s">1:03:53</a>.</p>
+    <p><strong>Кейс Karak</strong> <a class="tc" data-t="3924" href="https://youtu.be/9YBN42D-CN0?t=3924s">1:05:24</a>: спочатку L2-блокчейн, потім широкий напрям з багатьма нішами, рестейкінг, AI, інфраструктура, модульність; залишилися security й risk management, а їх потребують держави, тож компанія пішла до nation states <a class="tc" data-t="3952" href="https://youtu.be/9YBN42D-CN0?t=3952s">1:05:52</a>. Лектор не знає, чи проєкт ще живий, але гроші в проєктів, що працюють із державами, за його спостереженнями, є <a class="tc" data-t="3971" href="https://youtu.be/9YBN42D-CN0?t=3971s">1:06:11</a>. Висновок: можна почати з широкого позиціонування, але бажано звузити до зрозумілого й адекватного.</p>
+    <aside class="callout callout--warning"><p>Чого уникати <a class="tc" data-t="4010" href="https://youtu.be/9YBN42D-CN0?t=4010s">1:06:50</a>: «revolutionising» і подібних слів, старих мертвих термінів на кшталт метавсесвіту й DAO. Ви не можете бути першим і єдиним у своєму роді: якщо так здається, конкурентний аналіз проведено погано <a class="tc" data-t="4058" href="https://youtu.be/9YBN42D-CN0?t=4058s">1:07:38</a>. Навіть якщо ви справді щось змінюєте, писати про це не варто: це звучить як претензія до індустрії, а продавець пилососа, який каже, що в тебе брудно, нічого не продасть <a class="tc" data-t="4072" href="https://youtu.be/9YBN42D-CN0?t=4072s">1:07:52</a>. Не кажіть, що ви кращі в усьому: якщо в чомусь кращі, то в чомусь гірші, як у трилемі блокчейну <a class="tc" data-t="4147" href="https://youtu.be/9YBN42D-CN0?t=4147s">1:09:07</a>.</p></aside>
+  </section>
+
+  <section id="levels">
+    <h2>Три рівні позиціонування і key messages <a class="tc" data-t="4393" href="https://youtu.be/9YBN42D-CN0?t=4393s">1:13:13</a></h2>
+    <p>Позиціонування має читатись одразу на кількох рівнях <a class="tc" data-t="4393" href="https://youtu.be/9YBN42D-CN0?t=4393s">1:13:13</a>:</p>
+    <ol>
+      <li>high-level: п’ятирічна дитина зрозуміла, що «вони будують щось з AI», базові слова на місці;</li>
+      <li>mid-level: людина, яка трохи в темі, розуміє «DeFi-агрегатор»;</li>
+      <li>deep-level: для «душнілів», у документації, на кшталт інфраструктури для market-making чи неатомарного кросчейн-арбітражу <a class="tc" data-t="4450" href="https://youtu.be/9YBN42D-CN0?t=4450s">1:14:10</a>.</li>
+    </ol>
+    <p>На основі цих трьох типів, окремо для кожної аудиторії, формуються key messages, які ви потім транслюєте через creative direction <a class="tc" data-t="4450" href="https://youtu.be/9YBN42D-CN0?t=4450s">1:14:10</a>, <a class="tc" data-t="4719" href="https://youtu.be/9YBN42D-CN0?t=4719s">1:18:39</a>. Лектор зауважує, що deep-рівня має не кожен продукт; простому продукту він не потрібен <a class="tc" data-t="5381" href="https://youtu.be/9YBN42D-CN0?t=5381s">1:29:41</a>. Одну стислу версію можна винести в шапку Твіттера <a class="tc" data-t="5410" href="https://youtu.be/9YBN42D-CN0?t=5410s">1:30:10</a>.</p>
+  </section>
+
+  <section id="retention">
+    <h2>Retention: підписки, реклама, довгі механіки <a class="tc" data-t="4531" href="https://youtu.be/9YBN42D-CN0?t=4531s">1:15:31</a></h2>
+    <p>Після продажу потрібно, щоб людина залишалась. Приклади лектора: виробники випускають нові моделі, покращують безпеку, додають функції <a class="tc" data-t="4540" href="https://youtu.be/9YBN42D-CN0?t=4540s">1:15:40</a>. На BMW певного дня після запуску машини показувалась тривала реклама нового фільму про Людину-павука, яку не можна було пропустити, і про це всі дізналися: великий кейс дистрибуції <a class="tc" data-t="4557" href="https://youtu.be/9YBN42D-CN0?t=4557s">1:15:57</a>, <a class="tc" data-t="4593" href="https://youtu.be/9YBN42D-CN0?t=4593s">1:16:33</a>. Інші виробники обмежують у машині функції (підігрів, автопілот), поки не оплачена підписка <a class="tc" data-t="4633" href="https://youtu.be/9YBN42D-CN0?t=4633s">1:17:13</a>.</p>
+    <p>Є й механіки на двадцять років, як-от день народження в McDonald’s, що формує лояльність у дорослому віці. Але щоб думати на двадцять років, спершу треба вижити, тобто мати sustainable business <a class="tc" data-t="4694" href="https://youtu.be/9YBN42D-CN0?t=4694s">1:18:14</a>.</p>
+  </section>
+
+  <section id="living">
+    <h2>GTM як живий артефакт і user journey <a class="tc" data-t="4719" href="https://youtu.be/9YBN42D-CN0?t=4719s">1:18:39</a></h2>
+    <p>Лектор підсумовує, як усе зв’язане <a class="tc" data-t="4719" href="https://youtu.be/9YBN42D-CN0?t=4719s">1:18:39</a>: три рівні позиціонування, key messages, які транслюються через creative direction, воронка (awareness, перехід від consideration до purchase, утримання). Для цілей — SMART і KPI, для трекінгу — AARRR, окремо — інструменти.</p>
+    <p>Бажано ще раз перевірити через user journey map: куди людина клікає далі й що робить. AARRR теж динамічний артефакт, який треба покращувати <a class="tc" data-t="4772" href="https://youtu.be/9YBN42D-CN0?t=4772s">1:19:32</a>. Приклад: іноді кнопку зсувають на два пікселі, бо людина з дуже довгим монітором і низькою чутливістю мишки просто не дотягується до кнопки Connect Wallet <a class="tc" data-t="4792" href="https://youtu.be/9YBN42D-CN0?t=4792s">1:19:52</a>.</p>
+    <blockquote class="quote"><p>Тепер ви розумієте свою аудиторію, як вона взаємодіє з вашим продуктом… і розумієте, як заробляти гроші за швидким гайдом.</p></blockquote>
+    <p>Цитата — <a class="tc" data-t="4882" href="https://youtu.be/9YBN42D-CN0?t=4882s">1:21:22</a>. Лектор додає: усе сказане базується на його досвіді, власне дослідження провести треба в будь-якому разі; робіть те, що любите, інакше вигорите <a class="tc" data-t="4900" href="https://youtu.be/9YBN42D-CN0?t=4900s">1:21:40</a>. З першого разу не вийде, фреймворк важкий: мрійте, будуйте й повторюйте, поки не дійде до автоматизму <a class="tc" data-t="4931" href="https://youtu.be/9YBN42D-CN0?t=4931s">1:22:11</a>.</p>
+  </section>
+
+  <section id="template">
+    <h2>Шаблон фреймворку: ICP, value proposition, journey map <a class="tc" data-t="5129" href="https://youtu.be/9YBN42D-CN0?t=5129s">1:25:29</a></h2>
+    <p>Наприкінці лектор показує таблицю-шаблон; Ксенія має закинути її учасникам. Простіші GTM-фреймворки (з демографією й психографією) для вебтри не дуже підходять, тому він показує власний <a class="tc" data-t="5173" href="https://youtu.be/9YBN42D-CN0?t=5173s">1:26:13</a>.</p>
+    <ul>
+      <li>Коротка версія карточками: market need, сегменти клієнтів, value proposition, конкурентний ландшафт, відносини з клієнтом <a class="tc" data-t="5222" href="https://youtu.be/9YBN42D-CN0?t=5222s">1:27:02</a>. Далі GTM-стратегія: цілі, KPI, канали, меседжі, creative direction, martech <a class="tc" data-t="5222" href="https://youtu.be/9YBN42D-CN0?t=5222s">1:27:02</a>.</li>
+      <li>ICP розбиваються на персони зі страхами, болями, гео, use cases <a class="tc" data-t="5267" href="https://youtu.be/9YBN42D-CN0?t=5267s">1:27:47</a>. Value proposition випливає з market need кожної персони <a class="tc" data-t="5303" href="https://youtu.be/9YBN42D-CN0?t=5303s">1:28:23</a>.</li>
+      <li>Таблиця конкурентів: хто для конкретної персони закриває конкретну проблему і в чому ви краще. Якщо ні в чому — персону прибирають <a class="tc" data-t="5323" href="https://youtu.be/9YBN42D-CN0?t=5323s">1:28:43</a>, <a class="tc" data-t="5351" href="https://youtu.be/9YBN42D-CN0?t=5351s">1:29:11</a>.</li>
+      <li>Позиціонування: key messages і три рівні <a class="tc" data-t="5351" href="https://youtu.be/9YBN42D-CN0?t=5351s">1:29:11</a>.</li>
+      <li>Martech: CRM, аналітика, email, автоматизація, реклама; поряд із SEO з’явилось IEO, щоб вас називали AI-системи, але це пізніші етапи <a class="tc" data-t="5599" href="https://youtu.be/9YBN42D-CN0?t=5599s">1:33:19</a>. Базові канали: Twitter, Discord, Telegram, LinkedIn <a class="tc" data-t="5643" href="https://youtu.be/9YBN42D-CN0?t=5643s">1:34:03</a>.</li>
+      <li>Customer journey map: на кожному кроці точка входу, емоційна точка, дії, ризики відвалу і що робить, щоб людина рухалась далі <a class="tc" data-t="5662" href="https://youtu.be/9YBN42D-CN0?t=5662s">1:34:22</a>. Жарт-приклад: після 5 секунд на сайті за курсором літає кнопка Connect Wallet <a class="tc" data-t="5699" href="https://youtu.be/9YBN42D-CN0?t=5699s">1:34:59</a>.</li>
+    </ul>
+    <p>Лектор радить допрацьовувати шаблон під свій продукт і не боятись спрощувати <a class="tc" data-t="5733" href="https://youtu.be/9YBN42D-CN0?t=5733s">1:35:33</a>, <a class="tc" data-t="5766" href="https://youtu.be/9YBN42D-CN0?t=5766s">1:36:06</a>. Розбір пітчів на цій лекції не відбувся: учасник, який хотів питчити, вже пішов <a class="tc" data-t="5005" href="https://youtu.be/9YBN42D-CN0?t=5005s">1:23:25</a>.</p>
+  </section>
+
+  <section id="tools">
+    <h2>Інструменти, які згадує лектор</h2>
+    <div class="table-scroll"><table>
+      <thead><tr><th>Інструмент</th><th>Для чого радить лектор</th><th>Таймкод</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://miro.com/" target="_blank" rel="noopener">Miro</a></td><td>Записувати план виходу на ринок; сам лектор користується ним для планування.</td><td><a class="tc" data-t="351" href="https://youtu.be/9YBN42D-CN0?t=351s">5:51</a></td></tr>
+        <tr><td><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a> і <a href="https://claude.com/" target="_blank" rel="noopener">Claude</a></td><td>Попросити розповісти кейси з вашої ніші, щоб побачити, що в ній вже відбувалось.</td><td><a class="tc" data-t="2309" href="https://youtu.be/9YBN42D-CN0?t=2309s">38:29</a></td></tr>
+        <tr><td><a href="https://galxe.com/" target="_blank" rel="noopener">Galxe</a></td><td>Платформа квестів; лектор її не використовував би.</td><td><a class="tc" data-t="2608" href="https://youtu.be/9YBN42D-CN0?t=2608s">43:28</a></td></tr>
+        <tr><td><a href="https://zealy.io/" target="_blank" rel="noopener">Zealy</a></td><td>Ще одна квест-платформа, згадана поруч із Galxe.</td><td><a class="tc" data-t="2608" href="https://youtu.be/9YBN42D-CN0?t=2608s">43:28</a></td></tr>
+        <tr><td><a href="https://www.cookie3.com/" target="_blank" rel="noopener">Cookie3</a></td><td>Перепрофілювалась, але лишається непоганою платформою; згадувалась на чекпоінтах.</td><td><a class="tc" data-t="2608" href="https://youtu.be/9YBN42D-CN0?t=2608s">43:28</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="homework" class="homework">
+    <h2>Повторити самостійно</h2>
+    <ol>
+      <li>Нового домашнього завдання на цій лекції не було. Учасник спитав про вже задану домашку з GTM-слайдом; лектор відповів, що робити слайд точно як показаний не потрібно: його можна використати як референс чи натхнення <a class="tc" data-t="5047" href="https://youtu.be/9YBN42D-CN0?t=5047s">1:24:07</a>, <a class="tc" data-t="5057" href="https://youtu.be/9YBN42D-CN0?t=5057s">1:24:17</a>. Слайд можна переробити й надіслати лектору та Дімі або лишити як є <a class="tc" data-t="5099" href="https://youtu.be/9YBN42D-CN0?t=5099s">1:24:59</a>.</li>
+      <li>Пройдіть по порядку: профіль ідеального клієнта, його страхи, болі й success <a class="tc" data-t="606" href="https://youtu.be/9YBN42D-CN0?t=606s">10:06</a>, <a class="tc" data-t="752" href="https://youtu.be/9YBN42D-CN0?t=752s">12:32</a>.</li>
+      <li>Сформулюйте value proposition по чотирьох елементах і порівняйте його з конкурентами; якщо ви гірші, виріжте цей сегмент <a class="tc" data-t="987" href="https://youtu.be/9YBN42D-CN0?t=987s">16:27</a>, <a class="tc" data-t="1521" href="https://youtu.be/9YBN42D-CN0?t=1521s">25:21</a>.</li>
+      <li>Поставте SMART-цілі й закладіть, що виконаєте 60–70% <a class="tc" data-t="1637" href="https://youtu.be/9YBN42D-CN0?t=1637s">27:17</a>, <a class="tc" data-t="1724" href="https://youtu.be/9YBN42D-CN0?t=1724s">28:44</a>.</li>
+      <li>Опишіть воронку й для кожного з трьох питань придумайте свою механіку <a class="tc" data-t="2090" href="https://youtu.be/9YBN42D-CN0?t=2090s">34:50</a>.</li>
+      <li>Складіть для кожного етапу AARRR learning objectives, traction tactics і метрики <a class="tc" data-t="2912" href="https://youtu.be/9YBN42D-CN0?t=2912s">48:32</a>, <a class="tc" data-t="3063" href="https://youtu.be/9YBN42D-CN0?t=3063s">51:03</a>.</li>
+      <li>Опишіть позиціонування на трьох рівнях і key messages; уникайте слів «revolutionising» і подібних <a class="tc" data-t="4010" href="https://youtu.be/9YBN42D-CN0?t=4010s">1:06:50</a>, <a class="tc" data-t="4393" href="https://youtu.be/9YBN42D-CN0?t=4393s">1:13:13</a>.</li>
+      <li>Пройдіть увесь фреймворк кілька разів на довільній ідеї, щоб він запам’ятався <a class="tc" data-t="3132" href="https://youtu.be/9YBN42D-CN0?t=3132s">52:12</a>.</li>
+    </ol>
+  </section>
+
+  <section id="checklist" class="checklist">
+    <h2>Коротко: чекліст</h2>
+    <ol>
+      <li>GTM — це launch, sell, retain; про retention не забувайте.</li>
+      <li>Стратегія динамічна: її змінюють, а не дописують у кінець roadmap.</li>
+      <li>План, стратегія й позиціонування — близько півтори години, не день і не тиждень.</li>
+      <li>Опишіть ICP: цілі, цінності, страхи, болі.</li>
+      <li>Value proposition складається з релевантності, бенефіту, зусиль і ризику.</li>
+      <li>Порівняйте свій value з конкурентами й виріжте сегменти, де ви програєте.</li>
+      <li>SMART-цілі: виконання 60–70% складних цілей — нормальний результат.</li>
+      <li>Воронка ставить три питання: awareness, consideration to purchase, retention.</li>
+      <li>Martech tools — не стратегія.</li>
+      <li>AARRR: на кожному етапі learning objectives, traction tactics і метрики.</li>
+      <li>Позиціонування: візіонер у складному або експерт у простому.</li>
+      <li>Пишіть так, щоб текст читався на трьох рівнях: від п’ятирічної дитини до «душніла».</li>
+      <li>Не пишіть «revolutionising», не кажіть, що ви перші й кращі в усьому.</li>
+      <li>Не розписуйте всю стратегію на одному слайді, показуйте цілі й розуміння, як їх виконати.</li>
+      <li>Власний ресерч обов’язковий, а фреймворк треба проходити кілька разів.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Джерело: <a href="https://youtu.be/9YBN42D-CN0">запис лекції «SST - GTM - Nick» на YouTube</a> — Solana Startup Terminal 2.0, 22.09.2026.</p>
+  <p>Конспект зроблено на основі машинної розшифровки запису; формулювання лектора передано близько до сказаного. Назви інструментів і проєктів у розшифровці часто спотворені — їх відновлено за контекстом.</p>
+  <p>Концепт сторінки — Alex, учасник програми.</p>
+</footer>
+
+</body>
+</html>
