@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>AI у побудові проєкту — конспект</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #001020;
+    --surface: #061b30;
+    --blue: #0367c8;
+    --light-blue: #8cc6ff;
+    --yellow: #ffea00;
+    --text: #d2dfec;
+    --muted: #a6bbcf;
+    --line: #274057;
+    font-family: "Manrope", sans-serif;
+    background: var(--page);
+    color: var(--text);
+    font-synthesis: none;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    width: min(1240px, calc(100% - 64px));
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+  }
+  ::selection { color: var(--page); background: var(--light-blue); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 5px; }
+  a { color: var(--light-blue); text-underline-offset: .22em; }
+  a:hover { color: #fff; }
+  h1, h2 { font-family: "Unbounded", sans-serif; color: #f6f9ff; font-weight: 600; }
+  p { margin: 0 0 1.25em; }
+  strong { color: #f3f7fc; font-weight: 800; }
+
+  .lesson-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 0 0 18px; font-size: 13px; }
+  .lesson-nav a { color: var(--light-blue); text-decoration: none; }
+  .lesson-nav a:hover { text-decoration: underline; }
+  .lesson-nav a[aria-current] { color: var(--muted); pointer-events: none; }
+  .concept-note {
+    position: relative;
+    padding: 22px 0 22px 22px;
+    color: #b9cadb;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .concept-note::before {
+    content: "";
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+
+  /* A perforated lesson ticket, with no invented ticket data. */
+  .lesson-hero {
+    --inset: clamp(24px, 4.2vw, 56px);
+    padding: var(--inset);
+    border: 1px solid #294967;
+    border-radius: 36px;
+    background: #00203f;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--light-blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .035em;
+  }
+  .eyebrow::before {
+    content: "";
+    flex: 0 0 24px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--yellow);
+  }
+  .lesson-hero h1 {
+    max-width: 1080px;
+    margin: 0 0 24px;
+    font-size: clamp(28px, 4.1vw, 54px);
+    line-height: 1.22;
+    letter-spacing: -.04em;
+    text-wrap: balance;
+  }
+  .lead { max-width: 80ch; margin: 0; color: #bdcfe1; font-size: 16px; line-height: 1.75; }
+  .lesson-meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 32px calc(-1 * var(--inset)) calc(-1 * var(--inset));
+    padding: 22px var(--inset) 26px;
+    border-top: 1px dashed #53718c;
+    list-style: none;
+  }
+  .lesson-meta::before, .lesson-meta::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #294967;
+    border-radius: 50%;
+    background: var(--page);
+  }
+  .lesson-meta::before { left: -11px; border-left-color: transparent; }
+  .lesson-meta::after { right: -11px; border-right-color: transparent; }
+  .lesson-meta li {
+    padding: 6px 14px;
+    border: 1px solid #36536d;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .lesson-meta li:first-child { background: #0b3155; color: #fff; }
+  .lesson-meta li:last-child { color: var(--yellow); }
+
+  .lesson-media { display: grid; gap: 24px; margin-top: 24px; }
+  .player {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    align-self: start;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #000c18;
+    scroll-margin-top: 24px;
+  }
+  .player > div, .player iframe {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .chapters {
+    min-width: 0;
+    padding: 24px 12px 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+  .chapters h2 { margin: 0 12px 17px 0; font-size: 15px; line-height: 1.5; }
+  .chapters ol {
+    max-height: 360px;
+    margin: 0;
+    padding: 0 10px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-gutter: stable;
+  }
+  .chapters li {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 10px 2px;
+    border-top: 1px solid #1e354b;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .chapters li:first-child { border-top: 0; padding-top: 4px; }
+  .chapters li span { padding-top: 5px; }
+  .chapters li:focus-within span, .chapters li:hover span { color: #fff; }
+  .chapters .tc { width: 70px; justify-content: center; min-height: 30px; font-size: 11px; }
+  .chapters ol, .table-scroll { scrollbar-width: thin; scrollbar-color: #587b9b #061b30; }
+
+  .tc {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 9px;
+    border: 1px solid #34546f;
+    border-radius: 100px;
+    background: #092741;
+    color: var(--light-blue);
+    font-family: "Manrope", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+    letter-spacing: .015em;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background-color .16s, color .16s, border-color .16s, box-shadow .16s;
+  }
+  .tc:hover, .tc:focus-visible {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    color: var(--page);
+    box-shadow: 0 4px 18px rgb(255 234 0 / 16%);
+  }
+
+  .summary { width: 70ch; max-width: 100%; margin: 72px auto 0; }
+  .summary > section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .summary h2 {
+    margin: 0 0 25px;
+    font-size: clamp(21px, 2.25vw, 27px);
+    line-height: 1.45;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+  .summary h2 .tc { margin: 0 0 3px 4px; }
+  .summary ul, .summary ol { margin: 20px 0 26px; padding-left: 26px; }
+  .summary li { padding-left: 6px; margin: 12px 0; }
+  .summary li::marker { color: var(--light-blue); font-weight: 700; }
+  .summary section > :last-child { margin-bottom: 0; }
+
+  .quote {
+    margin: 32px 0;
+    padding: 7px 0 7px 25px;
+    border-left: 3px solid var(--yellow);
+    color: #f1f6fc;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.65;
+  }
+  .quote p { margin: 0; }
+  .callout {
+    --callout-accent: var(--light-blue);
+    margin: 28px 0;
+    padding: 22px 24px;
+    border: 1px solid #2f506f;
+    border-left: 3px solid var(--callout-accent);
+    border-radius: 0 18px 18px 0;
+    background: #09243e;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .callout p { margin: 0; }
+  .callout--tip { --callout-accent: #b9d4e9; border-color: #344b5d; border-left-color: var(--callout-accent); background: #112536; }
+  .callout--warning { --callout-accent: var(--yellow); border-color: #514d2c; border-left-color: var(--callout-accent); background: #242719; color: #e5e3cb; }
+  .summary > .callout--info {
+    margin-top: 0;
+    padding: 28px 30px;
+    border-left-width: 1px;
+    border-top: 3px solid var(--blue);
+    border-radius: 20px;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    margin: 28px 0;
+    overflow-x: auto;
+    border: 1px solid #34506b;
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th, td { padding: 17px 18px; text-align: left; vertical-align: top; }
+  th { border-bottom: 1px solid #3b5a77; background: #103351; color: #eef6ff; font-weight: 800; }
+  td { border-bottom: 1px solid #294158; }
+  th + th, td + td { border-left: 1px solid #294158; }
+  tbody tr:nth-child(even) { background: #0a2136; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { color: #eef5ff; font-weight: 600; }
+  td .tc { margin-top: 4px; }
+  #pain-sources td:nth-child(2), #pain-criteria td:nth-child(2) { min-width: 145px; }
+  #radar td:first-child, #scoring td:first-child { min-width: 145px; }
+
+  .summary > .homework {
+    margin-top: 64px;
+    padding: 32px;
+    border: 1px solid #365b7d;
+    border-top: 3px solid var(--light-blue);
+    border-radius: 24px;
+    background: #00203f;
+  }
+  .homework ol { margin: 0; padding-left: 24px; }
+  .homework li { margin: 0; padding: 18px 0 18px 8px; border-bottom: 1px dashed #3a5470; font-size: 16px; }
+  .homework li:first-child { padding-top: 0; }
+  .homework li:last-child { border: 0; padding-bottom: 0; }
+  .homework li::marker { color: var(--yellow); }
+  .summary > .checklist { margin-top: 40px; padding-top: 36px; border-top-style: dashed; }
+  .checklist ol { list-style: none; padding: 0; margin-bottom: 0; }
+  .checklist li { position: relative; margin: 0; padding: 15px 0 15px 32px; border-bottom: 1px solid #1e354b; font-size: 16px; }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 4px;
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid var(--light-blue);
+    border-bottom: 2px solid var(--light-blue);
+    transform: rotate(-45deg);
+  }
+  .page-footer {
+    width: 70ch;
+    max-width: 100%;
+    margin: 64px auto 0;
+    padding: 32px 0 40px;
+    border-top: 1px dashed #3a5470;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .page-footer p { margin: 0 0 14px; font-size: 12px; line-height: 1.8; }
+  .page-footer p:last-child { margin-top: 28px; margin-bottom: 0; color: #cedcea; }
+
+  @media (min-width: 1050px) {
+    .lesson-media { grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr); align-items: stretch; }
+    .chapters { position: relative; min-height: 0; }
+    .chapters ol { position: absolute; inset: 65px 12px 14px 24px; max-height: none; }
+  }
+  @media (min-width: 700px) and (max-width: 1049px) {
+    .chapters ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  }
+  @media (max-width: 599px) {
+    body { width: calc(100% - 32px); font-size: 16px; }
+    .concept-note { padding-top: 17px; padding-bottom: 17px; font-size: 11px; }
+    .concept-note::before { top: 23px; }
+    .lesson-hero { --inset: 22px; border-radius: 24px; }
+    .eyebrow { gap: 9px; font-size: 11px; letter-spacing: 0; margin-bottom: 20px; }
+    .eyebrow::before { flex-basis: 16px; }
+    .lesson-hero h1 { font-size: clamp(25px, 6.9vw, 39px); line-height: 1.3; letter-spacing: -.035em; }
+    .lead { font-size: 14px; }
+    .lesson-meta { gap: 8px; margin-top: 24px; padding-top: 18px; padding-bottom: 20px; }
+    .lesson-meta li { padding: 5px 10px; font-size: 11px; }
+    .lesson-media { gap: 16px; margin-top: 16px; }
+    .player { border-radius: 16px; scroll-margin-top: 16px; }
+    .chapters { padding-left: 18px; border-radius: 20px; }
+    .chapters ol { max-height: 340px; }
+    .summary { margin-top: 44px; }
+    .summary > section { margin-top: 40px; padding-top: 26px; }
+    .summary h2 { font-size: 20px; line-height: 1.5; }
+    .summary > .callout--info, .callout { padding: 19px 20px; font-size: 14px; }
+    .quote { margin: 26px 0; padding-left: 19px; font-size: 19px; }
+    .summary > .homework { padding: 24px 20px; border-radius: 20px; }
+    .homework li, .checklist li { font-size: 15px; }
+    .page-footer { margin-top: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('player');
+    let player;
+    let ready = false;
+
+    // Native links remain usable while the API loads, or if embedding fails.
+    document.querySelectorAll('a.tc').forEach(link => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+    document.querySelectorAll('.table-scroll').forEach(wrapper => {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', wrapper.closest('section').querySelector('h2').textContent.trim());
+    });
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a.tc');
+      if (!link || !ready || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const seconds = Number(link.dataset.t);
+      if (!Number.isFinite(seconds)) return;
+      try {
+        player.seekTo(seconds, true);
+        player.playVideo();
+      } catch {
+        ready = false;
+        return;
+      }
+      event.preventDefault();
+      container.scrollIntoView({
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+
+    window.onYouTubeIframeAPIReady = () => {
+      // Keep #player intact: YouTube replaces only this inner mount.
+      const mount = document.createElement('div');
+      container.append(mount);
+      player = new YT.Player(mount, {
+        videoId: container.dataset.videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: { playsinline: 1, rel: 0 },
+        events: {
+          onReady: event => {
+            ready = true;
+            event.target.getIframe().title = document.querySelector('h1').textContent;
+          },
+          onError: () => { ready = false; }
+        }
+      });
+    };
+    const api = document.createElement('script');
+    api.src = 'https://www.youtube.com/iframe_api';
+    api.async = true;
+    api.onerror = () => { ready = false; };
+    document.head.append(api);
+  });
+</script>
+</head>
+<body>
+
+
+<aside class="concept-note">Неофіційний концепт: так могла б виглядати сторінка уроку Startup Terminal. Це не сторінка Superteam Ukraine — її зробив Alex, учасник програми.</aside>
+
+<nav class="lesson-nav" aria-label="Уроки">
+  <a href="index.html">Idea Generation · 27.08</a>
+  <a href="2026-09-29-ai-in-project-building.html" aria-current="page">AI у побудові проєкту · 29.09</a>
+</nav>
+
+<header class="lesson-hero">
+  <p class="eyebrow">Solana Startup Terminal 2.0 · Business Track</p>
+  <h1>AI у побудові проєкту: сайт і контент-план без дизайнера й маркетолога</h1>
+  <p class="lead">Практичний воркшоп. Лектор у прямому ефірі збирає для проєкту учасника сайт у Figma через Claude, а паралельно робить у Gemini промпти й картинки та в Grok аналізує конкурентів і пише контент-план. Головна ідея: у кожного AI своя сильна сторона, і вони готують задачі один для одного. Майже все — на безкоштовних тарифах.</p>
+  <ul class="lesson-meta">
+    <li>Лектор: Діма</li>
+    <li>29.09.2026</li>
+    <li>137 хв</li>
+  </ul>
+</header>
+
+<div class="lesson-media"><div class="player" id="player" data-video-id="hJfvmvAsS4k"></div>
+
+<nav class="chapters" aria-label="Розділи відео">
+  <h2>Розділи відео</h2>
+  <ol>
+    <li><a class="tc" data-t="1" href="https://youtu.be/hJfvmvAsS4k?t=1s">0:01</a> <span>Higgsfield для відео: класно, але платно</span></li>
+    <li><a class="tc" data-t="158" href="https://youtu.be/hJfvmvAsS4k?t=158s">2:38</a> <span>План воркшопу: Claude і Figma, Gemini і Grok</span></li>
+    <li><a class="tc" data-t="284" href="https://youtu.be/hJfvmvAsS4k?t=284s">4:44</a> <span>Референси замість дизайнера</span></li>
+    <li><a class="tc" data-t="439" href="https://youtu.be/hJfvmvAsS4k?t=439s">7:19</a> <span>Налаштування Claude: розширення і Cowork</span></li>
+    <li><a class="tc" data-t="549" href="https://youtu.be/hJfvmvAsS4k?t=549s">9:09</a> <span>Якщо сайт блокує AI: GoFullPage</span></li>
+    <li><a class="tc" data-t="670" href="https://youtu.be/hJfvmvAsS4k?t=670s">11:10</a> <span>Gemini і рекламні метрики: CAC, CPM</span></li>
+    <li><a class="tc" data-t="866" href="https://youtu.be/hJfvmvAsS4k?t=866s">14:26</a> <span>Gemini аналізує YouTube-канал і пише промпт</span></li>
+    <li><a class="tc" data-t="1196" href="https://youtu.be/hJfvmvAsS4k?t=1196s">19:56</a> <span>Безкоштовний Gemini, ліміт 10–20 відео, Pro для студентів</span></li>
+    <li><a class="tc" data-t="1407" href="https://youtu.be/hJfvmvAsS4k?t=1407s">23:27</a> <span>Конектори Claude і кредити Figma</span></li>
+    <li><a class="tc" data-t="1685" href="https://youtu.be/hJfvmvAsS4k?t=1685s">28:05</a> <span>Перша ітерація — чорно-біла</span></li>
+    <li><a class="tc" data-t="1829" href="https://youtu.be/hJfvmvAsS4k?t=1829s">30:29</a> <span>«Задай мені питання» в кінці промпту</span></li>
+    <li><a class="tc" data-t="1888" href="https://youtu.be/hJfvmvAsS4k?t=1888s">31:28</a> <span>Галюцинації: збери контекст і почни новий чат</span></li>
+    <li><a class="tc" data-t="2019" href="https://youtu.be/hJfvmvAsS4k?t=2019s">33:39</a> <span>Grok: Twitter, менше цензури, генератор картинок</span></li>
+    <li><a class="tc" data-t="2303" href="https://youtu.be/hJfvmvAsS4k?t=2303s">38:23</a> <span>Перший макет у Figma і точкові правки</span></li>
+    <li><a class="tc" data-t="2436" href="https://youtu.be/hJfvmvAsS4k?t=2436s">40:36</a> <span>Стиль із референсу, шрифти без проблем з правами</span></li>
+    <li><a class="tc" data-t="2677" href="https://youtu.be/hJfvmvAsS4k?t=2677s">44:37</a> <span>Grok: спершу ніша й конкуренти, потім контент-план</span></li>
+    <li><a class="tc" data-t="2918" href="https://youtu.be/hJfvmvAsS4k?t=2918s">48:38</a> <span>Друга ітерація: акцентні кольори</span></li>
+    <li><a class="tc" data-t="3387" href="https://youtu.be/hJfvmvAsS4k?t=3387s">56:27</a> <span>Кілька AI разом: make.com і n8n</span></li>
+    <li><a class="tc" data-t="3686" href="https://youtu.be/hJfvmvAsS4k?t=3686s">1:01:26</a> <span>Human in the loop</span></li>
+    <li><a class="tc" data-t="4017" href="https://youtu.be/hJfvmvAsS4k?t=4017s">1:06:57</a> <span>Що таке скіли</span></li>
+    <li><a class="tc" data-t="4298" href="https://youtu.be/hJfvmvAsS4k?t=4298s">1:11:38</a> <span>Кожен AI готує задачу для наступного</span></li>
+    <li><a class="tc" data-t="4339" href="https://youtu.be/hJfvmvAsS4k?t=4339s">1:12:19</a> <span>Малі конкуренти й early adopters</span></li>
+    <li><a class="tc" data-t="4870" href="https://youtu.be/hJfvmvAsS4k?t=4870s">1:21:10</a> <span>Експорт із Figma в PDF, а не в PNG</span></li>
+    <li><a class="tc" data-t="5062" href="https://youtu.be/hJfvmvAsS4k?t=5062s">1:24:22</a> <span>Nano Banana: картинки під макет</span></li>
+    <li><a class="tc" data-t="5246" href="https://youtu.be/hJfvmvAsS4k?t=5246s">1:27:26</a> <span>Google AI Studio, Bolt і Lovable</span></li>
+    <li><a class="tc" data-t="5715" href="https://youtu.be/hJfvmvAsS4k?t=5715s">1:35:15</a> <span>Питання: чи можна так само з Adobe</span></li>
+    <li><a class="tc" data-t="6028" href="https://youtu.be/hJfvmvAsS4k?t=6028s">1:40:28</a> <span>Чому для крипти потрібен саме Grok</span></li>
+    <li><a class="tc" data-t="6269" href="https://youtu.be/hJfvmvAsS4k?t=6269s">1:44:29</a> <span>HyperFrames: відео із сайту</span></li>
+    <li><a class="tc" data-t="6542" href="https://youtu.be/hJfvmvAsS4k?t=6542s">1:49:02</a> <span>Домени на Namecheap</span></li>
+    <li><a class="tc" data-t="6698" href="https://youtu.be/hJfvmvAsS4k?t=6698s">1:51:38</a> <span>Сервісні сторінки: політики й terms</span></li>
+    <li><a class="tc" data-t="6948" href="https://youtu.be/hJfvmvAsS4k?t=6948s">1:55:48</a> <span>Що таке execution контент-плану</span></li>
+    <li><a class="tc" data-t="7210" href="https://youtu.be/hJfvmvAsS4k?t=7210s">2:00:10</a> <span>Пітчдеки: на фреймі, а не в автолейауті</span></li>
+    <li><a class="tc" data-t="8048" href="https://youtu.be/hJfvmvAsS4k?t=8048s">2:14:08</a> <span>Навіщо все це: контент — це дистрибуція</span></li>
+  </ol>
+</nav></div>
+
+<main class="summary">
+
+  <aside class="callout callout--info"><p><strong>Що в цьому уроці:</strong> як працювати з референсами, коли немає дизайнера; три сильні сторони Gemini — рекламні метрики, аналіз YouTube-каналів і Nano Banana; Claude з конектором Figma і безкоштовні кредити; чому перша ітерація має бути чорно-білою і навіщо закінчувати промпт питанням; Grok для аналізу конкурентів у Twitter і контент-плану; make.com, n8n і human in the loop; що таке скіли; Google AI Studio, Bolt і Lovable; HyperFrames для відео; домени, сервісні сторінки й пітчдеки.</p></aside>
+
+  <section id="format">
+    <h2>Формат: воркшоп на живому проєкті <a class="tc" data-t="158" href="https://youtu.be/hJfvmvAsS4k?t=158s">2:38</a></h2>
+    <p>Лектор обіцяє поділитися своїми секретами й сетапами. Працюють паралельно з двома зв'язками: Claude плюс Figma, а поруч Grok і Gemini <a class="tc" data-t="176" href="https://youtu.be/hJfvmvAsS4k?t=176s">2:56</a>. Усе робиться на проєкті учасника, який зголосився, — DeFi-протоколі Вахтанга.</p>
+    <p>Мета — показати, як зробити гарний дизайн для сайту й пітчдеку і як додатково закрити маркетинг <a class="tc" data-t="233" href="https://youtu.be/hJfvmvAsS4k?t=233s">3:53</a>. Паралельно — бо AI потребують часу, поки генерують.</p>
+    <aside class="callout callout--tip"><p>Основний принцип воркшопу <a class="tc" data-t="4298" href="https://youtu.be/hJfvmvAsS4k?t=4298s">1:11:38</a>: у кожного AI є своя сильна сторона, і ми змушуємо їх готувати задачі один для одного.</p></aside>
+  </section>
+
+  <section id="references">
+    <h2>Референси замість дизайнера <a class="tc" data-t="284" href="https://youtu.be/hJfvmvAsS4k?t=284s">4:44</a></h2>
+    <p>Часто немає дизайнера і не виходить із дизайном. Найкраще, що дають AI, — робота з референсами, які в деяких методологіях називають семплами <a class="tc" data-t="303" href="https://youtu.be/hJfvmvAsS4k?t=303s">5:03</a>. Знайдіть в інтернеті сайти, які вам подобаються: які в них кольори, шрифти, як усе оформлено <a class="tc" data-t="358" href="https://youtu.be/hJfvmvAsS4k?t=358s">5:58</a>. Лектор показує кілька своїх улюблених, серед них — сайт <a href="https://elevenlabs.io/" target="_blank" rel="noopener">ElevenLabs</a> <a class="tc" data-t="374" href="https://youtu.be/hJfvmvAsS4k?t=374s">6:14</a>.</p>
+    <p>Беруть не весь сайт, а лише головну сторінку <a class="tc" data-t="439" href="https://youtu.be/hJfvmvAsS4k?t=439s">7:19</a>. Далі — в <a href="https://claude.com/" target="_blank" rel="noopener">Claude</a>. У налаштуваннях, у розділі розширень, лектор дозволив Claude керувати Google Chrome, читати PDF і працювати з файловою системою <a class="tc" data-t="458" href="https://youtu.be/hJfvmvAsS4k?t=458s">7:38</a>. Підписка в нього платна, але сама ця конфігурація безкоштовна.</p>
+    <p>Для такої задачі він створює новий <a href="https://claude.com/product/cowork" target="_blank" rel="noopener">Cowork</a>: так працює найкраще, бо під капотом підключаються потрібні API <a class="tc" data-t="478" href="https://youtu.be/hJfvmvAsS4k?t=478s">7:58</a>. Пряма вказівка: «Подивись і запам'ятай стиль та дизайн цього сайту» <a class="tc" data-t="494" href="https://youtu.be/hJfvmvAsS4k?t=494s">8:14</a>. Claude сам перевіряє стилі, верстку, робить скріншоти.</p>
+    <p><strong>Якщо сайт блокує браузинг</strong> <a class="tc" data-t="549" href="https://youtu.be/hJfvmvAsS4k?t=549s">9:09</a>. Є безкоштовні розширення для Chrome. Лектор показує <a href="https://gofullpage.com/" target="_blank" rel="noopener">GoFullPage</a> <a class="tc" data-t="569" href="https://youtu.be/hJfvmvAsS4k?t=569s">9:29</a>: воно саме прогортує сторінку й робить скріни, які можна зберегти в PDF або PNG і віддати Claude <a class="tc" data-t="598" href="https://youtu.be/hJfvmvAsS4k?t=598s">9:58</a>.</p>
+    <p>Учасник Андрій додав: можна обійтися без розширення — просто сказати Claude, що він може користуватися браузером як юзер <a class="tc" data-t="632" href="https://youtu.be/hJfvmvAsS4k?t=632s">10:32</a>. Лектор погодився, але є сайти, які це чомусь блокують, — тоді й рятують скріни.</p>
+  </section>
+
+  <section id="gemini-ads">
+    <h2>Gemini №1: рекламні метрики для P&amp;L <a class="tc" data-t="670" href="https://youtu.be/hJfvmvAsS4k?t=670s">11:10</a></h2>
+    <p>Поки Claude працює, відкривають <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a>. За словами лектора, у нього є три речі, у яких ні Claude, ні ChatGPT не мають здорової конкуренції.</p>
+    <p>Перша: Gemini, на думку лектора, навчений на величезній кількості рекламних кампаній Google Ads <a class="tc" data-t="691" href="https://youtu.be/hJfvmvAsS4k?t=691s">11:31</a>. Якщо треба підготувати P&amp;L або частину презентації під конкретне гео й ви не знаєте, які ставити CPM чи CPA, — питайте Gemini. Лектор просить показники для DeFi-протоколу в США й Німеччині <a class="tc" data-t="724" href="https://youtu.be/hJfvmvAsS4k?t=724s">12:04</a>.</p>
+    <p>Його знайомі арбітражники так і планують кампанії <a class="tc" data-t="783" href="https://youtu.be/hJfvmvAsS4k?t=783s">13:03</a>: різниця з реальністю іноді доходить до 10%, а в середньому — близько 5%, що достатньо точно для планування трафіку. На виході — середній CAC, CPM і конверсії в гаманці <a class="tc" data-t="807" href="https://youtu.be/hJfvmvAsS4k?t=807s">13:27</a>.</p>
+    <aside class="callout callout--tip"><p>Як питати <a class="tc" data-t="824" href="https://youtu.be/hJfvmvAsS4k?t=824s">13:44</a>: опишіть проєкт, дайте посилання, назвіть метрику (наприклад, CAC) і вкажіть країну або регіон — США, Північну Америку, Європу чи перелік країн. LTV теж можна спитати, але там, за словами лектора, такого датасету немає, тож цифри будуть «навпомацки» <a class="tc" data-t="845" href="https://youtu.be/hJfvmvAsS4k?t=845s">14:05</a>.</p></aside>
+  </section>
+
+  <section id="gemini-youtube">
+    <h2>Gemini №2: маркетолог із YouTube-каналу <a class="tc" data-t="866" href="https://youtu.be/hJfvmvAsS4k?t=866s">14:26</a></h2>
+    <p>Багато хто не знає, де взяти маркетолога: сайт може зібрати й Cursor, але маркетолог підкаже, що де має бути, які відгуки, як зробити контент-план. Друга перевага Gemini — він добре працює з YouTube <a class="tc" data-t="890" href="https://youtu.be/hJfvmvAsS4k?t=890s">14:50</a>.</p>
+    <p>Шукаєте канал про маркетинг, якому довіряєте. Найбільш медійних авторів лектор не радить: їхні поради надто загальні <a class="tc" data-t="907" href="https://youtu.be/hJfvmvAsS4k?t=907s">15:07</a>. Беруть посилання на канал і кажуть Gemini проаналізувати відео й канал та створити промпт <a class="tc" data-t="987" href="https://youtu.be/hJfvmvAsS4k?t=987s">16:27</a>. Gemini можна «запрягати» на аналіз цілих каналів <a class="tc" data-t="969" href="https://youtu.be/hJfvmvAsS4k?t=969s">16:09</a>.</p>
+    <p><strong>Промпт — англійською</strong> <a class="tc" data-t="1007" href="https://youtu.be/hJfvmvAsS4k?t=1007s">16:47</a>. Коли переносите промпт з одного AI в інший, краще англійською: за досвідом лектора, галюцинацій буде менше.</p>
+    <p>Не треба передивлятися всі відео чи робити розшифровки <a class="tc" data-t="1025" href="https://youtu.be/hJfvmvAsS4k?t=1025s">17:05</a>. Даєте канал — отримуєте вижимку найцікавішого. Це закриває промпти для сайту, контент-планів, публікацій, пітчингу статей у медіа й підготовки до виступів <a class="tc" data-t="1045" href="https://youtu.be/hJfvmvAsS4k?t=1045s">17:25</a>.</p>
+    <blockquote class="quote"><p>Так, це неповноцінний маркетолог, але… ви відсотків на 60–70 закриваєте собі маркетолога.</p></blockquote>
+    <p>Цитата — <a class="tc" data-t="1072" href="https://youtu.be/hJfvmvAsS4k?t=1072s">17:52</a>. Не знаєте, з чого почати — із сайту чи контент-плану? Дайте Gemini відео людей, які в цьому розбираються, і попросіть підказку <a class="tc" data-t="1109" href="https://youtu.be/hJfvmvAsS4k?t=1109s">18:29</a>.</p>
+  </section>
+
+  <section id="gemini-free">
+    <h2>Чи вистачить безкоштовного Gemini <a class="tc" data-t="1196" href="https://youtu.be/hJfvmvAsS4k?t=1196s">19:56</a></h2>
+    <p>Вистачить. Pro-версія дає кращий Nano Banana і більше кредитів на нього, а аналіз YouTube працює й у безкоштовній <a class="tc" data-t="1214" href="https://youtu.be/hJfvmvAsS4k?t=1214s">20:14</a>.</p>
+    <aside class="callout callout--warning"><p>За раз Gemini аналізує максимум 10–20 відео, скільки б їх не було на каналі <a class="tc" data-t="1239" href="https://youtu.be/hJfvmvAsS4k?t=1239s">20:39</a>. Тому прямо кажіть: «Вибери найкращі відео».</p></aside>
+    <p>Студенти можуть безкоштовно отримати Gemini Pro на рік — <a href="https://gemini.google/students/" target="_blank" rel="noopener">Gemini for Students</a> <a class="tc" data-t="1274" href="https://youtu.be/hJfvmvAsS4k?t=1274s">21:14</a>. Один з учасників перед цим попередив, що таку штуку варто перевіряти: влітку вона вже не працювала.</p>
+    <p>Ще один «секрет» лектора <a class="tc" data-t="1291" href="https://youtu.be/hJfvmvAsS4k?t=1291s">21:31</a>: він платить близько 8 доларів на місяць за <a href="https://www.youtube.com/premium/family" target="_blank" rel="noopener">YouTube Premium Family</a> і ділить його ще з п'ятьма людьми. Якщо на цей самий акаунт оформити Gemini Pro, він, за його словами, теж з'явиться в усіх цих людей безкоштовно <a class="tc" data-t="1308" href="https://youtu.be/hJfvmvAsS4k?t=1308s">21:48</a>.</p>
+  </section>
+
+  <section id="claude-figma">
+    <h2>Claude і Figma: конектори та кредити <a class="tc" data-t="1407" href="https://youtu.be/hJfvmvAsS4k?t=1407s">23:27</a></h2>
+    <p>У налаштуваннях Claude є розширення, як у Google Chrome, — їх величезна кількість, і майже всі безкоштовні <a class="tc" data-t="1423" href="https://youtu.be/hJfvmvAsS4k?t=1423s">23:43</a>. Маєте досвід у <a href="https://www.canva.com/" target="_blank" rel="noopener">Canva</a> — додавайте Canva. У лектора досвід у <a href="https://www.figma.com/" target="_blank" rel="noopener">Figma</a>, тож він додав Figma. Досить поставити галочку.</p>
+    <p>У Figma є свій MCP і кредити <a class="tc" data-t="1458" href="https://youtu.be/hJfvmvAsS4k?t=1458s">24:18</a>. На безкоштовному тарифі — 500 кредитів, на платному (близько 20 доларів на місяць, full seat) — 3000 <a class="tc" data-t="1483" href="https://youtu.be/hJfvmvAsS4k?t=1483s">24:43</a>. Тобто безкоштовний пул є в кожного, в кого є Figma.</p>
+    <p>Чи багато це? На безкоштовній Figma лектор за 15 ітерацій зробив другу повний макет сайту з мобільною версією, кольором і анімаціями та ще почав мобільний застосунок <a class="tc" data-t="1499" href="https://youtu.be/hJfvmvAsS4k?t=1499s">24:59</a>. На сайт і контент має вистачити з головою.</p>
+    <p>Модель — Sonnet: учасники підтвердили, що вона справляється, а потужніша просто витрачає більше кредитів <a class="tc" data-t="1587" href="https://youtu.be/hJfvmvAsS4k?t=1587s">26:27</a>. Коли Claude підключається до Figma, конектор видно одразу; він сам питає, у якому акаунті Figma створити файл <a class="tc" data-t="1979" href="https://youtu.be/hJfvmvAsS4k?t=1979s">32:59</a>.</p>
+  </section>
+
+  <section id="bw-first">
+    <h2>Перша ітерація — чорно-біла <a class="tc" data-t="1685" href="https://youtu.be/hJfvmvAsS4k?t=1685s">28:05</a></h2>
+    <p>Найпопулярніша помилка: сказати «ось тобі промпт, роби». AI починає робити, що хоче: бере стиль сайту проєкту чи референсу, сам вигадує правила стилю — і витрачає безкоштовні кредити <a class="tc" data-t="1709" href="https://youtu.be/hJfvmvAsS4k?t=1709s">28:29</a>. Коли потім треба щось поправити, ви перевитрачаєте токени <a class="tc" data-t="1738" href="https://youtu.be/hJfvmvAsS4k?t=1738s">28:58</a>.</p>
+    <blockquote class="quote"><p>Якщо це відео, це розкадровка, якщо сайт або будь-який інший креатив, спочатку робіть його чорно-білим.</p></blockquote>
+    <p>Цитата — <a class="tc" data-t="1775" href="https://youtu.be/hJfvmvAsS4k?t=1775s">29:35</a>. На чорно-білому видно, чи вистачає текстів і контенту та як усе розташовано. Далі поступово фарбуєте — і токенів вистачає, і ви розумієте весь процес з нуля <a class="tc" data-t="1790" href="https://youtu.be/hJfvmvAsS4k?t=1790s">29:50</a>.</p>
+    <aside class="callout callout--warning"><p>Типова помилка тих, хто працює через AI-білдер чи Cursor <a class="tc" data-t="1790" href="https://youtu.be/hJfvmvAsS4k?t=1790s">29:50</a>: одразу дати повний сайт, а потім правити промптами окремі блоки. AI переробляє весь сайт із готовими стилями, і збоку починає «вилазити» зайве. «Починаємо завжди з чорно-білого».</p></aside>
+  </section>
+
+  <section id="ask-questions">
+    <h2>Закінчуйте промпт питанням <a class="tc" data-t="1829" href="https://youtu.be/hJfvmvAsS4k?t=1829s">30:29</a></h2>
+    <p>Коли робите щось з нуля, завершуйте промпт відкритим питанням: «Задай мені необхідні питання в разі потреби» <a class="tc" data-t="1854" href="https://youtu.be/hJfvmvAsS4k?t=1854s">30:54</a>. У промпті не було сказано ні про роздільність, ні про мобільну версію, ні про мову — AI сам про це спитав <a class="tc" data-t="1923" href="https://youtu.be/hJfvmvAsS4k?t=1923s">32:03</a>.</p>
+    <p>Для програмування, бекенду це не так потрібно, але для контенту й дизайну — «воно того варте, хай він лишній раз запитає»: це рятує від спалених токенів <a class="tc" data-t="2575" href="https://youtu.be/hJfvmvAsS4k?t=2575s">42:55</a>.</p>
+    <aside class="callout callout--tip"><p>Усі AI схильні вам піддакувати <a class="tc" data-t="4768" href="https://youtu.be/hJfvmvAsS4k?t=4768s">1:19:28</a>. Питання в кінці потрібні, щоб контроль залишався у вас і ви розуміли наступний крок.</p></aside>
+  </section>
+
+  <section id="context">
+    <h2>Галюцинації: збери контекст і почни новий чат <a class="tc" data-t="1888" href="https://youtu.be/hJfvmvAsS4k?t=1888s">31:28</a></h2>
+    <p>Коли лектор довго працював із другом над мобільним застосунком, галюцинації стали дуже помітні: даєш план — AI починає щось вигадувати. Тоді його треба зупинити й сказати: «Збери мені контекст цього чату в промпт» <a class="tc" data-t="1906" href="https://youtu.be/hJfvmvAsS4k?t=1906s">31:46</a>. З цим промптом починаєте новий чат і продовжуєте з тієї самої точки — без дресирування заново.</p>
+    <p><strong>Спершу один макет, мобайл потім</strong> <a class="tc" data-t="1961" href="https://youtu.be/hJfvmvAsS4k?t=1961s">32:41</a>. Робіть один варіант як чернетку. Коли дизайн готовий — тоді вже в мобайл. Зараз мобайл нічим не допоможе, а лише спалить токени.</p>
+  </section>
+
+  <section id="iterations">
+    <h2>Ітерації дизайну у Figma <a class="tc" data-t="2303" href="https://youtu.be/hJfvmvAsS4k?t=2303s">38:23</a></h2>
+    <p>Перший результат — чорно-білий вайрфрейм лендингу у Figma. Ще не дуже дизайнерський, але з чіткою структурою, якою легко керувати <a class="tc" data-t="2322" href="https://youtu.be/hJfvmvAsS4k?t=2322s">38:42</a>. Блоки підписані, тож можна дати точкову команду, наприклад «зроби більше питань у блоці FAQ» <a class="tc" data-t="2344" href="https://youtu.be/hJfvmvAsS4k?t=2344s">39:04</a>. Claude справляється швидко й майже без токенів, бо структуру він вклав сам, а решту просто скопіював <a class="tc" data-t="2394" href="https://youtu.be/hJfvmvAsS4k?t=2394s">39:54</a>.</p>
+    <p>Контент сайту вийшов влучним, бо Claude отримав короткий опис проєкту й промпт, який Gemini зібрав із YouTube-каналу. Без короткого опису він «почав би собі гуляти» <a class="tc" data-t="2412" href="https://youtu.be/hJfvmvAsS4k?t=2412s">40:12</a>.</p>
+    <p><strong>Стиль із референсу</strong> <a class="tc" data-t="2436" href="https://youtu.be/hJfvmvAsS4k?t=2436s">40:36</a>. Далі Claude просять узяти стиль сайту-референсу, який він запам'ятав на початку. Це не плагіат: важливо давати уточнення <a class="tc" data-t="2453" href="https://youtu.be/hJfvmvAsS4k?t=2453s">40:53</a>. Шрифти AI добирає безкоштовні, щоб не притягнути нічого з авторськими правами <a class="tc" data-t="2513" href="https://youtu.be/hJfvmvAsS4k?t=2513s">41:53</a>. Якщо у вас є свій платний шрифт, можна дати його <a class="tc" data-t="3157" href="https://youtu.be/hJfvmvAsS4k?t=3157s">52:37</a>.</p>
+    <p>Друга ітерація — макет у стилі референсу з кількома акцентними кольорами на вибір <a class="tc" data-t="2918" href="https://youtu.be/hJfvmvAsS4k?t=2918s">48:38</a>. Власник проєкту обирає колір. Чесно: стиль став кращим, але сайт усе ще сірий і виглядає як звичайний <a class="tc" data-t="3007" href="https://youtu.be/hJfvmvAsS4k?t=3007s">50:07</a>. Тому далі просять зробити красиво.</p>
+    <p>Це й називається ітерацією <a class="tc" data-t="3122" href="https://youtu.be/hJfvmvAsS4k?t=3122s">52:02</a>: перший макет погодили, один блок розширили, потім «ми клієнт, хочемо красиво». Після цього з'являються мікроелементи дизайну й гарний CTA <a class="tc" data-t="4140" href="https://youtu.be/hJfvmvAsS4k?t=4140s">1:09:00</a>. Наступний крок — попросити AI закрити плейсхолдери і підготувати опис картинок для інших AI <a class="tc" data-t="4174" href="https://youtu.be/hJfvmvAsS4k?t=4174s">1:09:34</a>.</p>
+    <aside class="callout callout--tip"><p>Хваліть AI між кроками. Лектор робить це постійно, напівжартома: «машину треба хвалити» <a class="tc" data-t="2990" href="https://youtu.be/hJfvmvAsS4k?t=2990s">49:50</a>.</p></aside>
+  </section>
+
+  <section id="grok">
+    <h2>Grok: Twitter, конкуренти й контент-план <a class="tc" data-t="2019" href="https://youtu.be/hJfvmvAsS4k?t=2019s">33:39</a></h2>
+    <p>Учасники назвали переваги <a href="https://grok.com/" target="_blank" rel="noopener">Grok</a>: доступ до Twitter і менше цензури <a class="tc" data-t="2047" href="https://youtu.be/hJfvmvAsS4k?t=2047s">34:07</a>. Лектор додав: у Grok теж класний генератор зображень, і він дешевий <a class="tc" data-t="2063" href="https://youtu.be/hJfvmvAsS4k?t=2063s">34:23</a>. Коли акаунт у Twitter був платний, лектор платив 5 доларів плюс ПДВ, близько 6 доларів, — і Grok вистачало з головою <a class="tc" data-t="2080" href="https://youtu.be/hJfvmvAsS4k?t=2080s">34:40</a>.</p>
+    <aside class="callout callout--tip"><p>Зв'язка для креативів <a class="tc" data-t="2080" href="https://youtu.be/hJfvmvAsS4k?t=2080s">34:40</a>: Claude у Figma робить чорно-білий креатив, його як «болванку» закидаєте в Gemini або Grok і одразу отримуєте якісне зображення — без нескінченних промптів, поки не сподобається.</p></aside>
+    <p>Grok добре розбирається в Twitter: що в тренді, хто ваші конкуренти, може розробити контент-план <a class="tc" data-t="2115" href="https://youtu.be/hJfvmvAsS4k?t=2115s">35:15</a>. Учасники використовували його в Startup Terminal для аналізу конкурентів, парсингу Twitter і як другу думку щодо коду чи теорії <a class="tc" data-t="2691" href="https://youtu.be/hJfvmvAsS4k?t=2691s">44:51</a>.</p>
+    <p><strong>Не просіть контент-план одразу</strong> <a class="tc" data-t="2864" href="https://youtu.be/hJfvmvAsS4k?t=2864s">47:44</a>. Без контексту контент буде поганим. Спочатку дайте сайт, попросіть визначити нішу й підібрати конкурентів і подивіться, як він думає <a class="tc" data-t="2881" href="https://youtu.be/hJfvmvAsS4k?t=2881s">48:01</a>.</p>
+    <p>Grok підібрав десять конкурентів, і власник проєкту погодився лише з двома-трьома <a class="tc" data-t="3250" href="https://youtu.be/hJfvmvAsS4k?t=3250s">54:10</a>. До того ж це великі проєкти, а ви стартап <a class="tc" data-t="3272" href="https://youtu.be/hJfvmvAsS4k?t=3272s">54:32</a>. Якби він одразу робив контент-план, той спирався б на конкурентів, з яких влучних два з десяти, — «контент-план на двієчку» <a class="tc" data-t="3300" href="https://youtu.be/hJfvmvAsS4k?t=3300s">55:00</a>. Тому перед контент-планом робите для себе перевірку: чи розуміє він, хто ви як проєкт <a class="tc" data-t="3324" href="https://youtu.be/hJfvmvAsS4k?t=3324s">55:24</a>.</p>
+    <p>Далі Grok називають трьох влучних великих конкурентів і просять подивитися на невеликі акаунти в ніші <a class="tc" data-t="4339" href="https://youtu.be/hJfvmvAsS4k?t=4339s">1:12:19</a>. Стартап зараз конкурує за early adopters — людей, яким подобається заходити в молоді проєкти <a class="tc" data-t="4360" href="https://youtu.be/hJfvmvAsS4k?t=4360s">1:12:40</a>. Спершу — додаткова робота з конкурентами, і лише потім контент-план <a class="tc" data-t="4802" href="https://youtu.be/hJfvmvAsS4k?t=4802s">1:20:02</a>.</p>
+  </section>
+
+  <section id="grok-crypto">
+    <h2>Чому для крипти потрібен саме Grok <a class="tc" data-t="6028" href="https://youtu.be/hJfvmvAsS4k?t=6028s">1:40:28</a></h2>
+    <p>Grok проаналізував названих конкурентів і зібрав підбірку менших гравців, яких самі ви не знайшли б, бо вони малі. Але саме вони ваші конкуренти: ви підете до тих самих інвесторів і за тією самою аудиторією <a class="tc" data-t="6045" href="https://youtu.be/hJfvmvAsS4k?t=6045s">1:40:45</a>.</p>
+    <blockquote class="quote"><p>Криптодвижуха, вона більше твітерська… Claude або Gemini не знайдуть цих інсайтів, бо вони ще дуже-дуже малі.</p></blockquote>
+    <p>Цитата — <a class="tc" data-t="6062" href="https://youtu.be/hJfvmvAsS4k?t=6062s">1:41:02</a>. Знайти акаунт на 5 тисяч підписників вручну майже неможливо, а Grok дає змогу вже на ранній стадії бачити, що роблять реальні конкуренти <a class="tc" data-t="6079" href="https://youtu.be/hJfvmvAsS4k?t=6079s">1:41:19</a>. Виграють ті, хто дивиться на своїх реальних конкурентів, а не на найбільших: у великих уже є аудиторія, фонди й біржі <a class="tc" data-t="6117" href="https://youtu.be/hJfvmvAsS4k?t=6117s">1:41:57</a>.</p>
+    <p>Grok також дав акаунти, які варто моніторити <a class="tc" data-t="6155" href="https://youtu.be/hJfvmvAsS4k?t=6155s">1:42:35</a>. Платна версія вміє ще й робити файли й таблиці. Загалом зв'язка Grok, Gemini і Claude закриває величезну частину маркетингу в плані контенту <a class="tc" data-t="6175" href="https://youtu.be/hJfvmvAsS4k?t=6175s">1:42:55</a>.</p>
+    <p>Підсумковий контент-план — ключові меседжі й регулярність постів <a class="tc" data-t="6853" href="https://youtu.be/hJfvmvAsS4k?t=6853s">1:54:13</a>. Лектор оцінив його як непоганий, «не виглядає як AI-слоп» <a class="tc" data-t="6897" href="https://youtu.be/hJfvmvAsS4k?t=6897s">1:54:57</a>. Питання лише в execution: хтось має це постити, відповідати на реплаї й слідкувати за цим <a class="tc" data-t="6964" href="https://youtu.be/hJfvmvAsS4k?t=6964s">1:56:04</a>.</p>
+  </section>
+
+  <section id="automation">
+    <h2>Кілька AI разом: make.com, n8n і human in the loop <a class="tc" data-t="3387" href="https://youtu.be/hJfvmvAsS4k?t=3387s">56:27</a></h2>
+    <p>Учасник Олексій запитав, чи можна об'єднати кілька AI в одну задачу й зібрати найкраще з їхніх варіантів. Лектор: це класичний MCP з різними провайдерами. Для цього є інструменти на Hugging Face, проєкти на GitHub, а також <a href="https://www.make.com/" target="_blank" rel="noopener">make.com</a> і <a href="https://n8n.io/" target="_blank" rel="noopener">n8n</a> <a class="tc" data-t="3435" href="https://youtu.be/hJfvmvAsS4k?t=3435s">57:15</a>. Майже в усіх AI є API <a class="tc" data-t="3536" href="https://youtu.be/hJfvmvAsS4k?t=3536s">58:56</a>.</p>
+    <p>make.com, за словами лектора, номер один за популярністю, n8n — номер два <a class="tc" data-t="3595" href="https://youtu.be/hJfvmvAsS4k?t=3595s">59:55</a>. В обох є безкоштовні тарифи, яких для базової автоматизації вистачає <a class="tc" data-t="3612" href="https://youtu.be/hJfvmvAsS4k?t=3612s">1:00:12</a>. У make.com уже є інтеграції з Gemini, Anthropic, ChatGPT, Google Drive, Google Sheets, Twitter — навіть API тягнути не треба <a class="tc" data-t="3648" href="https://youtu.be/hJfvmvAsS4k?t=3648s">1:00:48</a>. Можна запустити кілька по-різному запромптованих агентів Gemini, а потім, наприклад, Grok прочитає все й обере найкращий варіант <a class="tc" data-t="3930" href="https://youtu.be/hJfvmvAsS4k?t=3930s">1:05:30</a>.</p>
+    <p>Але лектор так не робить. Він фанат підходу <strong>human in the loop</strong> — «людина в петлі» <a class="tc" data-t="3686" href="https://youtu.be/hJfvmvAsS4k?t=3686s">1:01:26</a>. Умовно: в AI похибка 30%, у людини 10%, але людина втомлюється й відволікається. Коли вони працюють у парі й підхоплюють одне одного, фінальна ефективність, за його словами, доходить до 95% <a class="tc" data-t="3728" href="https://youtu.be/hJfvmvAsS4k?t=3728s">1:02:08</a>.</p>
+    <aside class="callout callout--warning"><p>В автоматизації ви не бачите проміжних етапів — лише фінальний результат, а потім доводиться розбирати помилки <a class="tc" data-t="3768" href="https://youtu.be/hJfvmvAsS4k?t=3768s">1:02:48</a>. Підключити акаунти, запромптити кожного агента, прогнати й відкалібрувати — це близько двох робочих днів. Якщо у вас є 2–3 години, найімовірніше, буде одна спроба, від якої ви відмовитесь <a class="tc" data-t="3809" href="https://youtu.be/hJfvmvAsS4k?t=3809s">1:03:29</a>.</p></aside>
+  </section>
+
+  <section id="skills">
+    <h2>Що таке скіли <a class="tc" data-t="4017" href="https://youtu.be/hJfvmvAsS4k?t=4017s">1:06:57</a></h2>
+    <p>Скіли — це, по суті, системні промпти. Як користувач ви не можете змінити системний промпт моделі, але можете задати свій, «надсистемний» <a class="tc" data-t="4017" href="https://youtu.be/hJfvmvAsS4k?t=4017s">1:06:57</a>. Наприклад: «Ти маркетолог, який займається лише UGC у TikTok», ти розумієш структуру відео, знаєш, що хук має тривати 3–5 секунд <a class="tc" data-t="4037" href="https://youtu.be/hJfvmvAsS4k?t=4037s">1:07:17</a>.</p>
+    <p>Коли ви просто чатитеся з AI, ви наповнюєте його контекстом. А скіл проганяється при кожній вашій відповіді <a class="tc" data-t="4102" href="https://youtu.be/hJfvmvAsS4k?t=4102s">1:08:22</a>. Тому скіли дають унікальнішу видачу — вони відшліфовані під конкретну задачу.</p>
+  </section>
+
+  <section id="figma-pdf">
+    <h2>Figma → PDF → Gemini: картинки під макет <a class="tc" data-t="4870" href="https://youtu.be/hJfvmvAsS4k?t=4870s">1:21:10</a></h2>
+    <p>Claude підготував два макети: розкадровку зі стилями, промптами й розмірами всіх зображень і сам макет зі структурою та текстами <a class="tc" data-t="5001" href="https://youtu.be/hJfvmvAsS4k?t=5001s">1:23:21</a>. Їх експортують із Figma — це є й у безкоштовній версії.</p>
+    <p><strong>Експортуйте в PDF, а не в PNG чи JPG</strong> <a class="tc" data-t="4887" href="https://youtu.be/hJfvmvAsS4k?t=4887s">1:21:27</a>. Растрову картинку AI доведеться читати через vision-модуль. У PDF залишається текст, який можна забрати кодом, — так ви економите токени <a class="tc" data-t="4908" href="https://youtu.be/hJfvmvAsS4k?t=4908s">1:21:48</a>. PDF зберігає всю структуру: назви блоків, кроки, місця під зображення. Тому Gemini не мусить додатково галюцинувати <a class="tc" data-t="5187" href="https://youtu.be/hJfvmvAsS4k?t=5187s">1:26:27</a>.</p>
+    <p>Обидва файли кидають у новий чат Gemini і генерують картинки в <a href="https://gemini.google/overview/image-generation/" target="_blank" rel="noopener">Nano Banana</a> <a class="tc" data-t="5062" href="https://youtu.be/hJfvmvAsS4k?t=5062s">1:24:22</a>. Генерувати можна і в <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a>, але, здається, там це лише в платній версії <a class="tc" data-t="5112" href="https://youtu.be/hJfvmvAsS4k?t=5112s">1:25:12</a>. Мінус Gemini — водяний знак, його можна видалити потім.</p>
+    <aside class="callout callout--tip"><p>Перейменовуйте згенеровані файли так, як радить Gemini <a class="tc" data-t="5559" href="https://youtu.be/hJfvmvAsS4k?t=5559s">1:32:39</a>: при завантаженні вони зберігаються як «image 1», «image 2». Claude міг би сам розпізнати картинки, але це витрата токенів, а «одна хвилина часу може нам зберегти 20 доларів на місяць» <a class="tc" data-t="5679" href="https://youtu.be/hJfvmvAsS4k?t=5679s">1:34:39</a>.</p></aside>
+  </section>
+
+  <section id="builders">
+    <h2>Google AI Studio, Bolt і Lovable <a class="tc" data-t="5246" href="https://youtu.be/hJfvmvAsS4k?t=5246s">1:27:26</a></h2>
+    <p>Паралельно лектор запускає <a href="https://aistudio.google.com/" target="_blank" rel="noopener">Google AI Studio</a> — інструмент, який він «не дуже любить», але який входить у безкоштовну підписку Google. Це класичний генератор сайтів, як <a href="https://bolt.new/" target="_blank" rel="noopener">Bolt</a> і <a href="https://lovable.dev/" target="_blank" rel="noopener">Lovable</a> <a class="tc" data-t="5281" href="https://youtu.be/hJfvmvAsS4k?t=5281s">1:28:01</a>. У них частина того, що на воркшопі робили руками, уже зашита в промпти.</p>
+    <p>У Lovable, здається, один лендинг можна зробити безкоштовно. А знайомі, які тестували влітку, казали, що повноцінний сайт там обходиться в 200–300 доларів <a class="tc" data-t="5306" href="https://youtu.be/hJfvmvAsS4k?t=5306s">1:28:26</a>. В AI Studio є безкоштовні токени, він одразу верстає, і сайт можна відразу «запаркувати» на домен <a class="tc" data-t="5339" href="https://youtu.be/hJfvmvAsS4k?t=5339s">1:28:59</a>.</p>
+    <aside class="callout callout--warning"><p>Повноцінний сайт в AI Studio лектор робити не радить: «Це просто, щоб ви туди не лізли, воно прям реально погано працює» <a class="tc" data-t="5395" href="https://youtu.be/hJfvmvAsS4k?t=5395s">1:29:55</a>. Лектор рік намагається змусити його щось зробити, і успішних експериментів ще не було <a class="tc" data-t="5977" href="https://youtu.be/hJfvmvAsS4k?t=5977s">1:39:37</a>.</p></aside>
+    <p>Де AI Studio рятує: простий сайт з однієї сторінки з формою, вайтліст або заглушка, поки продукт у розробці <a class="tc" data-t="5409" href="https://youtu.be/hJfvmvAsS4k?t=5409s">1:30:09</a>. Даєте стиль чи промпт, кажете «зроби сайт-заглушку», додаєте домен — і готово. Це швидше навіть за Cursor, бо деплоїти не треба <a class="tc" data-t="5431" href="https://youtu.be/hJfvmvAsS4k?t=5431s">1:30:31</a>. Промпт для нього — не «зроби так-то», а весь сайт, розписаний по блоках <a class="tc" data-t="5492" href="https://youtu.be/hJfvmvAsS4k?t=5492s">1:31:32</a>.</p>
+    <p>На демо сторінка в AI Studio так і не завантажилася. Висновок лектора: AI Studio — для заглушок і вайтлістів <a class="tc" data-t="5960" href="https://youtu.be/hJfvmvAsS4k?t=5960s">1:39:20</a>. Якщо ж робите в ньому повноцінний сайт, потім кличте друга-розробника, щоб править.</p>
+  </section>
+
+  <section id="adobe">
+    <h2>З питань учасників: Adobe і PSD <a class="tc" data-t="5715" href="https://youtu.be/hJfvmvAsS4k?t=5715s">1:35:15</a></h2>
+    <p>Чи можна так само працювати з Adobe? У Claude є конектори для Acrobat, Photoshop, Illustrator <a class="tc" data-t="5770" href="https://youtu.be/hJfvmvAsS4k?t=5770s">1:36:10</a>; ще щось можна знайти на GitHub, але офіційні простіші. Лектор такий сетап не тестував і не знає, як там рахуються кредити <a class="tc" data-t="5788" href="https://youtu.be/hJfvmvAsS4k?t=5788s">1:36:28</a>. Photoshop і Illustrator важчі програми, тож, імовірно, буде довше. Figma плюс Claude — швидко й зрозуміло <a class="tc" data-t="5820" href="https://youtu.be/hJfvmvAsS4k?t=5820s">1:37:00</a>.</p>
+    <p>Учасник поділився досвідом: PSD-файли моделі читають нормально, і навіть експеримент із правками в PSD «руками, як юзер» вдався <a class="tc" data-t="5866" href="https://youtu.be/hJfvmvAsS4k?t=5866s">1:37:46</a>.</p>
+  </section>
+
+  <section id="video">
+    <h2>Відео: HyperFrames і Higgsfield <a class="tc" data-t="6269" href="https://youtu.be/hJfvmvAsS4k?t=6269s">1:44:29</a></h2>
+    <p>Для відео лектор пробує <a href="https://www.heygen.com/hyperframes" target="_blank" rel="noopener">HyperFrames</a> — продукт HeyGen з умовно безкоштовним акаунтом <a class="tc" data-t="6292" href="https://youtu.be/hJfvmvAsS4k?t=6292s">1:44:52</a>. У Claude є його конектор; його додають і логіняться через браузер — так само, як із Figma <a class="tc" data-t="6309" href="https://youtu.be/hJfvmvAsS4k?t=6309s">1:45:09</a>.</p>
+    <p>Учасник пояснив, як він працює: HyperFrames не генерує відео, а робить скрінкаст HTML-файлів <a class="tc" data-t="6982" href="https://youtu.be/hJfvmvAsS4k?t=6982s">1:56:22</a>. Йому ідеально «згодувати» фронт сайту, і він складе з HTML ролик. Так можна зробити й MP4 для сайту замість анімації на JavaScript <a class="tc" data-t="7030" href="https://youtu.be/hJfvmvAsS4k?t=7030s">1:57:10</a>. Учасник також розповів, що робив через HyperFrames відео прямо в платному ChatGPT: пишете, яке відео хочете, даєте референси й через @ викликаєте Hyperframes <a class="tc" data-t="7102" href="https://youtu.be/hJfvmvAsS4k?t=7102s">1:58:22</a>.</p>
+    <p>У лектора на демо HyperFrames так і не спрацював <a class="tc" data-t="7132" href="https://youtu.be/hJfvmvAsS4k?t=7132s">1:58:52</a>. Ще варіант — змусити Claude витягнути елементи з Figma й прописати анімацію кодом, але це хвилин сорок <a class="tc" data-t="7285" href="https://youtu.be/hJfvmvAsS4k?t=7285s">2:01:25</a>.</p>
+    <p>На початку лекції лектор розповів про <a href="https://higgsfield.ai/" target="_blank" rel="noopener">Higgsfield</a> <a class="tc" data-t="1" href="https://youtu.be/hJfvmvAsS4k?t=1s">0:01</a>. Це «дуже класна штука» для відео: всередині є Nano Banana, Seedance, ElevenLabs. Але він платний: тарифи стартують від 15 доларів <a class="tc" data-t="50" href="https://youtu.be/hJfvmvAsS4k?t=50s">0:50</a>, а щоб нормально використовувати його як контент-машину, треба хоча б 60. Тому в межах курсу лектор його не вимагає <a class="tc" data-t="69" href="https://youtu.be/hJfvmvAsS4k?t=69s">1:09</a>, хоча наприкінці підсумував: Higgsfield за 15 доларів — це окей.</p>
+    <aside class="callout callout--tip"><p>Порада від учасника <a class="tc" data-t="4527" href="https://youtu.be/hJfvmvAsS4k?t=4527s">1:15:27</a>: для диктування промптів голосом є безкоштовна програма <a href="https://handy.computer/" target="_blank" rel="noopener">Handy</a> з вибором моделей розпізнавання.</p></aside>
+  </section>
+
+  <section id="launch">
+    <h2>Домени, публікація і сервісні сторінки <a class="tc" data-t="6542" href="https://youtu.be/hJfvmvAsS4k?t=6542s">1:49:02</a></h2>
+    <p>Мобільну версію Claude зробив «на трієчку»: контент надто щільний, але перенесений коректно, і кожен блок можна доправити окремо <a class="tc" data-t="7156" href="https://youtu.be/hJfvmvAsS4k?t=7156s">1:59:16</a>. Ще він зробив сервісні сторінки. Залишається додати відео, перенести дизайн із Figma в код і розмістити на домені <a class="tc" data-t="7194" href="https://youtu.be/hJfvmvAsS4k?t=7194s">1:59:54</a>.</p>
+    <p>Домени лектор радить купувати на <a href="https://www.namecheap.com/" target="_blank" rel="noopener">Namecheap</a> — там одні з найдешевших <a class="tc" data-t="6542" href="https://youtu.be/hJfvmvAsS4k?t=6542s">1:49:02</a>. Домен .ua там не знайдете, але щось швидко знайти й купити можна. Як безкоштовно опублікувати сайт через <a href="https://vercel.com/" target="_blank" rel="noopener">Vercel</a>, лектор пообіцяв описати в інструкції <a class="tc" data-t="4411" href="https://youtu.be/hJfvmvAsS4k?t=4411s">1:13:31</a>.</p>
+    <p><strong>Сервісні сторінки</strong> <a class="tc" data-t="6698" href="https://youtu.be/hJfvmvAsS4k?t=6698s">1:51:38</a>. Політики конфіденційності, cookies, terms of service. У США, Європі й Великій Британії з цим строго. Юриста можна найняти пізніше, а на старті — взяти за зразок сторінки компаній зі схожим бізнесом і згенерувати текст <a class="tc" data-t="6757" href="https://youtu.be/hJfvmvAsS4k?t=6757s">1:52:37</a>.</p>
+    <aside class="callout callout--tip"><p>З цими сторінками в рази простіше залити застосунок і пройти верифікацію в будь-якому рекламному кабінеті <a class="tc" data-t="6777" href="https://youtu.be/hJfvmvAsS4k?t=6777s">1:52:57</a>. Вони текстові, дизайну не потребують і генеруються за хвилини — закладайте їх завжди.</p></aside>
+  </section>
+
+  <section id="pitch">
+    <h2>Пітчдеки: на фреймі, а не в автолейауті <a class="tc" data-t="7210" href="https://youtu.be/hJfvmvAsS4k?t=7210s">2:00:10</a></h2>
+    <p>Повністю пітчдеки — на наступному тижні, на спільній лекції з Ніком <a class="tc" data-t="7228" href="https://youtu.be/hJfvmvAsS4k?t=7228s">2:00:28</a>. Технологія та сама: беремо джерело — людину, яка розбирається в пітчдеках, або сайт, де їх роблять, — перетворюємо на промпт і генеруємо перший пітчдек, чорно-білий, як із сайтом <a class="tc" data-t="7310" href="https://youtu.be/hJfvmvAsS4k?t=7310s">2:01:50</a>.</p>
+    <p>Різниця із сайтом <a class="tc" data-t="7483" href="https://youtu.be/hJfvmvAsS4k?t=7483s">2:04:43</a>: сайт ви глобально руками не чіпаєте, а якісний пітчдек доводиться шліфувати. Лектор над кожною лекцією курсу витрачає близько півтори години — рухає блоки, обирає розміри шрифтів <a class="tc" data-t="7568" href="https://youtu.be/hJfvmvAsS4k?t=7568s">2:06:08</a>. Презентація — одна з форм пітчу: людина має зчитати сенс слайда з першого погляду <a class="tc" data-t="7616" href="https://youtu.be/hJfvmvAsS4k?t=7616s">2:06:56</a>.</p>
+    <aside class="callout callout--warning"><p>Коли Claude створює дизайн у Figma, усе прив'язане правилами вирівнювання й відступів, тож елементи не вдається вільно рухати <a class="tc" data-t="7667" href="https://youtu.be/hJfvmvAsS4k?t=7667s">2:07:47</a>. Для пітчдеку просіть робити кожен слайд на окремому фреймі (canvas), наприклад із шаблоном 16:9 <a class="tc" data-t="7892" href="https://youtu.be/hJfvmvAsS4k?t=7892s">2:11:32</a>. Тоді елементи можна рухати як завгодно <a class="tc" data-t="7952" href="https://youtu.be/hJfvmvAsS4k?t=7952s">2:12:32</a>.</p></aside>
+  </section>
+
+  <section id="why">
+    <h2>Навіщо все це: контент — це дистрибуція <a class="tc" data-t="8048" href="https://youtu.be/hJfvmvAsS4k?t=8048s">2:14:08</a></h2>
+    <p>Метод «Gemini швидко вчиться на YouTube і видає промпт» потрібен для сайту, контенту й пітчдеку в межах хакатону, а також для статей <a class="tc" data-t="8048" href="https://youtu.be/hJfvmvAsS4k?t=8048s">2:14:08</a>. Глобально все це контент, просто в різних вимірах: пітчдек — це, по суті, 16 картинок, за які дають гроші <a class="tc" data-t="8075" href="https://youtu.be/hJfvmvAsS4k?t=8075s">2:14:35</a>.</p>
+    <p>У цьому наборі учасники технічно сильні, але маркетологів бракує <a class="tc" data-t="8107" href="https://youtu.be/hJfvmvAsS4k?t=8107s">2:15:07</a>. Придумати й створити зараз простіше, ніж раніше, і всі б'ються за дистрибуцію <a class="tc" data-t="8130" href="https://youtu.be/hJfvmvAsS4k?t=8130s">2:15:30</a>.</p>
+    <blockquote class="quote"><p>Контент це і є дистриб'юшн.</p></blockquote>
+    <p>Цитата — <a class="tc" data-t="8148" href="https://youtu.be/hJfvmvAsS4k?t=8148s">2:15:48</a>. А коли проєкт виросте й прийдуть люди, які за це відповідатимуть, ви тверезіше оцінюватимете їхню роботу <a class="tc" data-t="8166" href="https://youtu.be/hJfvmvAsS4k?t=8166s">2:16:06</a>.</p>
+  </section>
+
+  <section id="tools">
+    <h2>Інструменти з лекції</h2>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Інструмент</th><th>Для чого радить лектор</th><th>Таймкод</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="https://claude.com/" target="_blank" rel="noopener">Claude</a> і <a href="https://claude.com/product/cowork" target="_blank" rel="noopener">Cowork</a></td><td>Запам'ятати стиль референсу, через конектор зібрати сайт і креативи у Figma. Розширення: Chrome, PDF, файлова система.</td><td><a class="tc" data-t="439" href="https://youtu.be/hJfvmvAsS4k?t=439s">7:19</a></td></tr>
+        <tr><td><a href="https://www.figma.com/" target="_blank" rel="noopener">Figma</a></td><td>Конектор у Claude: макети сайту, креативів і слайдів. 500 безкоштовних кредитів, 3000 на платному тарифі.</td><td><a class="tc" data-t="1458" href="https://youtu.be/hJfvmvAsS4k?t=1458s">24:18</a></td></tr>
+        <tr><td><a href="https://www.canva.com/" target="_blank" rel="noopener">Canva</a></td><td>Альтернатива Figma в конекторах Claude, якщо маєте досвід у Canva.</td><td><a class="tc" data-t="1423" href="https://youtu.be/hJfvmvAsS4k?t=1423s">23:43</a></td></tr>
+        <tr><td><a href="https://gofullpage.com/" target="_blank" rel="noopener">GoFullPage</a></td><td>Скріншот усієї сторінки референсу в PDF чи PNG, якщо сайт блокує AI.</td><td><a class="tc" data-t="569" href="https://youtu.be/hJfvmvAsS4k?t=569s">9:29</a></td></tr>
+        <tr><td><a href="https://elevenlabs.io/" target="_blank" rel="noopener">ElevenLabs</a></td><td>Приклад сайту з гарним стилем для референсу.</td><td><a class="tc" data-t="374" href="https://youtu.be/hJfvmvAsS4k?t=374s">6:14</a></td></tr>
+        <tr><td><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a></td><td>Рекламні метрики (CAC, CPM) під гео; аналіз YouTube-каналів у промпт.</td><td><a class="tc" data-t="691" href="https://youtu.be/hJfvmvAsS4k?t=691s">11:31</a></td></tr>
+        <tr><td><a href="https://gemini.google/overview/image-generation/" target="_blank" rel="noopener">Nano Banana</a></td><td>Генерація картинок для сайту за PDF-макетом.</td><td><a class="tc" data-t="5062" href="https://youtu.be/hJfvmvAsS4k?t=5062s">1:24:22</a></td></tr>
+        <tr><td><a href="https://gemini.google/students/" target="_blank" rel="noopener">Gemini for Students</a></td><td>Gemini Pro безкоштовно на рік для студентів.</td><td><a class="tc" data-t="1274" href="https://youtu.be/hJfvmvAsS4k?t=1274s">21:14</a></td></tr>
+        <tr><td><a href="https://www.youtube.com/premium/family" target="_blank" rel="noopener">YouTube Premium Family</a></td><td>Сімейна підписка, через яку, за словами лектора, Gemini Pro отримують усі учасники.</td><td><a class="tc" data-t="1291" href="https://youtu.be/hJfvmvAsS4k?t=1291s">21:31</a></td></tr>
+        <tr><td><a href="https://grok.com/" target="_blank" rel="noopener">Grok</a></td><td>Аналіз ніші й конкурентів у Twitter, малі акаунти, контент-план, генерація зображень.</td><td><a class="tc" data-t="2019" href="https://youtu.be/hJfvmvAsS4k?t=2019s">33:39</a></td></tr>
+        <tr><td><a href="https://www.make.com/" target="_blank" rel="noopener">make.com</a></td><td>Автоматизація з кількома AI-агентами; безкоштовний тариф.</td><td><a class="tc" data-t="3595" href="https://youtu.be/hJfvmvAsS4k?t=3595s">59:55</a></td></tr>
+        <tr><td><a href="https://n8n.io/" target="_blank" rel="noopener">n8n</a></td><td>Те саме, що make.com.</td><td><a class="tc" data-t="3595" href="https://youtu.be/hJfvmvAsS4k?t=3595s">59:55</a></td></tr>
+        <tr><td><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a></td><td>Альтернатива для генерації картинок; відео через HyperFrames у платній версії.</td><td><a class="tc" data-t="5079" href="https://youtu.be/hJfvmvAsS4k?t=5079s">1:24:39</a></td></tr>
+        <tr><td><a href="https://aistudio.google.com/" target="_blank" rel="noopener">Google AI Studio</a></td><td>Лише для заглушок і вайтлістів; для повноцінного сайту не радить.</td><td><a class="tc" data-t="5246" href="https://youtu.be/hJfvmvAsS4k?t=5246s">1:27:26</a></td></tr>
+        <tr><td><a href="https://bolt.new/" target="_blank" rel="noopener">Bolt</a></td><td>Генератор сайтів; згадано як аналог AI Studio і Lovable.</td><td><a class="tc" data-t="5281" href="https://youtu.be/hJfvmvAsS4k?t=5281s">1:28:01</a></td></tr>
+        <tr><td><a href="https://lovable.dev/" target="_blank" rel="noopener">Lovable</a></td><td>Генератор сайтів; повноцінний сайт, за відгуками, коштує 200–300 доларів.</td><td><a class="tc" data-t="5306" href="https://youtu.be/hJfvmvAsS4k?t=5306s">1:28:26</a></td></tr>
+        <tr><td><a href="https://www.heygen.com/hyperframes" target="_blank" rel="noopener">HyperFrames</a></td><td>Відео із HTML сайту через конектор у Claude; на демо не спрацював.</td><td><a class="tc" data-t="6292" href="https://youtu.be/hJfvmvAsS4k?t=6292s">1:44:52</a></td></tr>
+        <tr><td><a href="https://higgsfield.ai/" target="_blank" rel="noopener">Higgsfield</a></td><td>Генерація відео; класно, але платно — від 15 доларів.</td><td><a class="tc" data-t="50" href="https://youtu.be/hJfvmvAsS4k?t=50s">0:50</a></td></tr>
+        <tr><td><a href="https://www.namecheap.com/" target="_blank" rel="noopener">Namecheap</a></td><td>Дешеві домени.</td><td><a class="tc" data-t="6542" href="https://youtu.be/hJfvmvAsS4k?t=6542s">1:49:02</a></td></tr>
+        <tr><td><a href="https://vercel.com/" target="_blank" rel="noopener">Vercel</a></td><td>Безкоштовна публікація сайту — інструкцію лектор обіцяв надіслати.</td><td><a class="tc" data-t="4411" href="https://youtu.be/hJfvmvAsS4k?t=4411s">1:13:31</a></td></tr>
+        <tr><td><a href="https://handy.computer/" target="_blank" rel="noopener">Handy</a></td><td>Безкоштовне диктування голосом (порада учасника).</td><td><a class="tc" data-t="4527" href="https://youtu.be/hJfvmvAsS4k?t=4527s">1:15:27</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="homework" class="homework">
+    <h2>Повторити самостійно</h2>
+    <ol>
+      <li>Домашнього завдання на цій лекції не було. Лектор пообіцяв окремий PDF з посиланнями й скрінами: для чого юзати Gemini, Grok і Claude, що платне, а що безкоштовне <a class="tc" data-t="7263" href="https://youtu.be/hJfvmvAsS4k?t=7263s">2:01:03</a>. Попередню домашку він ще раз продублює <a class="tc" data-t="8008" href="https://youtu.be/hJfvmvAsS4k?t=8008s">2:13:28</a>.</li>
+      <li>Знайдіть 1–2 сайти-референси й дайте Claude запам'ятати їхній стиль <a class="tc" data-t="494" href="https://youtu.be/hJfvmvAsS4k?t=494s">8:14</a>. Не пускає — зробіть скріни через GoFullPage.</li>
+      <li>Дайте Gemini YouTube-канал маркетолога, якому довіряєте, і попросіть вибрати найкращі відео та написати промпт англійською <a class="tc" data-t="1239" href="https://youtu.be/hJfvmvAsS4k?t=1239s">20:39</a>.</li>
+      <li>Підключіть Figma до Claude і попросіть чорно-білий макет за промптом і коротким описом проєкту, з питанням у кінці <a class="tc" data-t="1854" href="https://youtu.be/hJfvmvAsS4k?t=1854s">30:54</a>. Спершу один десктопний варіант.</li>
+      <li>Ітеруйте: точкові правки блоків, потім стиль референсу й акцентний колір, потім «зроби красиво» <a class="tc" data-t="3122" href="https://youtu.be/hJfvmvAsS4k?t=3122s">52:02</a>.</li>
+      <li>Експортуйте макети в PDF і згенеруйте картинки в Nano Banana <a class="tc" data-t="5149" href="https://youtu.be/hJfvmvAsS4k?t=5149s">1:25:49</a>.</li>
+      <li>У Grok: спершу ніша й конкуренти, перевірка, малі акаунти — і лише тоді контент-план <a class="tc" data-t="4802" href="https://youtu.be/hJfvmvAsS4k?t=4802s">1:20:02</a>.</li>
+      <li>Додайте сервісні сторінки й купіть домен <a class="tc" data-t="6794" href="https://youtu.be/hJfvmvAsS4k?t=6794s">1:53:14</a>. За словами лектора, сайт і контент-план так реально зробити за півтори години <a class="tc" data-t="7387" href="https://youtu.be/hJfvmvAsS4k?t=7387s">2:03:07</a>.</li>
+    </ol>
+  </section>
+
+  <section id="checklist" class="checklist">
+    <h2>Коротко: чекліст</h2>
+    <ol>
+      <li>Немає дизайнера — працюйте з референсами.</li>
+      <li>Кожен AI сильний у своєму, і вони готують задачі один для одного.</li>
+      <li>Gemini — для рекламних метрик під гео і для промптів із YouTube-каналів.</li>
+      <li>Промпти, які переносите між AI, пишіть англійською.</li>
+      <li>Перша ітерація — чорно-біла, один десктопний макет.</li>
+      <li>Закінчуйте промпт проханням поставити вам питання.</li>
+      <li>Почались галюцинації — зберіть контекст у промпт і почніть новий чат.</li>
+      <li>Макети в інший AI передавайте в PDF, а не картинкою.</li>
+      <li>Grok — спершу конкуренти й перевірка, потім контент-план.</li>
+      <li>Ваші конкуренти — малі акаунти, а не гіганти ніші.</li>
+      <li>Автоматизація через make.com чи n8n — це близько двох робочих днів калібрування.</li>
+      <li>Google AI Studio — лише для заглушок і вайтлістів.</li>
+      <li>Сервісні сторінки закладайте завжди.</li>
+      <li>Пітчдек — кожен слайд на окремому фреймі, щоб правити руками.</li>
+      <li>Контент — це дистрибуція.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Джерело: <a href="https://youtu.be/hJfvmvAsS4k">запис лекції «AI in project building» на YouTube</a> — Solana Startup Terminal 2.0, 29.09.2026.</p>
+  <p>Конспект зроблено на основі машинної розшифровки запису; формулювання лектора передано близько до сказаного. Назви інструментів у розшифровці часто спотворені — їх відновлено за контекстом.</p>
+  <p>Концепт сторінки — Alex, учасник програми.</p>
+</footer>
+
+</body>
+</html>
